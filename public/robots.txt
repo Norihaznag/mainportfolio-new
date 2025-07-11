@@ -1,4 +1,10 @@
+# *
 User-agent: *
 Allow: /
+Disallow: /admin
 
+# Host
+Host: https://noureddineazinag.com
+
+# Sitemaps
 Sitemap: https://noureddineazinag.com/sitemap.xml
