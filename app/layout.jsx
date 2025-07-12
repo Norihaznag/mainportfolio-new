@@ -6,7 +6,7 @@ import GoogleAnalytics from '@/components/google-analytics';
 import AnalyticsTracker from '@/components/analytics-tracker';
 import { LanguageProvider } from '@/lib/language-context';
 import { Suspense } from 'react';
-
+import { Analytics } from '@vercel/analytics/next';
 const inter = Inter({ 
   subsets: ['latin'],
   display: 'swap',
@@ -72,6 +72,7 @@ export default function RootLayout({ children }) {
             <Toaster />
           </ThemeProvider>
         </LanguageProvider>
+                <Analytics />
       </body>
     </html>
   );
