@@ -1,7 +1,7 @@
 "use client";
 
 import { motion } from 'framer-motion';
-import { Globe, Search, Zap, Code, Smartphone, Palette } from 'lucide-react';
+import { Smartphone, ShoppingCart, Coffee, Home } from 'lucide-react';
 import { useLanguage } from '@/lib/language-context';
 import { getTranslation } from '@/lib/translations';
 
@@ -10,34 +10,24 @@ export default function Services() {
 
   const services = [
     {
-      icon: Code,
-      title: getTranslation('webDevelopment', language),
-      description: getTranslation('webDevelopmentDesc', language)
-    },
-    {
-      icon: Search,
-      title: getTranslation('seoOptimization', language),
-      description: getTranslation('seoOptimizationDesc', language)
-    },
-    {
-      icon: Zap,
-      title: getTranslation('fastWebsites', language),
-      description: getTranslation('fastWebsitesDesc', language)
-    },
-    {
       icon: Smartphone,
-      title: getTranslation('responsiveDesign', language),
-      description: getTranslation('responsiveDesignDesc', language)
+      title: getTranslation('servicePwaWhatsapp', language),
+      description: getTranslation('servicePwaWhatsappDesc', language)
     },
     {
-      icon: Palette,
-      title: getTranslation('uiuxDesign', language),
-      description: getTranslation('uiuxDesignDesc', language)
+      icon: ShoppingCart,
+      title: getTranslation('serviceEcommerce', language),
+      description: getTranslation('serviceEcommerceDesc', language)
     },
     {
-      icon: Globe,
-      title: getTranslation('fullStackSolutions', language),
-      description: getTranslation('fullStackSolutionsDesc', language)
+      icon: Coffee,
+      title: getTranslation('serviceCafe', language),
+      description: getTranslation('serviceCafeDesc', language)
+    },
+    {
+      icon: Home,
+      title: getTranslation('serviceRental', language),
+      description: getTranslation('serviceRentalDesc', language)
     }
   ];
 
@@ -52,7 +42,7 @@ export default function Services() {
           className="text-center mb-16"
         >
           <h2 className="text-3xl md:text-5xl font-bold mb-6">
-            {getTranslation('servicesTitle', language).split(' ').map((word, index, array) => 
+            {getTranslation('servicesAgencyTitle', language).split(' ').map((word, index, array) => 
               index === array.length - 1 ? (
                 <span key={index} className="text-primary">{word}</span>
               ) : (
@@ -61,11 +51,11 @@ export default function Services() {
             )}
           </h2>
           <p className="text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto">
-            {getTranslation('servicesDescription', language)}
+            {getTranslation('servicesAgencyDescription', language)}
           </p>
         </motion.div>
 
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
           {services.map((service, index) => (
             <motion.div
               key={service.title}

@@ -6,10 +6,10 @@ import AnalyticsTracker from '@/components/analytics-tracker';
 export function generateMetadata() {
   return {
     title: 'About',
-    description: 'Learn about Noureddine Azinag, a passionate web developer from Morocco. Discover my journey, skills, and the technologies I use to build amazing websites.',
+    description: 'Learn about Azinag Web Solutions, a passionate web development agency from Morocco. Discover our journey, skills, and the technologies we use to build amazing websites.',
     openGraph: {
-      title: 'About - Noureddine Azinag',
-      description: 'Learn about Noureddine Azinag, a passionate web developer from Morocco. Discover my journey, skills, and the technologies I use to build amazing websites.',
+      title: 'About - Azinag Web Solutions',
+      description: 'Learn about Azinag Web Solutions, a passionate web development agency from Morocco. Discover our journey, skills, and the technologies we use to build amazing websites.',
     },
   };
 }

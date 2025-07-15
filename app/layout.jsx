@@ -15,26 +15,44 @@ const inter = Inter({
 
 export const metadata = {
   title: {
-    default: 'Noureddine Azinag - Full Stack Web Developer',
-    template: '%s | Noureddine Azinag'
+    default: 'Azinag Web Solutions – PWA, SaaS & WhatsApp Agency',
+    template: '%s | Azinag Web Solutions'
   },
-  description: 'Freelance web developer from Morocco specializing in modern, fast websites with Next.js, React, and Tailwind CSS. Serving Morocco, GCC, and Europe.',
-  keywords: ['web developer', 'morocco', 'freelance', 'next.js', 'react', 'tailwind css', 'seo'],
-  authors: [{ name: 'Noureddine Azinag' }],
-  creator: 'Noureddine Azinag',
+  description: 'Azinag Web Solutions is a modern web agency specializing in PWA, SaaS, eCommerce, and WhatsApp-integrated solutions for restaurants, shops, rentals, and more. Serving Morocco, GCC, and international clients.',
+  keywords: [
+    'web development agency',
+    'PWA',
+    'SaaS',
+    'WhatsApp integration',
+    'eCommerce',
+    'Morocco',
+    'web solutions',
+    'next.js',
+    'react',
+    'tailwind css',
+    'business apps',
+    'digital transformation',
+    'restaurant apps',
+    'rental apps',
+    'shop apps',
+    'agency',
+    'international'
+  ],
+  authors: [{ name: 'Azinag Web Solutions' }],
+  creator: 'Azinag Web Solutions',
   openGraph: {
     type: 'website',
     locale: 'en_US',
-    url: 'https://noureddineazinag.com',
-    title: 'Noureddine Azinag - Full Stack Web Developer',
-    description: 'Freelance web developer from Morocco specializing in modern, fast websites with Next.js, React, and Tailwind CSS.',
-    siteName: 'Noureddine Azinag Portfolio',
+    url: 'https://azinagweb.com',
+    title: 'Azinag Web Solutions – PWA, SaaS & WhatsApp Agency',
+    description: 'Azinag Web Solutions builds modern PWA, SaaS, eCommerce, and WhatsApp-integrated web apps for businesses worldwide.',
+    siteName: 'Azinag Web Solutions',
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Noureddine Azinag - Full Stack Web Developer',
-    description: 'Freelance web developer from Morocco specializing in modern, fast websites.',
-    creator: '@noureddineazinag',
+    title: 'Azinag Web Solutions – PWA, SaaS & WhatsApp Agency',
+    description: 'Azinag Web Solutions builds modern PWA, SaaS, eCommerce, and WhatsApp-integrated web apps for businesses worldwide.',
+    creator: '@azinagweb',
   },
   robots: {
     index: true,
@@ -47,7 +65,7 @@ export const metadata = {
       'max-snippet': -1,
     },
   },
-  metadataBase: new URL('https://noureddineazinag.com'),
+  metadataBase: new URL('https://azinagweb.com'),
   alternates: {
     canonical: '/',
   },

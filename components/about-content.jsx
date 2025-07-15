@@ -2,6 +2,8 @@
 
 import { motion } from 'framer-motion';
 import Image from 'next/image';
+import { useLanguage } from '@/lib/language-context';
+import { getTranslation } from '@/lib/translations';
 
 const technologies = [
   { name: "Next.js", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/nextjs/nextjs-original.svg" },
@@ -18,9 +20,19 @@ const technologies = [
   { name: "Figma", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/figma/figma-original.svg" }
 ];
 
+const agencyValues = [
+  { key: 'valueInnovation' },
+  { key: 'valuePartnership' },
+  { key: 'valueQuality' },
+  { key: 'valueTrust' },
+];
+
 export default function AboutContent() {
+  const { language } = useLanguage();
+
   return (
     <div className="container mx-auto px-4 py-16">
+      {/* Agency Intro */}
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
@@ -28,63 +40,93 @@ export default function AboutContent() {
         className="text-center mb-16"
       >
         <h1 className="text-4xl md:text-6xl font-bold mb-6">
-          About <span className="text-primary">Me</span>
+          {getTranslation('aboutUsTitle', language)}
         </h1>
         <p className="text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto">
-          Passionate web developer from Morocco, creating digital experiences that matter
+          {getTranslation('aboutUsIntro', language)}
         </p>
       </motion.div>
 
-      <div className="grid lg:grid-cols-2 gap-16 items-center mb-20">
-        <motion.div
-          initial={{ opacity: 0, x: -20 }}
-          animate={{ opacity: 1, x: 0 }}
-          transition={{ duration: 0.8, delay: 0.2 }}
-        >
-          <div className="relative h-96 rounded-lg overflow-hidden">
-            <Image
-              src="https://images.pexels.com/photos/3184291/pexels-photo-3184291.jpeg?auto=compress&cs=tinysrgb&w=800"
-              alt="Noureddine Azinag"
-              fill
-              className="object-cover"
-            />
-          </div>
-        </motion.div>
-
-        <motion.div
-          initial={{ opacity: 0, x: 20 }}
-          animate={{ opacity: 1, x: 0 }}
-          transition={{ duration: 0.8, delay: 0.4 }}
-          className="space-y-6"
-        >
-          <h2 className="text-3xl font-bold mb-6">Hello, I'm Noureddine 👋</h2>
-          <p className="text-lg text-muted-foreground leading-relaxed">
-            Based in Morocco 🇲🇦, I'm a passionate full-stack web developer with over 5 years of experience 
-            creating beautiful, functional websites and web applications. I specialize in modern web technologies 
-            and have a keen eye for design and user experience.
-          </p>
-          <p className="text-lg text-muted-foreground leading-relaxed">
-            I work with clients across Morocco, the GCC region, and Europe, helping businesses establish 
-            their online presence and achieve their digital goals. From simple landing pages to complex 
-            web applications, I bring ideas to life with clean, efficient code and stunning visuals.
-          </p>
-          <p className="text-lg text-muted-foreground leading-relaxed">
-            When I'm not coding, you can find me exploring new technologies, contributing to open-source 
-            projects, or enjoying the beautiful landscapes of Morocco. I believe in continuous learning 
-            and staying up-to-date with the latest web development trends.
-          </p>
-        </motion.div>
-      </div>
-
+      {/* Agency Values */}
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.8, delay: 0.6 }}
+        transition={{ duration: 0.8, delay: 0.1 }}
+        className="mb-20"
+      >
+        <h2 className="text-2xl md:text-3xl font-bold mb-8 text-center">
+          {getTranslation('agencyValuesTitle', language)}
+        </h2>
+        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+          {agencyValues.map(({ key }) => (
+            <div key={key} className="bg-muted/40 p-6 rounded-lg text-center">
+              <h3 className="text-xl font-semibold mb-2">{getTranslation(key, language)}</h3>
+              <p className="text-muted-foreground text-sm">{getTranslation(`${key}Desc`, language)}</p>
+            </div>
+          ))}
+        </div>
+      </motion.div>
+
+      {/* Founder Section */}
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.8, delay: 0.2 }}
+        className="grid lg:grid-cols-2 gap-16 items-center mb-20"
+      >
+        <div className="relative h-80 rounded-lg overflow-hidden">
+          <Image
+            src="https://avatars.githubusercontent.com/u/22285211?v=4"
+            alt="Noureddine Azinag"
+            fill
+            className="object-cover"
+          />
+        </div>
+        <div className="space-y-6">
+          <h2 className="text-2xl font-bold mb-2">{getTranslation('founderTitle', language)}</h2>
+          <p className="text-lg text-muted-foreground leading-relaxed">
+            {getTranslation('founderBio', language)}
+          </p>
+        </div>
+      </motion.div>
+
+      {/* Trust Signals */}
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.8, delay: 0.3 }}
+        className="mb-20 text-center"
+      >
+        <h2 className="text-2xl md:text-3xl font-bold mb-8">
+          {getTranslation('trustSignalsTitle', language)}
+        </h2>
+        <div className="flex flex-wrap justify-center gap-8 mb-8">
+          <div className="bg-muted/40 p-6 rounded-lg min-w-[180px]">
+            <div className="text-3xl font-bold text-primary mb-2">5+</div>
+            <div className="text-muted-foreground">{getTranslation('yearsInBusiness', language)}</div>
+          </div>
+          <div className="bg-muted/40 p-6 rounded-lg min-w-[180px]">
+            <div className="text-3xl font-bold text-primary mb-2">3+</div>
+            <div className="text-muted-foreground">{getTranslation('regionsServed', language)}</div>
+          </div>
+          <div className="bg-muted/40 p-6 rounded-lg min-w-[180px]">
+            <div className="text-3xl font-bold text-primary mb-2">100%</div>
+            <div className="text-muted-foreground">{getTranslation('clientSatisfaction', language)}</div>
+          </div>
+        </div>
+        <div className="italic text-muted-foreground">
+          {getTranslation('testimonialsPlaceholder', language)}
+        </div>
+      </motion.div>
+
+      {/* Technologies */}
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.8, delay: 0.4 }}
         className="text-center"
       >
-        <h2 className="text-3xl font-bold mb-12">
-          Technologies I <span className="text-primary">Love</span>
-        </h2>
+        <h3 className="text-2xl font-bold mb-4">{getTranslation('technologiesTitle', language)}</h3>
         <div className="grid grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-8">
           {technologies.map((tech, index) => (
             <motion.div

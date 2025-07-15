@@ -18,6 +18,8 @@ export default function ContactForm() {
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
 
+  const WHATSAPP_NUMBER = '212600000000'; // TODO: Update to real agency number before production
+
   // Format WhatsApp message
   const formatWhatsAppMessage = (data) => {
     const greetings = {
@@ -31,9 +33,8 @@ export default function ContactForm() {
 
   // Send to WhatsApp
   const sendToWhatsApp = (data) => {
-    const whatsappNumber = process.env.NEXT_PUBLIC_WHATSAPP_NUMBER;
     const message = formatWhatsAppMessage(data);
-    const whatsappUrl = `https://wa.me/${whatsappNumber}?text=${message}`;
+    const whatsappUrl = `https://wa.me/${WHATSAPP_NUMBER}?text=${message}`;
     
     // Track WhatsApp click
     event({

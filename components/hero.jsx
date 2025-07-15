@@ -2,7 +2,7 @@
 
 import { motion } from 'framer-motion';
 import Link from 'next/link';
-import { ArrowRight, Code, Sparkles } from 'lucide-react';
+import { ArrowRight, MessageCircle, Sparkles } from 'lucide-react';
 import { event } from '@/lib/analytics';
 import { useLanguage } from '@/lib/language-context';
 import { getTranslation } from '@/lib/translations';
@@ -35,16 +35,16 @@ export default function Hero() {
           >
             <div className="inline-flex items-center gap-2 bg-primary/10 text-primary px-4 py-2 rounded-full text-sm font-medium mb-6">
               <Sparkles size={16} />
-              {getTranslation('heroAvailable', language)}
+              {getTranslation('heroAgencyAvailable', language)}
             </div>
             <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold mb-6">
-              {getTranslation('heroTitle', language)}
+              {getTranslation('heroAgencyTitle', language)}
             </h1>
             <h2 className="text-2xl md:text-3xl lg:text-4xl font-light mb-8 text-muted-foreground">
-              {getTranslation('heroSubtitle', language)}
+              {getTranslation('heroAgencySubtitle', language)}
             </h2>
             <p className="text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto mb-12 leading-relaxed">
-              {getTranslation('heroDescription', language)}
+              {getTranslation('heroAgencyDescription', language)}
             </p>
           </motion.div>
 
@@ -56,19 +56,19 @@ export default function Hero() {
           >
             <Link
               href="/projects"
-              onClick={() => trackButtonClick(getTranslation('viewProjects', language))}
+              onClick={() => trackButtonClick(getTranslation('seeOurWork', language))}
               className="inline-flex items-center gap-2 bg-primary text-primary-foreground px-8 py-4 rounded-full font-medium hover:bg-primary/90 transition-colors group"
             >
-              <Code size={20} />
-              {getTranslation('viewProjects', language)}
+              {getTranslation('seeOurWork', language)}
               <ArrowRight size={16} className="group-hover:translate-x-1 transition-transform" />
             </Link>
             <Link
               href="/contact"
-              onClick={() => trackButtonClick(getTranslation('contactMe', language))}
+              onClick={() => trackButtonClick(getTranslation('getConsultation', language))}
               className="inline-flex items-center gap-2 border border-primary text-primary px-8 py-4 rounded-full font-medium hover:bg-primary hover:text-primary-foreground transition-colors"
             >
-              {getTranslation('contactMe', language)}
+              <MessageCircle size={20} />
+              {getTranslation('getConsultation', language)}
             </Link>
           </motion.div>
 
@@ -78,7 +78,7 @@ export default function Hero() {
             transition={{ duration: 0.8, delay: 0.4 }}
             className="mt-16 text-sm text-muted-foreground"
           >
-            <p>{getTranslation('heroLocation', language)}</p>
+            <p>{getTranslation('heroAgencyLocation', language)}</p>
           </motion.div>
         </div>
       </div>

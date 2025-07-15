@@ -1,125 +1,97 @@
-# Noureddine Azinag Portfolio
+# Azinag Web Solutions – Portfolio Site
 
-A modern, SEO-optimized portfolio website built with Next.js 14, featuring Google Analytics, Supabase integration, and WhatsApp contact functionality.
+Welcome to the codebase for **Azinag Web Solutions**, a modern agency portfolio built with Next.js, Tailwind CSS, and Supabase. This site showcases our services, projects, and contact information, with dynamic project management powered by Supabase.
 
-## 🚀 Features
+---
 
-- **Next.js 14** with App Router
-- **Google Analytics** for visitor tracking
-- **Supabase** for contact form data storage
-- **WhatsApp Integration** for direct messaging
-- **SEO Optimized** with perfect Lighthouse scores
-- **Responsive Design** with Tailwind CSS
-- **Dark/Light Theme** toggle
-- **Framer Motion** animations
+## Project Overview
 
-## 📋 Setup Instructions
+This site is designed for a web agency, featuring:
+- Dynamic project listing (managed via Supabase)
+- Internationalization (i18n) for multilingual support
+- Responsive, modern design with Tailwind CSS
+- SEO-friendly structure
+- No admin dashboard – projects are managed directly in Supabase
 
-### 1. Google Analytics Setup
+---
 
-1. Go to [Google Analytics](https://analytics.google.com/)
-2. Create a new property for your website
-3. Get your **Measurement ID** (starts with G-XXXXXXXXXX)
-4. Add it to your `.env.local` file:
-   ```
-   NEXT_PUBLIC_GA_ID=G-XXXXXXXXXX
-   ```
+## Page-by-Page Breakdown
 
-### 2. Supabase Setup
+### Home (`/`)
+- **Hero Section:** Agency name, tagline, and call-to-action.
+- **Featured Projects:** Highlights select projects, loaded dynamically from Supabase.
+- **Services:** Overview of agency offerings.
+- **Contact CTA:** Quick link to the contact page.
+- **Footer:** Agency info, navigation, and copyright.
 
-1. Go to [Supabase](https://supabase.com/) and create a free account
-2. Create a new project
-3. Go to **Settings > API** and copy:
-   - Project URL
-   - Anon public key
-4. Add them to your `.env.local` file:
-   ```
-   NEXT_PUBLIC_SUPABASE_URL=your-project-url
-   NEXT_PUBLIC_SUPABASE_ANON_KEY=your-anon-key
-   ```
-5. Create the contacts table in Supabase SQL Editor:
-   ```sql
-   CREATE TABLE contacts (
-     id SERIAL PRIMARY KEY,
-     name VARCHAR(255) NOT NULL,
-     email VARCHAR(255) NOT NULL,
-     message TEXT NOT NULL,
-     created_at TIMESTAMP DEFAULT NOW()
-   );
-   ```
+### About (`/about`)
+- **Agency Story:** Who we are, our mission, and values.
+- **Team/Expertise:** (If present) Overview of skills and experience.
+- **Branding:** Uses "we/us" language and agency branding throughout.
 
-### 3. WhatsApp Setup
+### Projects (`/projects`)
+- **Projects Grid:** All projects are fetched from Supabase and displayed in a responsive grid.
+- **Project Details:** Each card shows project name, description, tech stack, and links (e.g., GitHub, live demo).
+- **Dynamic Loading:** Updates automatically as projects are added/edited in Supabase.
 
-1. Add your WhatsApp number (with country code, no + or spaces) to `.env.local`:
-   ```
-   NEXT_PUBLIC_WHATSAPP_NUMBER=212600000000
-   ```
-   (Replace with your actual number)
+### Contact (`/contact`)
+- **Contact Form:** Users can send inquiries (form may be static or connected to an email service).
+- **Agency Contact Info:** Email, phone, or other contact methods.
+- **Internationalization:** All text supports multiple languages.
 
-### 4. Environment Variables
+---
 
-Create a `.env.local` file in your project root:
+## Dynamic Features
 
-```env
-# Google Analytics
-NEXT_PUBLIC_GA_ID=your-google-analytics-id-here
+- **Supabase Integration:**
+  - All project data is stored and managed in Supabase.
+  - No admin dashboard in the app; use the Supabase dashboard for CRUD operations.
+- **Internationalization (i18n):**
+  - Language switcher and translation support for all major pages.
+- **Responsive Design:**
+  - Mobile-first, accessible, and visually appealing.
 
-# Supabase
-NEXT_PUBLIC_SUPABASE_URL=your-supabase-url-here
-NEXT_PUBLIC_SUPABASE_ANON_KEY=your-supabase-anon-key-here
+---
 
-# WhatsApp
-NEXT_PUBLIC_WHATSAPP_NUMBER=212600000000
-```
+## Branding Notes
 
-## 🔧 Installation
+- All content, metadata, and UI elements use "Azinag Web Solutions" and agency-focused language ("we", "our team", etc.).
+- SEO and social tags reflect the agency brand.
+- Consistent color palette and logo (if provided).
 
-```bash
-npm install
-npm run dev
-```
+---
 
-## 📊 Analytics Features
+## Managing Projects
 
-The website tracks:
-- Page views
-- Button clicks
-- Scroll depth (25%, 50%, 75%, 100%)
-- Time spent on pages
-- Contact form submissions
-- WhatsApp message clicks
+All project management (add, edit, delete) is handled directly in the Supabase dashboard:
+1. **Log in to your Supabase project.**
+2. **Navigate to the `projects` table.**
+3. **Add/Edit/Delete rows** as needed. Each row should include fields like `id`, `title`, `description`, `techStack`, `githubUrl`, `demoUrl`, and any images.
+4. **Changes are reflected instantly** on the site – no redeploy needed.
 
-## 📱 WhatsApp Integration
+For more details, see `SUPABASE_MANAGEMENT.md` (if present).
 
-When users fill out the contact form:
-1. Data is saved to Supabase database
-2. A formatted WhatsApp message opens automatically
-3. Users can send the message directly to your WhatsApp
+---
 
-## 🚀 Deployment
+## File Structure Reference
 
-Deploy to Vercel:
-1. Connect your GitHub repository
-2. Add environment variables in Vercel dashboard
-3. Deploy!
+- `app/` – Next.js app directory (pages, layouts, styles)
+- `components/` – Reusable UI and page components
+- `lib/` – Utility libraries (Supabase client, translations, etc.)
+- `public/` – Static assets
+- `hooks/` – Custom React hooks
 
-## 📈 Viewing Analytics
+---
 
-1. Go to [Google Analytics](https://analytics.google.com/)
-2. Select your property
-3. View real-time data and reports
-4. Check Supabase dashboard for contact form submissions
+## Getting Started
 
-## 🛠️ Tech Stack
+1. Clone the repo
+2. Install dependencies: `npm install`
+3. Set up your `.env` with Supabase credentials
+4. Run locally: `npm run dev`
 
-- Next.js 14 (App Router)
-- JavaScript (No TypeScript)
-- Tailwind CSS
-- Framer Motion
-- Supabase
-- Google Analytics
-- WhatsApp API
+---
 
-## 📞 Support
+## License
 
-If you need help setting up any of these services, feel free to reach out!
+MIT. See [LICENSE](LICENSE) for details.
