@@ -35,16 +35,16 @@ export default function Hero() {
           >
             <div className="inline-flex items-center gap-2 bg-primary/10 text-primary px-4 py-2 rounded-full text-sm font-medium mb-6">
               <Sparkles size={16} />
-              {getTranslation('heroAgencyAvailable', language)}
+              {getTranslation('heroAvailable', language)}
             </div>
             <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold mb-6">
-              {getTranslation('heroAgencyTitle', language)}
+              {getTranslation('heroTitle', language)}
             </h1>
             <h2 className="text-2xl md:text-3xl lg:text-4xl font-light mb-8 text-muted-foreground">
-              {getTranslation('heroAgencySubtitle', language)}
+              {getTranslation('heroSubtitle', language)}
             </h2>
             <p className="text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto mb-12 leading-relaxed">
-              {getTranslation('heroAgencyDescription', language)}
+              {getTranslation('heroDescription', language)}
             </p>
           </motion.div>
 
@@ -78,7 +78,7 @@ export default function Hero() {
             transition={{ duration: 0.8, delay: 0.4 }}
             className="mt-16 text-sm text-muted-foreground"
           >
-            <p>{getTranslation('heroAgencyLocation', language)}</p>
+            <p>{getTranslation('heroLocation', language)}</p>
           </motion.div>
         </div>
       </div>

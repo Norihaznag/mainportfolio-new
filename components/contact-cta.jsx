@@ -23,10 +23,10 @@ export default function ContactCTA() {
           className="text-center"
         >
           <h2 className="text-3xl md:text-5xl font-bold mb-6">
-            {getTranslation('contactCtaTitle', language)}
+            {getTranslation('contactPageTitle', language)}
           </h2>
           <p className="text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto mb-10">
-            {getTranslation('contactCtaDescription', language)}
+            {getTranslation('contactPageDescription', language)}
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
             <a

@@ -11,11 +11,11 @@ import { getTranslation } from '@/lib/translations';
 
 export function generateMetadata() {
   return {
-    title: 'Azinag Web Solutions – PWA, SaaS & WhatsApp Agency',
-    description: 'Azinag Web Solutions is a modern web agency specializing in PWA, SaaS, eCommerce, and WhatsApp-integrated solutions for restaurants, shops, rentals, and more. Serving Morocco, GCC, and international clients.',
+    title: 'Azinag — PWA apps with WhatsApp integration for faster sales',
+    description: 'Azinag builds Progressive Web Apps (PWAs) for desktop and mobile, with WhatsApp ordering for faster sales. Launch your SaaS app fast — no downloads needed.',
     openGraph: {
-      title: 'Azinag Web Solutions – PWA, SaaS & WhatsApp Agency',
-      description: 'Azinag Web Solutions builds modern PWA, SaaS, eCommerce, and WhatsApp-integrated web apps for businesses worldwide.',
+      title: 'Azinag — PWA apps with WhatsApp integration for faster sales',
+      description: 'Azinag builds installable PWAs for desktop and mobile with WhatsApp checkout. Fast, native-like, and ready for business.',
     },
   };
 }

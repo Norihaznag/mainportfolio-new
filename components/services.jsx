@@ -42,7 +42,7 @@ export default function Services() {
           className="text-center mb-16"
         >
           <h2 className="text-3xl md:text-5xl font-bold mb-6">
-            {getTranslation('servicesAgencyTitle', language).split(' ').map((word, index, array) => 
+            {getTranslation('servicesTitle', language).split(' ').map((word, index, array) => 
               index === array.length - 1 ? (
                 <span key={index} className="text-primary">{word}</span>
               ) : (
@@ -51,7 +51,7 @@ export default function Services() {
             )}
           </h2>
           <p className="text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto">
-            {getTranslation('servicesAgencyDescription', language)}
+            {getTranslation('servicesDescription', language)}
           </p>
         </motion.div>
 
