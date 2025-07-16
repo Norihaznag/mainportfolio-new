@@ -80,3 +80,18 @@
     @apply bg-background text-foreground;
   }
 }
+
+@keyframes glow-card {
+  0%, 100% {
+    filter: blur(32px) brightness(1.1);
+    opacity: 0.7;
+  }
+  50% {
+    filter: blur(48px) brightness(1.4);
+    opacity: 1;
+  }
+}
+
+.before\:animate-glow-card::before {
+  animation: glow-card 3s ease-in-out infinite;
+}

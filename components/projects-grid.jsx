@@ -2,8 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
-import Image from 'next/image';
-import { ExternalLink, Github } from 'lucide-react';
+import { ArrowRight, Lock } from 'lucide-react';
 import { supabase } from '../lib/supabase';
 import { useLanguage } from '@/lib/language-context';
 import { getTranslation } from '@/lib/translations';
@@ -14,6 +13,15 @@ const PROJECT_TYPES = [
   'ecommerce',
   'rental',
   'other',
+];
+
+const CARD_GRADIENTS = [
+  'bg-gradient-to-br from-blue-900 via-purple-900 to-pink-600',
+  'bg-gradient-to-br from-green-900 via-teal-800 to-blue-600',
+  'bg-gradient-to-br from-orange-900 via-red-800 to-pink-600',
+  'bg-gradient-to-br from-indigo-900 via-purple-800 to-cyan-600',
+  'bg-gradient-to-br from-yellow-900 via-orange-800 to-red-600',
+  'bg-gradient-to-br from-violet-900 via-indigo-800 to-blue-600',
 ];
 
 export default function ProjectsGrid() {
@@ -108,87 +116,85 @@ export default function ProjectsGrid() {
         </div>
       ) : (
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {filteredProjects.map((project, index) => (
-            <motion.div
-              key={project.id}
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: index * 0.1 }}
-              viewport={{ once: true }}
-              className="bg-background rounded-lg overflow-hidden shadow-sm hover:shadow-md transition-shadow group"
-            >
-              <div className="relative h-48 overflow-hidden">
-                <Image
-                  src={project.image}
-                  alt={project.title}
-                  fill
-                  className="object-cover group-hover:scale-105 transition-transform duration-300"
-                />
-              </div>
-              <div className="p-6">
-                <h3 className="text-xl font-semibold mb-3">
-                  {(project.link || project.liveUrl || project.githubUrl) ? (
-                    (project.link || project.liveUrl || project.githubUrl).startsWith('/') ? (
-                      <Link
-                        href={project.link || project.liveUrl || project.githubUrl}
-                        className="hover:underline text-primary"
-                      >
-                        {project.title}
-                      </Link>
+          {filteredProjects.map((project, index) => {
+            const gradientIndex = index % CARD_GRADIENTS.length;
+            const gradientBg = CARD_GRADIENTS[gradientIndex];
+            
+            return (
+              <motion.div
+                key={project.id}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.8, delay: index * 0.1 }}
+                viewport={{ once: true }}
+                className={`relative rounded-3xl overflow-hidden ${gradientBg} p-8 flex flex-col justify-between min-h-[400px] hover:scale-105 transition-all duration-300`}
+              >
+                {/* Top Section - Icon */}
+                <div className="flex justify-start mb-6">
+                  <div className="w-12 h-12 bg-white/20 rounded-full flex items-center justify-center backdrop-blur-sm">
+                    <Lock className="w-6 h-6 text-white" />
+                  </div>
+                </div>
+
+                {/* Middle Section - Content */}
+                <div className="flex-1 flex flex-col justify-center">
+                  <h3 className="text-3xl font-bold text-white mb-4 leading-tight">
+                    {(project.link || project.liveUrl || project.githubUrl) ? (
+                      (project.link || project.liveUrl || project.githubUrl).startsWith('/') ? (
+                        <Link
+                          href={project.link || project.liveUrl || project.githubUrl}
+                          className="hover:underline"
+                        >
+                          {project.title}
+                        </Link>
+                      ) : (
+                        <a
+                          href={project.link || project.liveUrl || project.githubUrl}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="hover:underline"
+                        >
+                          {project.title}
+                        </a>
+                      )
                     ) : (
-                      <a
-                        href={project.link || project.liveUrl || project.githubUrl}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="hover:underline text-primary"
+                      project.title
+                    )}
+                  </h3>
+                  
+                  <p className="text-white/80 text-lg leading-relaxed mb-6">
+                    {project.description}
+                  </p>
+
+                  {/* Tech Stack */}
+                  <div className="flex flex-wrap gap-2 mb-6">
+                    {project.tech?.map((tech) => (
+                      <span
+                        key={tech}
+                        className="bg-white/20 text-white px-3 py-1 rounded-full text-sm font-medium backdrop-blur-sm"
                       >
-                        {project.title}
-                      </a>
-                    )
-                  ) : (
-                    project.title
-                  )}
-                </h3>
-                <p className="text-muted-foreground mb-4 text-sm leading-relaxed">
-                  {project.description}
-                </p>
-                <div className="flex flex-wrap gap-2 mb-4">
-                  {project.tech?.map((tech) => (
-                    <span
-                      key={tech}
-                      className="bg-primary/10 text-primary px-2 py-1 rounded text-xs font-medium"
-                    >
-                      {tech}
-                    </span>
-                  ))}
+                        {tech}
+                      </span>
+                    ))}
+                  </div>
                 </div>
-                <div className="flex gap-4">
-                  {project.liveUrl && (
+
+                {/* Bottom Section - CTA */}
+                <div className="mt-auto">
+                  {(project.liveUrl || project.githubUrl) && (
                     <a
-                      href={project.liveUrl}
+                      href={project.liveUrl || project.githubUrl}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="inline-flex items-center gap-1 text-primary hover:text-primary/80 transition-colors text-sm"
+                      className="inline-flex items-center gap-2 text-white font-medium text-lg hover:gap-3 transition-all duration-300 underline underline-offset-4"
                     >
-                      <ExternalLink size={16} />
-                      {getTranslation('liveDemo', language)}
-                    </a>
-                  )}
-                  {project.githubUrl && (
-                    <a
-                      href={project.githubUrl}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="inline-flex items-center gap-1 text-primary hover:text-primary/80 transition-colors text-sm"
-                    >
-                      <Github size={16} />
-                      {getTranslation('viewCode', language)}
+                      Learn more <ArrowRight size={20} />
                     </a>
                   )}
                 </div>
-              </div>
-            </motion.div>
-          ))}
+              </motion.div>
+            );
+          })}
         </div>
       )}
     </div>
