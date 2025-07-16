@@ -7,6 +7,7 @@ CREATE TABLE IF NOT EXISTS projects (
   tech TEXT[] DEFAULT '{}',
   liveUrl TEXT,
   githubUrl TEXT,
+  link TEXT,
   featured BOOLEAN DEFAULT false,
   created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
   updated_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()

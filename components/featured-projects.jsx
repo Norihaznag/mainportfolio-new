@@ -123,7 +123,29 @@ export default function FeaturedProjects() {
                       />
                     </div>
                     <div className="p-6">
-                      <h3 className="text-xl font-semibold mb-3">{project.title}</h3>
+                      <h3 className="text-xl font-semibold mb-3">
+                        {(project.link || project.liveUrl || project.githubUrl) ? (
+                          (project.link || project.liveUrl || project.githubUrl).startsWith('/') ? (
+                            <Link
+                              href={project.link || project.liveUrl || project.githubUrl}
+                              className="hover:underline text-primary"
+                            >
+                              {project.title}
+                            </Link>
+                          ) : (
+                            <a
+                              href={project.link || project.liveUrl || project.githubUrl}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className="hover:underline text-primary"
+                            >
+                              {project.title}
+                            </a>
+                          )
+                        ) : (
+                          project.title
+                        )}
+                      </h3>
                       <p className="text-muted-foreground mb-4 text-sm leading-relaxed">
                         {project.description}
                       </p>

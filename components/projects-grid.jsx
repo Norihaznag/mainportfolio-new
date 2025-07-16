@@ -7,6 +7,7 @@ import { ExternalLink, Github } from 'lucide-react';
 import { supabase } from '../lib/supabase';
 import { useLanguage } from '@/lib/language-context';
 import { getTranslation } from '@/lib/translations';
+import Link from 'next/link';
 
 const PROJECT_TYPES = [
   'food',
@@ -125,7 +126,29 @@ export default function ProjectsGrid() {
                 />
               </div>
               <div className="p-6">
-                <h3 className="text-xl font-semibold mb-3">{project.title}</h3>
+                <h3 className="text-xl font-semibold mb-3">
+                  {(project.link || project.liveUrl || project.githubUrl) ? (
+                    (project.link || project.liveUrl || project.githubUrl).startsWith('/') ? (
+                      <Link
+                        href={project.link || project.liveUrl || project.githubUrl}
+                        className="hover:underline text-primary"
+                      >
+                        {project.title}
+                      </Link>
+                    ) : (
+                      <a
+                        href={project.link || project.liveUrl || project.githubUrl}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="hover:underline text-primary"
+                      >
+                        {project.title}
+                      </a>
+                    )
+                  ) : (
+                    project.title
+                  )}
+                </h3>
                 <p className="text-muted-foreground mb-4 text-sm leading-relaxed">
                   {project.description}
                 </p>
