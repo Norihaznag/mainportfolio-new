@@ -5,6 +5,7 @@ CREATE TABLE IF NOT EXISTS projects (
   description TEXT NOT NULL,
   image TEXT NOT NULL,
   tech TEXT[] DEFAULT '{}',
+  features TEXT[] DEFAULT '{}',
   liveUrl TEXT,
   githubUrl TEXT,
   link TEXT,

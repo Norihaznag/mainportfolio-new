@@ -4,7 +4,6 @@ import { motion } from 'framer-motion';
 import { Github, Linkedin, Mail, Heart, MessageCircle } from 'lucide-react';
 import { useLanguage } from '@/lib/language-context';
 import { getTranslation } from '@/lib/translations';
-import LanguageSwitcher from './language-switcher';
 import Link from 'next/link';
 
 export default function Footer() {
@@ -28,7 +27,6 @@ export default function Footer() {
             <p className="text-muted-foreground max-w-xs">
               {getTranslation('footerDescription', language)}
             </p>
-            <div className="mt-2"><LanguageSwitcher /></div>
           </div>
 
           {/* Navigation Links */}
@@ -36,7 +34,7 @@ export default function Footer() {
             <h3 className="font-semibold mb-2">{getTranslation('footerConnect', language)}</h3>
             <nav className="flex flex-col gap-2">
               <Link href="/" className="hover:text-primary transition-colors">{getTranslation('home', language)}</Link>
-              <Link href="/projects" className="hover:text-primary transition-colors">{getTranslation('projects', language)}</Link>
+              <Link href="/apps" className="hover:text-primary transition-colors">{getTranslation('apps', language)}</Link>
               <Link href="/about" className="hover:text-primary transition-colors">{getTranslation('about', language)}</Link>
               <Link href="/contact" className="hover:text-primary transition-colors">{getTranslation('contact', language)}</Link>
             </nav>

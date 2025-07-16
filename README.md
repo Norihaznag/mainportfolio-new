@@ -29,10 +29,10 @@ This site is designed for a web agency, featuring:
 - **Team/Expertise:** (If present) Overview of skills and experience.
 - **Branding:** Uses "we/us" language and agency branding throughout.
 
-### Projects (`/projects`)
-- **Projects Grid:** All projects are fetched from Supabase and displayed in a responsive grid.
-- **Project Details:** Each card shows project name, description, tech stack, and links (e.g., GitHub, live demo).
-- **Dynamic Loading:** Updates automatically as projects are added/edited in Supabase.
+### Apps (`/apps`)
+- **Apps Grid:** All apps are fetched from Supabase and displayed in a responsive grid.
+- **App Details:** Each card shows app name, description, tech stack, and links (e.g., GitHub, live demo).
+- **Dynamic Loading:** Updates automatically as apps are added/edited in Supabase.
 
 ### Contact (`/contact`)
 - **Contact Form:** Users can send inquiries (form may be static or connected to an email service).

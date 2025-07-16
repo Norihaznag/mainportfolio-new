@@ -199,10 +199,10 @@ export default function FeaturedProjects() {
           className="text-center"
         >
           <Link
-            href="/projects"
+            href="/apps"
             className="inline-flex items-center gap-2 bg-primary text-primary-foreground px-8 py-4 rounded-full font-medium hover:bg-primary/90 transition-colors group"
           >
-            {getTranslation('viewAllProjects', language)}
+            See All Apps
             <ArrowRight size={16} className="group-hover:translate-x-1 transition-transform" />
           </Link>
         </motion.div>

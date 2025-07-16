@@ -6,14 +6,13 @@ import { Menu, X, Sun, Moon } from 'lucide-react';
 import { useTheme } from './theme-provider';
 import { useLanguage } from '@/lib/language-context';
 import { getTranslation } from '@/lib/translations';
-import LanguageSwitcher from './language-switcher';
 import Link from 'next/link';
 
 export default function Header() {
   const [isOpen, setIsOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const { theme, setTheme } = useTheme();
-  const { language } = useLanguage();
+  const { language, direction } = useLanguage();
 
   const navigation = [
     { name: getTranslation('home', language), href: '/' },
@@ -36,17 +35,20 @@ export default function Header() {
   };
 
   return (
-    <header className={`fixed top-0 w-full z-50 transition-all duration-300 ${
-      scrolled ? 'bg-background/80 backdrop-blur-md border-b' : 'bg-transparent'
-    }`}>
+    <header
+      dir={direction}
+      className={`fixed top-0 w-full z-50 transition-all duration-300 ${
+        scrolled ? 'bg-background/80 backdrop-blur-md border-b' : 'bg-transparent'
+      }`}
+    >
       <nav className="container mx-auto px-4 py-4">
-        <div className="flex items-center justify-between">
+        <div className={`flex items-center justify-between ${direction === 'rtl' ? 'flex-row-reverse' : ''}`}>
           <Link href="/" className="text-2xl font-bold">
             Azinag
           </Link>
 
           {/* Desktop Navigation */}
-          <div className="hidden md:flex items-center space-x-8">
+          <div className={`hidden md:flex items-center ${direction === 'rtl' ? 'space-x-reverse space-x-8' : 'space-x-8'}`}>
             {navigation.map((item) => (
               <Link
                 key={item.name}
@@ -56,7 +58,6 @@ export default function Header() {
                 {item.name}
               </Link>
             ))}
-            <LanguageSwitcher />
             <button
               onClick={toggleTheme}
               className="p-2 rounded-full hover:bg-muted transition-colors"
@@ -67,8 +68,7 @@ export default function Header() {
           </div>
 
           {/* Mobile Menu Button */}
-          <div className="md:hidden flex items-center space-x-4">
-            <LanguageSwitcher />
+          <div className={`md:hidden flex items-center ${direction === 'rtl' ? 'space-x-reverse space-x-4' : 'space-x-4'}`}>
             <button
               onClick={toggleTheme}
               className="p-2 rounded-full hover:bg-muted transition-colors"

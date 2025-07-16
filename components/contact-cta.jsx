@@ -39,7 +39,7 @@ export default function ContactCTA() {
               {getTranslation('contactCtaWhatsapp', language)}
             </a>
             <Link
-              href="/contact"
+              href="/apps"
               className="inline-flex items-center gap-2 border border-primary text-primary px-8 py-4 rounded-full font-medium hover:bg-primary hover:text-primary-foreground transition-colors text-lg"
             >
               {getTranslation('contactCtaForm', language)}

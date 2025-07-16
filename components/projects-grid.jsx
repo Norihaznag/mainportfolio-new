@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
-import { ArrowRight, Lock } from 'lucide-react';
+import { ArrowRight, Lock, Globe, UserCog, MessageCircle, CreditCard } from 'lucide-react';
 import { supabase } from '../lib/supabase';
 import { useLanguage } from '@/lib/language-context';
 import { getTranslation } from '@/lib/translations';
@@ -116,85 +116,125 @@ export default function ProjectsGrid() {
         </div>
       ) : (
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {filteredProjects.map((project, index) => {
-            const gradientIndex = index % CARD_GRADIENTS.length;
-            const gradientBg = CARD_GRADIENTS[gradientIndex];
-            
-            return (
-              <motion.div
-                key={project.id}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.8, delay: index * 0.1 }}
-                viewport={{ once: true }}
-                className={`relative rounded-3xl overflow-hidden ${gradientBg} p-8 flex flex-col justify-between min-h-[400px] hover:scale-105 transition-all duration-300`}
-              >
-                {/* Top Section - Icon */}
-                <div className="flex justify-start mb-6">
-                  <div className="w-12 h-12 bg-white/20 rounded-full flex items-center justify-center backdrop-blur-sm">
-                    <Lock className="w-6 h-6 text-white" />
-                  </div>
-                </div>
+          {filteredProjects.map((project, index) => (
+            <motion.div
+              key={project.id}
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: index * 0.08 }}
+              viewport={{ once: true }}
+              className="bg-card border border-border rounded-2xl shadow-sm flex flex-col overflow-hidden transition-transform duration-200 hover:scale-[1.02]"
+            >
+              {/* App Image */}
+              <div className="relative w-full h-40 flex items-center justify-center bg-muted">
+                <img
+                  src={project.image && project.image.trim() !== ''
+                    ? project.image
+                    : (project.liveUrl ? `https://image.thum.io/get/width/800/crop/800/${project.liveUrl}` : '/placeholder.png')}
+                  alt={project.title}
+                  className="object-contain w-full h-full rounded-t-2xl"
+                  style={{objectPosition: 'center', objectFit: 'contain'}}
+                  loading="lazy"
+                />
+              </div>
 
-                {/* Middle Section - Content */}
-                <div className="flex-1 flex flex-col justify-center">
-                  <h3 className="text-3xl font-bold text-white mb-4 leading-tight">
-                    {(project.link || project.liveUrl || project.githubUrl) ? (
-                      (project.link || project.liveUrl || project.githubUrl).startsWith('/') ? (
-                        <Link
-                          href={project.link || project.liveUrl || project.githubUrl}
-                          className="hover:underline"
-                        >
-                          {project.title}
-                        </Link>
-                      ) : (
-                        <a
-                          href={project.link || project.liveUrl || project.githubUrl}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="hover:underline"
-                        >
-                          {project.title}
-                        </a>
-                      )
-                    ) : (
-                      project.title
-                    )}
-                  </h3>
-                  
-                  <p className="text-white/80 text-lg leading-relaxed mb-6">
-                    {project.description}
-                  </p>
-
-                  {/* Tech Stack */}
-                  <div className="flex flex-wrap gap-2 mb-6">
-                    {project.tech?.map((tech) => (
-                      <span
-                        key={tech}
-                        className="bg-white/20 text-white px-3 py-1 rounded-full text-sm font-medium backdrop-blur-sm"
+              {/* Content */}
+              <div className="flex-1 flex flex-col justify-center p-6">
+                <h3 className="text-2xl font-bold text-foreground mb-2 leading-tight">
+                  {(project.link || project.liveUrl || project.githubUrl) ? (
+                    (project.link || project.liveUrl || project.githubUrl).startsWith('/') ? (
+                      <Link
+                        href={project.link || project.liveUrl || project.githubUrl}
+                        className="hover:underline"
                       >
-                        {tech}
-                      </span>
-                    ))}
-                  </div>
+                        {project.title}
+                      </Link>
+                    ) : (
+                      <a
+                        href={project.link || project.liveUrl || project.githubUrl}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="hover:underline"
+                      >
+                        {project.title}
+                      </a>
+                    )
+                  ) : (
+                    project.title
+                  )}
+                </h3>
+                <p className="text-muted-foreground text-base leading-relaxed mb-4">
+                  {project.description}
+                </p>
+
+                {/* Tech Stack */}
+                <div className="flex flex-wrap gap-2 mb-4">
+                  {project.tech?.map((tech) => (
+                    <span
+                      key={tech}
+                      className="bg-muted text-foreground px-2 py-1 rounded text-xs font-medium"
+                    >
+                      {tech}
+                    </span>
+                  ))}
                 </div>
 
-                {/* Bottom Section - CTA */}
+                {/* Features Row */}
+                {Array.isArray(project.features) && project.features.length > 0 && (
+                  <div className="flex flex-wrap gap-2 mb-4">
+                    {project.features.map((feature) => {
+                      let icon = null;
+                      let label = feature;
+                      switch (feature.toLowerCase()) {
+                        case 'domain':
+                          icon = <Globe className="w-4 h-4 mr-1" />;
+                          label = 'Domain';
+                          break;
+                        case 'admin':
+                        case 'admin panel':
+                          icon = <UserCog className="w-4 h-4 mr-1" />;
+                          label = 'Admin';
+                          break;
+                        case 'whatsapp':
+                          icon = <MessageCircle className="w-4 h-4 mr-1" />;
+                          label = 'WhatsApp';
+                          break;
+                        case 'stripe':
+                          icon = <CreditCard className="w-4 h-4 mr-1" />;
+                          label = 'Stripe';
+                          break;
+                        default:
+                          icon = null;
+                      }
+                      return (
+                        <span
+                          key={feature}
+                          className="inline-flex items-center bg-primary/10 text-primary px-2 py-1 rounded text-xs font-medium"
+                        >
+                          {icon}
+                          {label}
+                        </span>
+                      );
+                    })}
+                  </div>
+                )}
+
+                {/* CTA */}
                 <div className="mt-auto">
                   {(project.liveUrl || project.githubUrl) && (
                     <a
                       href={project.liveUrl || project.githubUrl}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="inline-flex items-center gap-2 text-white font-medium text-lg hover:gap-3 transition-all duration-300 underline underline-offset-4"
+                      className="inline-flex items-center gap-2 text-primary font-medium text-base hover:gap-3 transition-all duration-200 underline underline-offset-4"
                     >
-                      Learn more <ArrowRight size={20} />
+                      Learn more <ArrowRight size={18} />
                     </a>
                   )}
                 </div>
-              </motion.div>
-            );
-          })}
+              </div>
+            </motion.div>
+          ))}
         </div>
       )}
     </div>

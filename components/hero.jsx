@@ -28,7 +28,7 @@ export default function Hero() {
       <h1 className="text-5xl md:text-7xl font-extrabold text-center mb-6 leading-tight">
         Build <span className="text-red-500">PWAs</span> that<br />
         <span className="text-red-500">Sell More</span> & Ship Fast
-      </h1>
+            </h1>
       {/* Subheadline */}
       <p className="text-lg md:text-2xl text-muted-foreground text-center max-w-2xl mb-10">
         Azinag delivers installable web apps with WhatsApp integration. Launch quickly, reach more customers, and grow your business with ease.
