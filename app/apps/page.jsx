@@ -5,16 +5,16 @@ import AnalyticsTracker from '@/components/analytics-tracker';
 
 export function generateMetadata() {
   return {
-    title: 'Projects',
-    description: 'Explore my portfolio of web development projects. From modern websites to complex web applications built with Next.js, React, and Tailwind CSS.',
+    title: 'Apps',
+    description: 'Explore our portfolio of web apps and PWAs built by our team. From modern websites to complex business solutions, all with WhatsApp integration.',
     openGraph: {
-      title: 'Projects - Noureddine Azinag',
-      description: 'Explore my portfolio of web development projects. From modern websites to complex web applications built with Next.js, React, and Tailwind CSS.',
+      title: 'Apps - Azinag Team',
+      description: 'Explore our portfolio of web apps and PWAs built by our team. From modern websites to complex business solutions, all with WhatsApp integration.',
     },
   };
 }
 
-export default function Projects() {
+export default function Apps() {
   return (
     <>
       <AnalyticsTracker />
@@ -23,10 +23,10 @@ export default function Projects() {
         <div className="container mx-auto px-4 py-16">
           <div className="text-center mb-16">
             <h1 className="text-4xl md:text-6xl font-bold mb-6">
-              <ProjectsTitle />
+              <AppsTitle />
             </h1>
             <p className="text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto">
-              <ProjectsDescription />
+              <AppsDescription />
             </p>
           </div>
           <ProjectsGrid />
@@ -37,14 +37,14 @@ export default function Projects() {
   );
 }
 
-function ProjectsTitle() {
+function AppsTitle() {
   return (
     <>
-      My <span className="text-primary">Projects</span>
+      Our <span className="text-primary">Web Apps</span>
     </>
   );
 }
 
-function ProjectsDescription() {
-  return "A collection of web development projects showcasing modern technologies and clean design";
+function AppsDescription() {
+  return "A collection of web apps and PWAs built by our team, showcasing modern technologies and business solutions.";
 }

@@ -17,7 +17,7 @@ export default function Header() {
 
   const navigation = [
     { name: getTranslation('home', language), href: '/' },
-    { name: getTranslation('projects', language), href: '/projects' },
+    { name: getTranslation('apps', language), href: '/apps' },
     { name: getTranslation('about', language), href: '/about' },
     { name: getTranslation('contact', language), href: '/contact' },
   ];
