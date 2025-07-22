@@ -4,10 +4,6 @@ CREATE TABLE IF NOT EXISTS projects (
   title TEXT NOT NULL,
   description TEXT NOT NULL,
   image TEXT NOT NULL,
-  tech TEXT[] DEFAULT '{}',
-  features TEXT[] DEFAULT '{}',
-  liveUrl TEXT,
-  githubUrl TEXT,
   link TEXT,
   featured BOOLEAN DEFAULT false,
   created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
@@ -43,58 +39,46 @@ CREATE TRIGGER update_projects_updated_at
   EXECUTE FUNCTION update_updated_at_column();
 
 -- Insert some sample data (optional)
-INSERT INTO projects (title, description, image, tech, liveUrl, githubUrl, featured) VALUES
+INSERT INTO projects (title, description, image, link, featured) VALUES
 (
   'E-Commerce Platform',
   'Modern e-commerce website with payment integration, inventory management, and admin dashboard built with Next.js and Stripe.',
   'https://images.pexels.com/photos/3184287/pexels-photo-3184287.jpeg?auto=compress&cs=tinysrgb&w=800',
-  ARRAY['Next.js', 'React', 'Tailwind CSS', 'Stripe', 'MongoDB'],
   'https://example.com',
-  'https://github.com/example/ecommerce',
   true
 ),
 (
   'Restaurant Website',
   'Beautiful restaurant website with online ordering system, reservation management, and menu showcase.',
   'https://images.pexels.com/photos/958545/pexels-photo-958545.jpeg?auto=compress&cs=tinysrgb&w=800',
-  ARRAY['Next.js', 'React', 'Tailwind CSS', 'Framer Motion'],
   'https://example.com',
-  'https://github.com/example/restaurant',
   true
 ),
 (
   'SaaS Dashboard',
   'Comprehensive dashboard for SaaS application with analytics, user management, and real-time data visualization.',
   'https://images.pexels.com/photos/265087/pexels-photo-265087.jpeg?auto=compress&cs=tinysrgb&w=800',
-  ARRAY['Next.js', 'React', 'Tailwind CSS', 'Chart.js', 'PostgreSQL'],
   'https://example.com',
-  'https://github.com/example/saas-dashboard',
   true
 ),
 (
   'Real Estate Platform',
   'Property listing website with advanced search, virtual tours, and agent management system.',
   'https://images.pexels.com/photos/186077/pexels-photo-186077.jpeg?auto=compress&cs=tinysrgb&w=800',
-  ARRAY['Next.js', 'React', 'Tailwind CSS', 'Mapbox', 'Supabase'],
   'https://example.com',
-  'https://github.com/example/real-estate',
   false
 ),
 (
   'Portfolio Website',
   'Creative portfolio website for a photographer with image galleries, client testimonials, and contact forms.',
   'https://images.pexels.com/photos/196644/pexels-photo-196644.jpeg?auto=compress&cs=tinysrgb&w=800',
-  ARRAY['Next.js', 'React', 'Tailwind CSS', 'Framer Motion'],
   'https://example.com',
-  'https://github.com/example/portfolio',
   false
 ),
 (
   'Task Management App',
   'Collaborative task management application with real-time updates, team collaboration, and project tracking.',
   'https://images.pexels.com/photos/3184465/pexels-photo-3184465.jpeg?auto=compress&cs=tinysrgb&w=800',
-  ARRAY['Next.js', 'React', 'Tailwind CSS', 'Socket.io', 'MySQL'],
   'https://example.com',
-  'https://github.com/example/task-manager',
   false
 ); 

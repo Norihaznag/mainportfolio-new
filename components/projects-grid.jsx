@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
-import { ArrowRight, Lock, Globe, UserCog, MessageCircle, CreditCard } from 'lucide-react';
+import { ArrowRight, Lock, Globe, UserCog, MessageCircle, CreditCard, AppWindow } from 'lucide-react';
 import { supabase } from '../lib/supabase';
 import { useLanguage } from '@/lib/language-context';
 import { getTranslation } from '@/lib/translations';
@@ -22,6 +22,15 @@ const CARD_GRADIENTS = [
   'bg-gradient-to-br from-indigo-900 via-purple-800 to-cyan-600',
   'bg-gradient-to-br from-yellow-900 via-orange-800 to-red-600',
   'bg-gradient-to-br from-violet-900 via-indigo-800 to-blue-600',
+];
+
+const CARD_COLORS = [
+  'bg-red-100 text-red-600',
+  'bg-blue-100 text-blue-600',
+  'bg-green-100 text-green-600',
+  'bg-yellow-100 text-yellow-600',
+  'bg-purple-100 text-purple-600',
+  'bg-pink-100 text-pink-600',
 ];
 
 export default function ProjectsGrid() {
@@ -125,17 +134,9 @@ export default function ProjectsGrid() {
               viewport={{ once: true }}
               className="bg-card border border-border rounded-2xl shadow-sm flex flex-col overflow-hidden transition-transform duration-200 hover:scale-[1.02]"
             >
-              {/* App Image */}
-              <div className="relative w-full h-40 flex items-center justify-center bg-muted">
-                <img
-                  src={project.image && project.image.trim() !== ''
-                    ? project.image
-                    : (project.liveUrl ? `https://image.thum.io/get/width/800/crop/800/${project.liveUrl}` : '/placeholder.png')}
-                  alt={project.title}
-                  className="object-contain w-full h-full rounded-t-2xl"
-                  style={{objectPosition: 'center', objectFit: 'contain'}}
-                  loading="lazy"
-                />
+              {/* App Icon with Colored Background */}
+              <div className={`relative w-full h-40 flex items-center justify-center rounded-t-2xl ${CARD_COLORS[index % CARD_COLORS.length]}`}>
+                <AppWindow size={56} className="" />
               </div>
 
               {/* Content */}
@@ -166,18 +167,6 @@ export default function ProjectsGrid() {
                 <p className="text-muted-foreground text-base leading-relaxed mb-4">
                   {project.description}
                 </p>
-
-                {/* Tech Stack */}
-                <div className="flex flex-wrap gap-2 mb-4">
-                  {project.tech?.map((tech) => (
-                    <span
-                      key={tech}
-                      className="bg-muted text-foreground px-2 py-1 rounded text-xs font-medium"
-                    >
-                      {tech}
-                    </span>
-                  ))}
-                </div>
 
                 {/* Features Row */}
                 {Array.isArray(project.features) && project.features.length > 0 && (

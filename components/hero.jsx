@@ -4,11 +4,10 @@ import { motion } from 'framer-motion';
 import Link from 'next/link';
 import { ArrowRight, MessageCircle, Sparkles } from 'lucide-react';
 import { event } from '@/lib/analytics';
-import { useLanguage } from '@/lib/language-context';
-import { getTranslation } from '@/lib/translations';
+// Removed: import { useLanguage } from '@/lib/language-context';
+// Removed: import { getTranslation } from '@/lib/translations';
 
 export default function Hero() {
-  const { language } = useLanguage();
   const trackButtonClick = (buttonName) => {
     event({
       action: 'click',
@@ -17,7 +16,7 @@ export default function Hero() {
     });
   };
   return (
-    <section className="min-h-[70vh] flex flex-col justify-center items-center bg-background text-foreground px-4 transition-colors duration-300">
+    <section className="min-h-[70vh] p-20 pt-22 flex flex-col justify-center items-center bg-background text-foreground px-4 transition-colors duration-300">
       {/* Optional Badge */}
       <div className="mb-6">
         <span className="inline-block bg-red-900/20 text-red-500 dark:text-red-400 px-4 py-1 rounded-full font-medium text-sm">
@@ -28,7 +27,7 @@ export default function Hero() {
       <h1 className="text-5xl md:text-7xl font-extrabold text-center mb-6 leading-tight">
         Build <span className="text-red-500">PWAs</span> that<br />
         <span className="text-red-500">Sell More</span> & Ship Fast
-            </h1>
+      </h1>
       {/* Subheadline */}
       <p className="text-lg md:text-2xl text-muted-foreground text-center max-w-2xl mb-10">
         Azinag delivers installable web apps with WhatsApp integration. Launch quickly, reach more customers, and grow your business with ease.
