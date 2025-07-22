@@ -1,7 +1,6 @@
 import Hero from '@/components/hero';
 import Services from '@/components/services';
 import Industries from '@/components/industries';
-import FeaturedProjects from '@/components/featured-projects';
 import ContactCTA from '@/components/contact-cta';
 import Footer from '@/components/footer';
 import Header from '@/components/header';
@@ -28,7 +27,6 @@ export default function Home() {
       <Hero />
       <Services />
       <Industries />
-      <FeaturedProjects />
       <ContactCTA />
       <Footer />
     </>

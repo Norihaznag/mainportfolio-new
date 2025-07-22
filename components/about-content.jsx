@@ -12,11 +12,9 @@ const technologies = [
   { name: "TypeScript", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/typescript/typescript-original.svg" },
   { name: "Tailwind CSS", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/tailwindcss/tailwindcss-plain.svg" },
   { name: "Node.js", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/nodejs/nodejs-original.svg" },
-  { name: "MongoDB", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/mongodb/mongodb-original.svg" },
   { name: "PostgreSQL", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/postgresql/postgresql-original.svg" },
+  { name: "Supabase", icon: "https://seeklogo.com/images/S/supabase-logo-DCC676FFE2-seeklogo.com.png" },
   { name: "Git", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/git/git-original.svg" },
-  { name: "Docker", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/docker/docker-original.svg" },
-  { name: "AWS", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/amazonwebservices/amazonwebservices-original.svg" },
   { name: "Figma", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/figma/figma-original.svg" }
 ];
 
@@ -74,12 +72,13 @@ export default function AboutContent() {
         transition={{ duration: 0.8, delay: 0.2 }}
         className="grid lg:grid-cols-2 gap-16 items-center mb-20"
       >
-        <div className="relative h-80 rounded-lg overflow-hidden">
+        <div className="relative w-full h-80 rounded-xl overflow-hidden">
           <Image
-            src="https://avatars.githubusercontent.com/u/22285211?v=4"
-            alt="Noureddine Azinag"
+            src="/founder.jpg"
+            alt="Founder"
             fill
             className="object-cover"
+            priority
           />
         </div>
         <div className="space-y-6">

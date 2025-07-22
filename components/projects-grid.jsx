@@ -170,7 +170,7 @@ export default function ProjectsGrid() {
 
                 {/* Features Row */}
                 {Array.isArray(project.features) && project.features.length > 0 && (
-                  <div className="flex flex-wrap gap-2 mb-4">
+                <div className="flex flex-wrap gap-2 mb-4">
                     {project.features.map((feature) => {
                       let icon = null;
                       let label = feature;
@@ -196,16 +196,16 @@ export default function ProjectsGrid() {
                           icon = null;
                       }
                       return (
-                        <span
+                    <span
                           key={feature}
                           className="inline-flex items-center bg-primary/10 text-primary px-2 py-1 rounded text-xs font-medium"
-                        >
+                    >
                           {icon}
                           {label}
-                        </span>
+                    </span>
                       );
                     })}
-                  </div>
+                </div>
                 )}
 
                 {/* CTA */}
