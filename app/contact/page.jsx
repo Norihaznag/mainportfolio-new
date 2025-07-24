@@ -8,7 +8,7 @@ import { useLanguage } from '@/lib/language-context';
 import { getTranslation } from '@/lib/translations';
 import { MessageCircle } from 'lucide-react';
 
-const WHATSAPP_NUMBER = '212600000000'; // Replace with agency number
+const WHATSAPP_NUMBER = '212609343953'; // Replace with agency number
 
 export default function Contact() {
   const { language } = useLanguage();
