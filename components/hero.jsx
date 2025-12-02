@@ -20,27 +20,27 @@ export default function Hero() {
       {/* Optional Badge */}
       <div className="mb-6">
         <span className="inline-block bg-red-900/20 text-red-500 dark:text-red-400 px-4 py-1 rounded-full font-medium text-sm">
-          🚀 New: WhatsApp-Integrated PWAs!
+          🚀 Fast apps for modern businesses
         </span>
       </div>
       {/* Headline */}
       <h1 className="text-5xl md:text-7xl font-extrabold text-center mb-6 leading-tight">
-        Build <span className="text-red-500">PWAs</span> that<br />
-        <span className="text-red-500">Sell More</span> & Ship Fast
+        <span className="text-red-500">Fast</span> websites,<br />
+        mobile apps & PWAs
       </h1>
       {/* Subheadline */}
       <p className="text-lg md:text-2xl text-muted-foreground text-center max-w-2xl mb-10">
-        Azinag delivers installable web apps with WhatsApp integration. Launch quickly, reach more customers, and grow your business with ease.
+        We build ultra-fast static websites, React Native mobile apps, and PWAs with WhatsApp built in — no slow, expensive CMS like WordPress.
       </p>
       {/* CTA Buttons */}
       <div className="flex flex-col sm:flex-row gap-4 justify-center">
         <a
-          href="https://wa.me/212600000000?text=Hi%20Azinag%20Team!%20I%20want%20to%20get%20started%20with%20a%20new%20website.%20I%20am%20interested%20in%3A%20%5BType%20of%20site%20(e.g.%20restaurant%2C%20shop%2C%20booking%2C%20portfolio)%5D.%20Please%20contact%20me!"
+          href="https://wa.me/212600000000?text=Hi%20Azinag%20Team%2C%20I%20want%20to%20build%20a%20fast%20website%20or%20mobile%20app.%20Please%20contact%20me."
           target="_blank"
           rel="noopener noreferrer"
           className="bg-red-600 text-white px-8 py-4 rounded-full font-semibold text-lg shadow hover:bg-red-700 transition"
         >
-          Get Started
+          Talk to us
         </a>
         <a
           href="/apps"

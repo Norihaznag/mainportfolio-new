@@ -15,21 +15,23 @@ const inter = Inter({
 
 export const metadata = {
   title: {
-    default: 'Azinag — PWA apps with WhatsApp integration for faster sales',
+    default: 'Azinag — React Native mobile apps, ultra-fast static websites & PWAs',
     template: '%s | Azinag'
   },
-  description: 'Azinag builds Progressive Web Apps (PWAs) that work seamlessly on desktop and mobile, with WhatsApp ordering for faster sales. Launch your SaaS app fast — no downloads needed.',
+  description: 'Azinag builds React Native mobile apps, ultra-fast static websites, and Progressive Web Apps (PWAs) that work seamlessly on desktop and mobile, with WhatsApp ordering for faster sales. Launch your site or app fast — no slow, expensive CMS like WordPress.',
   keywords: [
     'Azinag',
     'PWA',
     'Progressive Web Apps',
     'WhatsApp ordering',
-    'SaaS apps',
+    'React Native mobile apps',
     'mobile apps',
     'desktop apps',
     'fast launch',
     'business solutions',
     'installable apps',
+    'static websites',
+    'ultra-fast websites',
     'responsive',
     'native-like',
     'Supabase',
@@ -42,14 +44,14 @@ export const metadata = {
     type: 'website',
     locale: 'en_US',
     url: 'https://azinagweb.com',
-    title: 'Azinag — PWA apps with WhatsApp integration for faster sales',
-    description: 'Azinag builds installable PWAs for desktop and mobile with WhatsApp checkout. Fast, native-like, and ready for business.',
+    title: 'Azinag — React Native mobile apps, ultra-fast static websites & PWAs',
+    description: 'Azinag builds React Native mobile apps, ultra-fast static websites, and installable PWAs for desktop and mobile with WhatsApp checkout. Fast, native-like, and ready for business without slow CMS like WordPress.',
     siteName: 'Azinag',
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Azinag — PWA apps with WhatsApp integration for faster sales',
-    description: 'Azinag builds installable PWAs for desktop and mobile with WhatsApp checkout. Fast, native-like, and ready for business.',
+    title: 'Azinag — React Native mobile apps, ultra-fast static websites & PWAs',
+    description: 'Azinag builds React Native mobile apps, ultra-fast static websites, and installable PWAs for desktop and mobile with WhatsApp checkout. Fast, native-like, and ready for business without slow CMS like WordPress.',
     creator: '@azinagweb',
   },
   robots: {

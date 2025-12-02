@@ -10,11 +10,11 @@ import { getTranslation } from '@/lib/translations';
 
 export function generateMetadata() {
   return {
-    title: 'Azinag — PWA apps with WhatsApp integration for faster sales',
-    description: 'Azinag builds Progressive Web Apps (PWAs) for desktop and mobile, with WhatsApp ordering for faster sales. Launch your SaaS app fast — no downloads needed.',
+    title: 'Azinag — Custom mobile apps and fast websites (no WordPress)',
+    description: 'Azinag builds custom mobile apps, ultra-fast websites, and Progressive Web Apps (PWAs) for desktop and mobile, with WhatsApp ordering for faster sales. No slow, expensive CMS like WordPress — launch your app or site fast with clean, modern tech.',
     openGraph: {
-      title: 'Azinag — PWA apps with WhatsApp integration for faster sales',
-      description: 'Azinag builds installable PWAs for desktop and mobile with WhatsApp checkout. Fast, native-like, and ready for business.',
+      title: 'Azinag — Custom mobile apps and fast websites (no WordPress)',
+      description: 'Azinag builds installable PWAs, mobile apps, and ultra-fast websites without heavy CMS like WordPress. Fast, native-like, and ready for business with WhatsApp checkout.',
     },
   };
 }
