@@ -5,11 +5,11 @@ import AnalyticsTracker from '@/components/analytics-tracker';
 
 export function generateMetadata() {
   return {
-    title: 'Apps',
-    description: 'Explore our portfolio of custom mobile apps, ultra-fast websites, and PWAs built without heavy CMS like WordPress. From modern marketing sites to complex business solutions, all with WhatsApp integration.',
+    title: 'Projects',
+    description: 'Discover our portfolio of custom websites, web applications, and PWA apps built without heavy CMS like WordPress. From modern marketing sites to complex business solutions, all with WhatsApp integration.',
     openGraph: {
-      title: 'Apps - Azinag Team',
-      description: 'Explore our portfolio of web and mobile apps, fast websites, and PWAs built by our team — no slow CMS like WordPress. From modern websites to complex business solutions, all with WhatsApp integration.',
+      title: 'Projects - Azinag Team',
+      description: 'Explore our portfolio of websites, web apps, and PWAs built by our team — no slow CMS like WordPress. From modern marketing sites to complex business solutions, all with WhatsApp integration.',
     },
   };
 }
@@ -40,11 +40,11 @@ export default function Apps() {
 function AppsTitle() {
   return (
     <>
-      Our <span className="text-primary">Web Apps</span>
+      Our <span className="text-primary">Projects</span>
     </>
   );
 }
 
 function AppsDescription() {
-  return "A collection of custom web and mobile apps, ultra-fast websites, and PWAs built by our team without slow CMS like WordPress.";
+  return "A collection of custom websites, web applications, and PWA apps we build for clients — from marketing sites to complex business platforms.";
 }

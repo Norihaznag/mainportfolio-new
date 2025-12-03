@@ -32,21 +32,26 @@ export default function Hero() {
       <p className="text-lg md:text-2xl text-muted-foreground text-center max-w-2xl mb-10">
         We build ultra-fast static websites, React Native mobile apps, and PWAs with WhatsApp built in — no slow, expensive CMS like WordPress.
       </p>
-      {/* CTA Buttons */}
+      {/* CTA Buttons with glassy neo-skeuomorphic style, original brand colors */}
       <div className="flex flex-col sm:flex-row gap-4 justify-center">
         <a
           href="https://wa.me/212600000000?text=Hi%20Azinag%20Team%2C%20I%20want%20to%20build%20a%20fast%20website%20or%20mobile%20app.%20Please%20contact%20me."
           target="_blank"
           rel="noopener noreferrer"
-          className="bg-red-600 text-white px-8 py-4 rounded-full font-semibold text-lg shadow hover:bg-red-700 transition"
+          className="relative inline-flex items-center justify-center gap-2 px-9 py-3.5 rounded-full font-semibold text-base md:text-lg text-white bg-gradient-to-r from-red-500 via-red-600 to-red-500 border border-red-300/70 shadow-[0_0_0_1px_rgba(254,226,226,0.6),0_18px_35px_rgba(127,29,29,0.8)] backdrop-blur-[14px] before:absolute before:inset-[1px] before:rounded-full before:bg-gradient-to-r before:from-red-500/70 before:via-red-600/60 before:to-red-500/60 before:opacity-90 hover:before:opacity-100 after:pointer-events-none after:absolute after:inset-x-4 after:top-0.5 after:h-[1px] after:rounded-full after:bg-gradient-to-r after:from-transparent after:via-red-200/70 after:to-transparent hover:shadow-[0_0_0_1px_rgba(254,226,226,0.8),0_22px_40px_rgba(127,29,29,0.95)] hover:-translate-y-0.5 active:translate-y-0 active:shadow-[0_0_0_1px_rgba(254,226,226,1),0_8px_18px_rgba(127,29,29,0.95)] transition-all duration-200 ease-out overflow-hidden"
         >
-          Talk to us
+          <span className="relative z-10 flex items-center gap-2">
+            <span>Talk to us</span>
+          </span>
         </a>
         <a
           href="/apps"
-          className="bg-muted text-foreground px-8 py-4 rounded-full font-semibold text-lg border border-border hover:bg-muted/70 transition"
+          className="relative inline-flex items-center justify-center gap-2 px-9 py-3.5 rounded-full font-semibold text-base md:text-lg text-foreground bg-muted/90 border border-border/80 shadow-[0_0_0_1px_rgba(148,163,184,0.45),0_14px_30px_rgba(15,23,42,0.75)] backdrop-blur-[14px] before:absolute before:inset-[1px] before:rounded-full before:bg-muted/80 before:opacity-90 hover:before:bg-muted after:pointer-events-none after:absolute after:inset-x-4 after:top-0.5 after:h-[1px] after:rounded-full after:bg-gradient-to-r after:from-transparent after:via-white/35 after:to-transparent hover:shadow-[0_0_0_1px_rgba(148,163,184,0.7),0_18px_36px_rgba(15,23,42,0.9)] hover:-translate-y-0.5 active:translate-y-0 active:shadow-[0_0_0_1px_rgba(148,163,184,0.9),0_8px_18px_rgba(15,23,42,0.9)] transition-all duration-200 ease-out overflow-hidden"
         >
-          See Apps
+          <span className="relative z-10 flex items-center gap-2">
+            <span>See Apps</span>
+            <ArrowRight className="w-4 h-4" />
+          </span>
         </a>
       </div>
     </section>
