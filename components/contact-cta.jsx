@@ -2,7 +2,7 @@
 
 import { motion } from 'framer-motion';
 import Link from 'next/link';
-import { MessageCircle } from 'lucide-react';
+import { FaWhatsapp } from 'react-icons/fa';
 import { useLanguage } from '@/lib/language-context';
 import { getTranslation } from '@/lib/translations';
 import { WHATSAPP_URL_BASE } from '@/lib/utils';
@@ -33,11 +33,11 @@ export default function ContactCTA() {
               rel="noopener noreferrer"
               className="inline-flex items-center gap-2 bg-green-500 text-white px-8 py-4 rounded-full font-medium hover:bg-green-600 transition-colors text-lg shadow group"
             >
-              <MessageCircle size={20} />
+              <FaWhatsapp size={20} />
               {getTranslation('contactCtaWhatsapp', language)}
             </a>
             <Link
-              href="/apps"
+              href="/contact"
               className="inline-flex items-center gap-2 border border-primary text-primary px-8 py-4 rounded-full font-medium hover:bg-primary hover:text-primary-foreground transition-colors text-lg"
             >
               {getTranslation('contactCtaForm', language)}

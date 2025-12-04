@@ -1,7 +1,8 @@
 "use client";
 
 import { motion } from 'framer-motion';
-import { Github, Linkedin, Mail, Heart, MessageCircle } from 'lucide-react';
+import { Heart } from 'lucide-react';
+import { FaGithub, FaLinkedin, FaEnvelope, FaWhatsapp } from 'react-icons/fa';
 import { useLanguage } from '@/lib/language-context';
 import { getTranslation } from '@/lib/translations';
 import { WHATSAPP_URL_BASE, WHATSAPP_NUMBER } from '@/lib/utils';
@@ -52,7 +53,7 @@ export default function Footer() {
                 className="w-10 h-10 bg-primary/10 rounded-full flex items-center justify-center hover:bg-primary hover:text-primary-foreground transition-colors"
                 aria-label="GitHub"
               >
-                <Github size={18} />
+                <FaGithub size={18} />
               </a>
               <a
                 href="https://linkedin.com/company/azinagweb"
@@ -61,7 +62,7 @@ export default function Footer() {
                 className="w-10 h-10 bg-primary/10 rounded-full flex items-center justify-center hover:bg-primary hover:text-primary-foreground transition-colors"
                 aria-label="LinkedIn"
               >
-                <Linkedin size={18} />
+                <FaLinkedin size={18} />
               </a>
               <a
                 href={WHATSAPP_URL_BASE}
@@ -70,14 +71,14 @@ export default function Footer() {
                 className="w-10 h-10 bg-green-100 rounded-full flex items-center justify-center hover:bg-green-500 hover:text-white transition-colors"
                 aria-label="WhatsApp"
               >
-                <MessageCircle size={18} />
+                <FaWhatsapp size={18} />
               </a>
               <a
                 href="mailto:noureddine@example.com"
                 className="w-10 h-10 bg-primary/10 rounded-full flex items-center justify-center hover:bg-primary hover:text-primary-foreground transition-colors"
                 aria-label="Email"
               >
-                <Mail size={18} />
+                <FaEnvelope size={18} />
               </a>
             </div>
             <div className="text-xs text-muted-foreground">

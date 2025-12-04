@@ -5,7 +5,7 @@ import Footer from '@/components/footer';
 import ContactForm from '@/components/contact-form';
 import { useLanguage } from '@/lib/language-context';
 import { getTranslation } from '@/lib/translations';
-import { MessageCircle } from 'lucide-react';
+import { FaWhatsapp } from 'react-icons/fa';
 import { WHATSAPP_URL_BASE } from '@/lib/utils';
 
 export default function Contact() {
@@ -30,7 +30,7 @@ export default function Contact() {
               rel="noopener noreferrer"
               className="inline-flex items-center gap-2 bg-green-500 text-white px-8 py-4 rounded-full font-medium hover:bg-green-600 transition-colors text-lg shadow group mb-4"
             >
-              <MessageCircle size={20} />
+              <FaWhatsapp size={20} />
               {getTranslation('contactCtaWhatsapp', language)}
             </a>
           </div>

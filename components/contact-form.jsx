@@ -2,7 +2,8 @@
 
 import { useState } from 'react';
 import { motion } from 'framer-motion';
-import { Send, Mail, Phone, MapPin, MessageCircle } from 'lucide-react';
+import { Mail, MapPin } from 'lucide-react';
+import { FaWhatsapp } from 'react-icons/fa';
 import { toast } from 'sonner';
 import { supabase } from '@/lib/supabase';
 import { event } from '@/lib/analytics';
@@ -136,7 +137,7 @@ export default function ContactForm() {
 
             <div className="flex items-center gap-4">
               <div className="w-12 h-12 bg-primary/10 rounded-full flex items-center justify-center">
-                <MessageCircle className="w-6 h-6 text-primary" />
+                <FaWhatsapp className="w-6 h-6 text-primary" />
               </div>
               <div>
                 <h3 className="font-semibold">WhatsApp</h3>
@@ -216,7 +217,7 @@ export default function ContactForm() {
               className="w-full bg-green-600 hover:bg-green-700 text-white px-8 py-4 rounded-lg font-medium transition-colors disabled:opacity-50 disabled:cursor-not-allowed inline-flex items-center justify-center gap-2"
             >
               {isSubmitting ? getTranslation('processing', language) : getTranslation('sendViaWhatsApp', language)}
-              <MessageCircle size={16} />
+              <FaWhatsapp size={16} />
             </button>
           </form>
         </motion.div>
