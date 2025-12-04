@@ -4,11 +4,37 @@ import ProjectsGrid from '@/components/projects-grid';
 
 export function generateMetadata() {
   return {
-    title: 'Projects',
+    title: 'Our Projects',
     description: 'Discover our portfolio of custom websites, web applications, and PWA apps built without heavy CMS like WordPress. From modern marketing sites to complex business solutions, all with WhatsApp integration.',
+    keywords: [
+      'Azinag portfolio',
+      'web development projects',
+      'PWA examples',
+      'custom website examples',
+      'Next.js projects',
+      'mobile app portfolio',
+    ],
     openGraph: {
-      title: 'Projects - Azinag Team',
+      title: 'Our Projects - Azinag Web Solutions',
       description: 'Explore our portfolio of websites, web apps, and PWAs built by our team — no slow CMS like WordPress. From modern marketing sites to complex business solutions, all with WhatsApp integration.',
+      url: 'https://azinag.site/apps',
+      images: [
+        {
+          url: 'https://azinag.site/og-image.jpg',
+          width: 1200,
+          height: 630,
+          alt: 'Azinag Projects Portfolio',
+        },
+      ],
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title: 'Our Projects - Azinag Web Solutions',
+      description: 'Explore our portfolio of websites, web apps, and PWAs built by our team — no slow CMS like WordPress.',
+      images: ['https://azinag.site/og-image.jpg'],
+    },
+    alternates: {
+      canonical: '/apps',
     },
   };
 }

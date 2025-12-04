@@ -7,6 +7,7 @@ import { supabase } from '../lib/supabase';
 import { useLanguage } from '@/lib/language-context';
 import { getTranslation } from '@/lib/translations';
 import Link from 'next/link';
+import Image from 'next/image';
 
 const PROJECT_TYPES = [
   'food',
@@ -137,10 +138,12 @@ export default function ProjectsGrid() {
               {/* App Thumbnail / Icon */}
               <div className={`relative w-full h-40 flex items-center justify-center overflow-hidden rounded-t-2xl ${CARD_COLORS[index % CARD_COLORS.length]}`}>
                 {project.image ? (
-                  <img
+                  <Image
                     src={project.image}
                     alt={project.title || 'Project thumbnail'}
-                    className="w-full h-full object-cover"
+                    fill
+                    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                    className="object-cover"
                   />
                 ) : (
                   <AppWindow size={56} className="" />
