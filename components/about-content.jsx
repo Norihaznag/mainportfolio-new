@@ -29,125 +29,192 @@ export default function AboutContent() {
   const { language } = useLanguage();
 
   return (
-    <div className="container mx-auto px-4 py-16">
-      {/* Agency Intro */}
-      <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.8 }}
-        className="text-center mb-16"
-      >
-        <h1 className="text-4xl md:text-6xl font-bold mb-6">
-          {getTranslation('aboutUsTitle', language)}
-        </h1>
-        <p className="text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto">
-          {getTranslation('aboutUsIntro', language)}
-        </p>
-      </motion.div>
+    <div className="min-h-screen">
+      {/* Hero Section */}
+      <section className="border-b border-border">
+        <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-24 lg:py-32">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6 }}
+            className="max-w-4xl mx-auto text-center"
+          >
+            <h1 className="text-5xl md:text-6xl lg:text-7xl font-bold mb-6 leading-tight">
+              {getTranslation('aboutUsTitle', language)}
+            </h1>
+            <p className="text-xl md:text-2xl text-muted-foreground leading-relaxed max-w-3xl mx-auto">
+              {getTranslation('aboutUsIntro', language)}
+            </p>
+          </motion.div>
+        </div>
+      </section>
 
       {/* Agency Values */}
-      <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.8, delay: 0.1 }}
-        className="mb-20"
-      >
-        <h2 className="text-2xl md:text-3xl font-bold mb-8 text-center">
-          {getTranslation('agencyValuesTitle', language)}
-        </h2>
-        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
-          {agencyValues.map(({ key }) => (
-            <div key={key} className="bg-muted/40 p-6 rounded-lg text-center">
-              <h3 className="text-xl font-semibold mb-2">{getTranslation(key, language)}</h3>
-              <p className="text-muted-foreground text-sm">{getTranslation(`${key}Desc`, language)}</p>
+      <section className="border-b border-border">
+        <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-24 lg:py-32">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6 }}
+            className="max-w-6xl mx-auto"
+          >
+            <h2 className="text-3xl md:text-4xl font-bold mb-16 text-center">
+              {getTranslation('agencyValuesTitle', language)}
+            </h2>
+            <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8 lg:gap-12">
+              {agencyValues.map(({ key }, index) => (
+                <motion.div
+                  key={key}
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.5, delay: index * 0.1 }}
+                  className="space-y-4"
+                >
+                  <h3 className="text-xl font-semibold">{getTranslation(key, language)}</h3>
+                  <p className="text-muted-foreground leading-relaxed">
+                    {getTranslation(`${key}Desc`, language)}
+                  </p>
+                </motion.div>
+              ))}
             </div>
-          ))}
+          </motion.div>
         </div>
-      </motion.div>
+      </section>
 
       {/* Founder Section */}
-      <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.8, delay: 0.2 }}
-        className="grid lg:grid-cols-2 gap-16 items-center mb-20"
-      >
-        <div className="relative w-full h-80 rounded-xl overflow-hidden">
-          <Image
-            src="/founder.jpg"
-            alt="Founder"
-            fill
-            className="object-cover"
-            priority
-          />
-        </div>
-        <div className="space-y-6">
-          <h2 className="text-2xl font-bold mb-2">{getTranslation('founderTitle', language)}</h2>
-          <p className="text-lg text-muted-foreground leading-relaxed">
-            {getTranslation('founderBio', language)}
-          </p>
-        </div>
-      </motion.div>
-
-      {/* Trust Signals */}
-      <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.8, delay: 0.3 }}
-        className="mb-20 text-center"
-      >
-        <h2 className="text-2xl md:text-3xl font-bold mb-8">
-          {getTranslation('trustSignalsTitle', language)}
-        </h2>
-        <div className="flex flex-wrap justify-center gap-8 mb-8">
-          <div className="bg-muted/40 p-6 rounded-lg min-w-[180px]">
-            <div className="text-3xl font-bold text-primary mb-2">5+</div>
-            <div className="text-muted-foreground">{getTranslation('yearsInBusiness', language)}</div>
-          </div>
-          <div className="bg-muted/40 p-6 rounded-lg min-w-[180px]">
-            <div className="text-3xl font-bold text-primary mb-2">3+</div>
-            <div className="text-muted-foreground">{getTranslation('regionsServed', language)}</div>
-          </div>
-          <div className="bg-muted/40 p-6 rounded-lg min-w-[180px]">
-            <div className="text-3xl font-bold text-primary mb-2">100%</div>
-            <div className="text-muted-foreground">{getTranslation('clientSatisfaction', language)}</div>
-          </div>
-        </div>
-        <div className="italic text-muted-foreground">
-          {getTranslation('testimonialsPlaceholder', language)}
-        </div>
-      </motion.div>
-
-      {/* Technologies */}
-      <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.8, delay: 0.4 }}
-        className="text-center"
-      >
-        <h3 className="text-2xl font-bold mb-4">{getTranslation('technologiesTitle', language)}</h3>
-        <div className="grid grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-8">
-          {technologies.map((tech, index) => (
-            <motion.div
-              key={tech.name}
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: 0.8 + index * 0.1 }}
-              className="flex flex-col items-center group"
-            >
-              <div className="w-16 h-16 mb-4 relative group-hover:scale-110 transition-transform">
+      <section className="border-b border-border">
+        <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-24 lg:py-32">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6 }}
+            className="max-w-6xl mx-auto"
+          >
+            <div className="grid lg:grid-cols-2 gap-16 lg:gap-24 items-center">
+              <div className="relative w-full aspect-[4/5] rounded-2xl overflow-hidden bg-muted">
                 <Image
-                  src={tech.icon}
-                  alt={tech.name}
+                  src="/founder.jpg"
+                  alt="Founder"
                   fill
-                  className="object-contain"
+                  className="object-cover"
+                  priority
                 />
               </div>
-              <span className="text-sm font-medium text-muted-foreground">{tech.name}</span>
-            </motion.div>
-          ))}
+              <div className="space-y-6">
+                <h2 className="text-3xl md:text-4xl font-bold">
+                  {getTranslation('founderTitle', language)}
+                </h2>
+                <p className="text-lg text-muted-foreground leading-relaxed">
+                  {getTranslation('founderBio', language)}
+                </p>
+              </div>
+            </div>
+          </motion.div>
         </div>
-      </motion.div>
+      </section>
+
+      {/* Trust Signals */}
+      <section className="border-b border-border">
+        <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-24 lg:py-32">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6 }}
+            className="max-w-6xl mx-auto"
+          >
+            <h2 className="text-3xl md:text-4xl font-bold mb-16 text-center">
+              {getTranslation('trustSignalsTitle', language)}
+            </h2>
+            <div className="grid md:grid-cols-3 gap-8 mb-12">
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.5, delay: 0.1 }}
+                className="text-center"
+              >
+                <div className="text-5xl md:text-6xl font-bold text-primary mb-4">5+</div>
+                <div className="text-muted-foreground text-lg">
+                  {getTranslation('yearsInBusiness', language)}
+                </div>
+              </motion.div>
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.5, delay: 0.2 }}
+                className="text-center"
+              >
+                <div className="text-5xl md:text-6xl font-bold text-primary mb-4">3+</div>
+                <div className="text-muted-foreground text-lg">
+                  {getTranslation('regionsServed', language)}
+                </div>
+              </motion.div>
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.5, delay: 0.3 }}
+                className="text-center"
+              >
+                <div className="text-5xl md:text-6xl font-bold text-primary mb-4">100%</div>
+                <div className="text-muted-foreground text-lg">
+                  {getTranslation('clientSatisfaction', language)}
+                </div>
+              </motion.div>
+            </div>
+            <p className="text-center text-muted-foreground italic">
+              {getTranslation('testimonialsPlaceholder', language)}
+            </p>
+          </motion.div>
+        </div>
+      </section>
+
+      {/* Technologies */}
+      <section>
+        <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-24 lg:py-32">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6 }}
+            className="max-w-6xl mx-auto"
+          >
+            <h3 className="text-3xl md:text-4xl font-bold mb-16 text-center">
+              {getTranslation('technologiesTitle', language)}
+            </h3>
+            <div className="grid grid-cols-3 md:grid-cols-5 lg:grid-cols-10 gap-8 lg:gap-12">
+              {technologies.map((tech, index) => (
+                <motion.div
+                  key={tech.name}
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.5, delay: index * 0.05 }}
+                  className="flex flex-col items-center group"
+                >
+                  <div className="w-12 h-12 md:w-16 md:h-16 mb-3 relative group-hover:scale-110 transition-transform duration-300">
+                    <Image
+                      src={tech.icon}
+                      alt={tech.name}
+                      fill
+                      className="object-contain opacity-80 group-hover:opacity-100 transition-opacity"
+                    />
+                  </div>
+                  <span className="text-xs md:text-sm font-medium text-muted-foreground text-center">
+                    {tech.name}
+                  </span>
+                </motion.div>
+              ))}
+            </div>
+          </motion.div>
+        </div>
+      </section>
     </div>
   );
 }
