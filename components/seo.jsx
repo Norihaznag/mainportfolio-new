@@ -1,14 +1,5 @@
 import Script from 'next/script';
 
-interface SEOProps {
-  title?: string;
-  description?: string;
-  image?: string;
-  slug?: string;
-  publishedTime?: string;
-  modifiedTime?: string;
-}
-
 export default function SEO({
   title,
   description,
@@ -16,7 +7,7 @@ export default function SEO({
   slug = '',
   publishedTime,
   modifiedTime,
-}: SEOProps) {
+}) {
   const baseUrl = 'https://azinag.site';
   const canonicalUrl = `${baseUrl}${slug}`;
   const fullTitle = title ? `${title} | Azinag` : 'Azinag — Custom mobile apps and fast websites';
