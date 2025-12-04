@@ -11,7 +11,7 @@ export default function Pricing() {
   const tiers = [
     {
       name: "Starter Site",
-      price: "€890",
+      price: "9,000 MAD",
       description: "Fast one‑page Next.js site with WhatsApp contact — perfect for cafés, rentals, and local services.",
       features: [
         "One high‑converting landing page",
@@ -23,7 +23,7 @@ export default function Pricing() {
     },
     {
       name: "Business",
-      price: "€1,900",
+      price: "19,000 MAD",
       description: "Multi‑page website with Supabase backend for products, menus, or properties.",
       features: [
         "Up to 6 custom pages",

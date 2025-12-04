@@ -15,12 +15,12 @@ export default function Pricing() {
         {
           title: "Lightweight PWA Package",
           desc: "Perfect for local businesses who want a fast, installable app with WhatsApp ordering. Fixed-price, quick launch, and easy management.",
-          price: "Starting at $XXX"
+          price: "Starting at XXX MAD"
         },
         {
           title: "Custom Web App Solutions",
           desc: "For growing businesses needing advanced features, integrations, or custom workflows. Project-based or hourly pricing, tailored to your requirements.",
-          price: "Starting at $X,XXX (Contact us for a quote)"
+          price: "Starting at X,XXX MAD (Contact us for a quote)"
         }
       ],
       support: "Ongoing Support Plans: Monthly maintenance, updates, and support available for all clients.",
@@ -44,8 +44,8 @@ export default function Pricing() {
     fr: {
       intro: "[FR placeholder: Introduction à la tarification Azinag]",
       tiers: [
-        { title: "[FR] Forfait PWA Léger", desc: "[FR] Idéal pour les entreprises locales...", price: "À partir de $XXX" },
-        { title: "[FR] Solutions Web Sur Mesure", desc: "[FR] Pour les entreprises en croissance...", price: "À partir de $X,XXX (Contactez-nous)" }
+        { title: "[FR] Forfait PWA Léger", desc: "[FR] Idéal pour les entreprises locales...", price: "À partir de XXX MAD" },
+        { title: "[FR] Solutions Web Sur Mesure", desc: "[FR] Pour les entreprises en croissance...", price: "À partir de X,XXX MAD (Contactez-nous)" }
       ],
       support: "[FR] Plans de support mensuel disponibles.",
       faq: [
@@ -59,8 +59,8 @@ export default function Pricing() {
     ar: {
       intro: "[AR placeholder: مقدمة عن التسعير في أزيناغ]",
       tiers: [
-        { title: "[AR] باقة PWA خفيفة", desc: "[AR] مثالي للأعمال المحلية...", price: "ابتداءً من $XXX" },
-        { title: "[AR] حلول ويب مخصصة", desc: "[AR] للأعمال المتنامية...", price: "ابتداءً من $X,XXX (اتصل بنا)" }
+        { title: "[AR] باقة PWA خفيفة", desc: "[AR] مثالي للأعمال المحلية...", price: "ابتداءً من XXX MAD" },
+        { title: "[AR] حلول ويب مخصصة", desc: "[AR] للأعمال المتنامية...", price: "ابتداءً من X,XXX MAD (اتصل بنا)" }
       ],
       support: "[AR] خطط دعم شهرية متوفرة.",
       faq: [
