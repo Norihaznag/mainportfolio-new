@@ -1,7 +1,7 @@
 "use client";
 import { useState, useEffect, useRef } from 'react';
 import { supabase } from '@/lib/supabase';
-import { LogOut, PlusCircle, List, User } from 'lucide-react';
+import { LogOut, PlusCircle, List, User, Wand2 } from 'lucide-react';
 
 const ADMIN_PASSWORD = process.env.NEXT_PUBLIC_ADMIN_PASSWORD;
 const ADMIN_AUTH_KEY = 'azinag_admin_authed';
@@ -19,6 +19,8 @@ export default function AdminPage() {
   });
   const [loading, setLoading] = useState(false);
   const [fetching, setFetching] = useState(false);
+  const [scraping, setScraping] = useState(false);
+  const [scrapeUrl, setScrapeUrl] = useState('');
   const [message, setMessage] = useState(null);
   const [apps, setApps] = useState([]);
   const [editingId, setEditingId] = useState(null);
@@ -215,6 +217,51 @@ export default function AdminPage() {
     setEditingId(null);
   };
 
+  const handleScrapeUrl = async () => {
+    if (!scrapeUrl.trim()) {
+      setMessage({ type: 'error', text: 'Please enter a URL' });
+      return;
+    }
+
+    setScraping(true);
+    setMessage(null);
+
+    try {
+      const response = await fetch('/api/scrape', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ url: scrapeUrl.trim() }),
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        setMessage({ type: 'error', text: data.error || 'Failed to scrape URL' });
+        setScraping(false);
+        return;
+      }
+
+      // Auto-fill the form with scraped data
+      setForm({
+        title: data.title || form.title,
+        description: data.description || form.description,
+        image: data.image || form.image,
+        link: data.link || form.link,
+        tech_stack: data.tech_stack || form.tech_stack,
+        featured: form.featured,
+      });
+
+      setMessage({ type: 'success', text: 'Website info fetched successfully! Review and edit if needed.' });
+      setScrapeUrl(''); // Clear the URL input
+    } catch (error) {
+      setMessage({ type: 'error', text: `Error: ${error.message}` });
+    } finally {
+      setScraping(false);
+    }
+  };
+
   const filteredApps = apps.filter((app) => {
     const matchesSearch =
       !searchTerm ||
@@ -344,9 +391,48 @@ export default function AdminPage() {
                 <div>
                   <h3 className="text-xl font-semibold text-white">Add New App</h3>
                   <p className="text-sm text-neutral-400 mt-1">
-                    1. Fill basics → 2. Paste links → 3. Toggle featured → 4. Save.
+                    Paste a URL to auto-fill info, or fill manually.
                   </p>
                 </div>
+              </div>
+              
+              {/* URL Scraper Section */}
+              <div className="bg-neutral-900 p-4 rounded-lg border border-neutral-700">
+                <label className="block mb-2 font-medium text-neutral-200 flex items-center gap-2">
+                  <Wand2 size={16} className="text-green-400" />
+                  Quick Fill: Paste Website URL
+                </label>
+                <div className="flex gap-2">
+                  <input
+                    type="url"
+                    value={scrapeUrl}
+                    onChange={(e) => setScrapeUrl(e.target.value)}
+                    onKeyDown={(e) => {
+                      if (e.key === 'Enter') {
+                        e.preventDefault();
+                        handleScrapeUrl();
+                      }
+                    }}
+                    placeholder="https://example.com"
+                    className="flex-1 px-4 py-2 border border-neutral-700 rounded bg-neutral-800 text-white text-sm"
+                    disabled={scraping || loading}
+                  />
+                  <button
+                    type="button"
+                    onClick={handleScrapeUrl}
+                    disabled={scraping || loading || !scrapeUrl.trim()}
+                    className="px-4 py-2 bg-green-600 text-white rounded font-semibold disabled:opacity-60 hover:bg-green-700 transition text-sm whitespace-nowrap"
+                  >
+                    {scraping ? 'Fetching...' : 'Fetch Info'}
+                  </button>
+                </div>
+                <p className="text-xs text-neutral-500 mt-2">
+                  This will auto-fill title, description, image, and tech stack from the website.
+                </p>
+              </div>
+
+              <div className="border-t border-neutral-700 pt-4">
+                <p className="text-xs text-neutral-500 mb-4 text-center">Or fill manually below:</p>
               </div>
               <div className="mb-4">
                 <label className="block mb-1 font-medium text-neutral-200">Title</label>
