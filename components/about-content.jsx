@@ -84,39 +84,6 @@ export default function AboutContent() {
         </div>
       </section>
 
-      {/* Founder Section */}
-      <section className="border-b border-border">
-        <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-24 lg:py-32">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6 }}
-            className="max-w-6xl mx-auto"
-          >
-            <div className="grid lg:grid-cols-2 gap-16 lg:gap-24 items-center">
-              <div className="relative w-full aspect-[4/5] rounded-2xl overflow-hidden bg-muted">
-                <Image
-                  src="/founder.jpg"
-                  alt="Founder"
-                  fill
-                  className="object-cover"
-                  priority
-                />
-              </div>
-              <div className="space-y-6">
-                <h2 className="text-3xl md:text-4xl font-bold">
-                  {getTranslation('founderTitle', language)}
-                </h2>
-                <p className="text-lg text-muted-foreground leading-relaxed">
-                  {getTranslation('founderBio', language)}
-                </p>
-              </div>
-            </div>
-          </motion.div>
-        </div>
-      </section>
-
       {/* Trust Signals */}
       <section className="border-b border-border">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-24 lg:py-32">
