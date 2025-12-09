@@ -30,6 +30,9 @@ export default function Footer() {
               <p className="text-sm text-muted-foreground leading-relaxed max-w-xs">
                 {getTranslation('footerDescription', language)}
               </p>
+              <p className="text-xs text-muted-foreground mt-3">
+                📍 Hay Hassani, Casablanca E45
+              </p>
             </div>
 
             {/* Products Column */}

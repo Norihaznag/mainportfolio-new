@@ -151,7 +151,8 @@ export default function ContactForm() {
               </div>
               <div>
                 <h3 className="font-semibold">{getTranslation('location', language)}</h3>
-                <p className="text-muted-foreground">{getTranslation('morocco', language)}</p>
+                <p className="text-muted-foreground">Hay Hassani, Casablanca E45</p>
+                <p className="text-sm text-muted-foreground">{getTranslation('morocco', language)}</p>
               </div>
             </div>
           </div>
