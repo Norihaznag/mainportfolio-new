@@ -1,123 +1,172 @@
 "use client";
+
 import Header from '@/components/header';
 import Footer from '@/components/footer';
-import { useLanguage } from '@/lib/language-context';
-import { getTranslation } from '@/lib/translations';
-import Link from 'next/link';
+import { FaWhatsapp, FaCheckCircle, FaClock, FaGlobe, FaMobileAlt, FaCode } from 'react-icons/fa';
+import { WHATSAPP_URL_BASE } from '@/lib/utils';
 
 export default function Pricing() {
-  const { language } = useLanguage();
-  // Pricing content in English, with placeholders for FR/AR
-  const content = {
-    en: {
-      intro: "At Azinag, we believe in transparent, value-driven pricing. Whether you need a fast, installable PWA for your local business or a custom web app for your growing company, we offer clear packages and flexible options to fit your needs.",
-      tiers: [
-        {
-          title: "Lightweight PWA Package",
-          desc: "Perfect for local businesses who want a fast, installable app with WhatsApp ordering. Fixed-price, quick launch, and easy management.",
-          price: "Starting at XXX MAD"
-        },
-        {
-          title: "Custom Web App Solutions",
-          desc: "For growing businesses needing advanced features, integrations, or custom workflows. Project-based or hourly pricing, tailored to your requirements.",
-          price: "Starting at X,XXX MAD (Contact us for a quote)"
-        }
+  const whatsappMessage = encodeURIComponent(
+    'مرحبا، بغيت نعرف على الأسعار ديال المواقع و التطبيقات اللي تجيب طلبات واتساب.'
+  );
+
+  const services = [
+    {
+      title: 'مواقع ويب',
+      icon: FaGlobe,
+      timeframe: '7-10 أيام',
+      features: [
+        'موقع ويب احترافي و سريع',
+        'محسن للبحث (SEO)',
+        'أزرار واتساب واضحة',
+        'يعمل على كل الأجهزة',
+        'أداء عالي',
       ],
-      support: "Ongoing Support Plans: Monthly maintenance, updates, and support available for all clients.",
-      faq: [
-        {
-          q: "How are projects scoped and quoted?",
-          a: "We start with a free consultation to understand your needs, then provide a detailed proposal and transparent quote."
-        },
-        {
-          q: "Can I request changes after launch?",
-          a: "Yes! We offer flexible change requests and ongoing support as your business grows."
-        },
-        {
-          q: "What are the payment terms?",
-          a: "Most projects require a deposit to start, with the balance due on delivery. Maintenance plans are billed monthly."
-        }
-      ],
-      cta: "Get in touch for a personalized quote and project estimate.",
-      contact: "Contact Us"
     },
-    fr: {
-      intro: "[FR placeholder: Introduction à la tarification Azinag]",
-      tiers: [
-        { title: "[FR] Forfait PWA Léger", desc: "[FR] Idéal pour les entreprises locales...", price: "À partir de XXX MAD" },
-        { title: "[FR] Solutions Web Sur Mesure", desc: "[FR] Pour les entreprises en croissance...", price: "À partir de X,XXX MAD (Contactez-nous)" }
+    {
+      title: 'تطبيقات موبايل',
+      icon: FaMobileAlt,
+      timeframe: '14-21 يوم',
+      features: [
+        'تطبيق موبايل لـ iOS و Android',
+        'تصميم احترافي',
+        'تكامل مع واتساب',
+        'إشعارات و تحديثات',
+        'أداء عالي',
       ],
-      support: "[FR] Plans de support mensuel disponibles.",
-      faq: [
-        { q: "[FR] Comment sont évalués les projets?", a: "[FR] Consultation gratuite..." },
-        { q: "[FR] Puis-je demander des modifications?", a: "[FR] Oui, support flexible..." },
-        { q: "[FR] Quelles sont les modalités de paiement?", a: "[FR] Acompte requis..." }
-      ],
-      cta: "[FR] Contactez-nous pour un devis personnalisé.",
-      contact: "[FR] Nous Contacter"
     },
-    ar: {
-      intro: "[AR placeholder: مقدمة عن التسعير في أزيناغ]",
-      tiers: [
-        { title: "[AR] باقة PWA خفيفة", desc: "[AR] مثالي للأعمال المحلية...", price: "ابتداءً من XXX MAD" },
-        { title: "[AR] حلول ويب مخصصة", desc: "[AR] للأعمال المتنامية...", price: "ابتداءً من X,XXX MAD (اتصل بنا)" }
+    {
+      title: 'تطبيقات ويب متقدمة',
+      icon: FaCode,
+      timeframe: '21-30 يوم',
+      features: [
+        'تطبيق ويب بميزات متقدمة',
+        'لوحة تحكم للإدارة',
+        'إدارة محتوى و منتجات',
+        'تكامل مع واتساب',
+        'أداء عالي',
       ],
-      support: "[AR] خطط دعم شهرية متوفرة.",
-      faq: [
-        { q: "[AR] كيف يتم تقييم المشاريع؟", a: "[AR] استشارة مجانية..." },
-        { q: "[AR] هل يمكنني طلب تغييرات؟", a: "[AR] نعم، دعم مرن..." },
-        { q: "[AR] ما هي شروط الدفع؟", a: "[AR] دفعة مقدمة مطلوبة..." }
-      ],
-      cta: "[AR] تواصل معنا للحصول على عرض سعر مخصص.",
-      contact: "[AR] اتصل بنا"
-    }
-  };
-  const t = content[language] || content.en;
+    },
+  ];
 
   return (
     <>
       <Header />
       <main className="pt-20">
-        <div className="container mx-auto px-4 py-16 max-w-3xl">
-          <h1 className="text-4xl md:text-6xl font-bold mb-8 text-center">Pricing</h1>
-          <p className="text-lg text-muted-foreground mb-12 text-center">{t.intro}</p>
-
-          <div className="grid md:grid-cols-2 gap-8 mb-12">
-            {t.tiers.map((tier) => (
-              <div key={tier.title} className="bg-muted/40 p-8 rounded-lg shadow-sm flex flex-col items-center text-center">
-                <h2 className="text-2xl font-semibold mb-2">{tier.title}</h2>
-                <p className="mb-4 text-muted-foreground">{tier.desc}</p>
-                <div className="text-3xl font-bold text-primary mb-2">{tier.price}</div>
+        <section className="py-24 bg-background">
+          <div className="container mx-auto px-4">
+            <div className="max-w-6xl mx-auto">
+              <div className="text-center mb-16">
+                <h1 className="text-4xl md:text-6xl font-bold mb-6">
+                  الأسعار <span className="text-red-500">الواضحة</span>
+                </h1>
+                <p className="text-lg md:text-xl text-muted-foreground max-w-3xl mx-auto leading-relaxed">
+                  مواقع ويب، تطبيقات موبايل، و تطبيقات ويب متقدمة. كلها مصممة لجلب طلبات واتساب مباشرة.
+                </p>
               </div>
-            ))}
-          </div>
 
-          <div className="mb-12 text-center">
-            <h3 className="text-xl font-semibold mb-2">Ongoing Support</h3>
-            <p className="text-muted-foreground">{t.support}</p>
-          </div>
+              {/* Services Grid */}
+              <div className="grid md:grid-cols-3 gap-8 mb-12">
+                {services.map((service, index) => (
+                  <div
+                    key={index}
+                    className="bg-background border border-border/50 rounded-xl p-6 hover:border-emerald-500/30 transition-colors"
+                  >
+                    <div className="flex items-center gap-3 mb-4">
+                      <div className="w-12 h-12 rounded-lg bg-emerald-500/10 flex items-center justify-center">
+                        <service.icon className="w-6 h-6 text-emerald-600 dark:text-emerald-400" />
+                      </div>
+                      <div>
+                        <h3 className="text-xl font-bold">{service.title}</h3>
+                        <p className="text-xs text-muted-foreground">{service.timeframe}</p>
+                      </div>
+                    </div>
+                    <ul className="space-y-3">
+                      {service.features.map((feature, idx) => (
+                        <li key={idx} className="flex items-start gap-2">
+                          <FaCheckCircle className="w-4 h-4 text-emerald-600 dark:text-emerald-400 mt-0.5 flex-shrink-0" />
+                          <span className="text-sm text-foreground">{feature}</span>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                ))}
+              </div>
 
-          <div className="mb-12">
-            <h3 className="text-xl font-semibold mb-4 text-center">FAQ</h3>
-            <div className="space-y-6">
-              {t.faq.map((item, i) => (
-                <div key={i} className="bg-background p-6 rounded-lg shadow-sm">
-                  <div className="font-semibold mb-2">{item.q}</div>
-                  <div className="text-muted-foreground">{item.a}</div>
+              {/* Common Features */}
+              <div className="bg-muted/20 border border-border/50 rounded-2xl p-8 mb-12">
+                <h2 className="text-2xl font-bold mb-6 text-center">كل الحلول تتضمن</h2>
+                <div className="grid md:grid-cols-2 gap-4">
+                  <div className="flex items-center gap-3">
+                    <FaCheckCircle className="w-5 h-5 text-emerald-600 dark:text-emerald-400 flex-shrink-0" />
+                    <span className="text-sm">أزرار واتساب واضحة في كل مكان</span>
+                  </div>
+                  <div className="flex items-center gap-3">
+                    <FaCheckCircle className="w-5 h-5 text-emerald-600 dark:text-emerald-400 flex-shrink-0" />
+                    <span className="text-sm">رسائل واتساب جاهزة و مخصصة</span>
+                  </div>
+                  <div className="flex items-center gap-3">
+                    <FaCheckCircle className="w-5 h-5 text-emerald-600 dark:text-emerald-400 flex-shrink-0" />
+                    <span className="text-sm">أداء عالي و سرعة فائقة</span>
+                  </div>
+                  <div className="flex items-center gap-3">
+                    <FaCheckCircle className="w-5 h-5 text-emerald-600 dark:text-emerald-400 flex-shrink-0" />
+                    <span className="text-sm">دعم و مساعدة بعد الإطلاق</span>
+                  </div>
                 </div>
-              ))}
+              </div>
+
+              {/* CTA */}
+              <div className="text-center bg-background border-2 border-emerald-500/30 rounded-2xl p-10">
+                <h2 className="text-2xl md:text-3xl font-bold mb-4">
+                  بغيتي تعرف السعر؟
+                </h2>
+                <p className="text-muted-foreground mb-8 leading-relaxed">
+                  ناقش احتياجاتك معنا على واتساب و احصل على عرض مخصص
+                </p>
+                <a
+                  href={`${WHATSAPP_URL_BASE}?text=${whatsappMessage}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center justify-center gap-3 px-10 py-4 rounded-full font-bold text-lg md:text-xl text-white bg-gradient-to-r from-[#25D366] via-[#20BA5A] to-[#25D366] border border-[#25D366]/70 shadow-lg hover:shadow-xl hover:-translate-y-0.5 active:translate-y-0 transition-all duration-200 ease-out"
+                >
+                  <FaWhatsapp className="w-6 h-6" />
+                  <span>ناقش السعر على واتساب</span>
+                </a>
+                <p className="mt-4 text-sm text-muted-foreground">
+                  💬 ناقش السعر و التفاصيل مباشرة على واتساب
+                </p>
+              </div>
+
+              {/* FAQ */}
+              <div className="mt-12 bg-muted/20 border border-border/50 rounded-2xl p-8">
+                <h2 className="text-2xl font-bold mb-6 text-center">أسئلة شائعة</h2>
+                <div className="space-y-6">
+                  <div>
+                    <h3 className="font-semibold mb-2">كيفاش كيتم تحديد السعر؟</h3>
+                    <p className="text-muted-foreground text-sm leading-relaxed">
+                      نبداو بمناقشة مجانية على واتساب. نفهم احتياجاتك و نعطيك سعر واضح و شفاف حسب نوع المشروع.
+                    </p>
+                  </div>
+                  <div>
+                    <h3 className="font-semibold mb-2">واش ممكن نطلب تغييرات بعد الإطلاق؟</h3>
+                    <p className="text-muted-foreground text-sm leading-relaxed">
+                      نعم! نقدم دعم مرن و مساعدة بعد الإطلاق. إذا بغيتي تضيف أو تغير شي حاجة، نتا هنا.
+                    </p>
+                  </div>
+                  <div>
+                    <h3 className="font-semibold mb-2">كيفاش كيتم الدفع؟</h3>
+                    <p className="text-muted-foreground text-sm leading-relaxed">
+                      في العادة، نطلب دفعة مقدمة للبداية، و الباقي عند التسليم. بسيط و واضح.
+                    </p>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
-
-          <div className="text-center mt-12">
-            <p className="mb-4 text-lg font-medium">{t.cta}</p>
-            <Link href="/contact" className="inline-block bg-primary text-primary-foreground px-8 py-4 rounded-full font-medium hover:bg-primary/90 transition-colors">
-              {t.contact}
-            </Link>
-          </div>
-        </div>
+        </section>
       </main>
       <Footer />
     </>
   );
-} 
+}

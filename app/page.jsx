@@ -1,42 +1,47 @@
-import Hero from '@/components/hero';
-import Services from '@/components/services';
-import Industries from '@/components/industries';
-import ContactCTA from '@/components/contact-cta';
-import Footer from '@/components/footer';
+import { Suspense } from 'react';
+import dynamic from 'next/dynamic';
 import Header from '@/components/header';
-import SsgSsrBenefits from '@/components/ssg-ssr-benefits';
-import Pricing from '@/components/pricing';
+import Footer from '@/components/footer';
+
+// Lazy load components for better performance
+const CasablancaHero = dynamic(() => import('@/components/casablanca-hero'), { ssr: true });
+const CasablancaProblem = dynamic(() => import('@/components/casablanca-problem'), { ssr: true });
+const CasablancaSolution = dynamic(() => import('@/components/casablanca-solution'), { ssr: true });
+const CasablancaOffer = dynamic(() => import('@/components/casablanca-offer'), { ssr: true });
+const CasablancaSocialProof = dynamic(() => import('@/components/casablanca-social-proof'), { ssr: true });
+const CasablancaFinalCTA = dynamic(() => import('@/components/casablanca-final-cta'), { ssr: true });
 
 export function generateMetadata() {
   return {
-    title: 'Azinag — Custom mobile apps and fast websites (no WordPress)',
-    description: 'Azinag builds custom mobile apps, ultra-fast websites, and Progressive Web Apps (PWAs) for desktop and mobile, with WhatsApp ordering for faster sales. No slow, expensive CMS like WordPress — launch your app or site fast with clean, modern tech.',
+    title: 'مواقع ويب و تطبيقات موبايل تجلب طلبات واتساب | كازابلانكا',
+    description: 'ننشئ مواقع ويب سريعة، تطبيقات موبايل، و تطبيقات ويب متقدمة. كلها مصممة لجلب طلبات واتساب مباشرة. مثالي للمطاعم، الصالونات، والمحلات في كازابلانكا.',
     keywords: [
-      'custom mobile apps',
-      'fast websites',
-      'PWA development',
-      'WhatsApp integration',
-      'Next.js development',
-      'React Native apps',
-      'web agency Morocco',
+      'موقع ويب كازابلانكا',
+      'تطبيق موبايل',
+      'تطبيق ويب',
+      'طلبات واتساب',
+      'موقع مطعم',
+      'موقع صالون',
+      'موقع محلات',
+      'تطوير تطبيقات',
     ],
     openGraph: {
-      title: 'Azinag — Custom mobile apps and fast websites (no WordPress)',
-      description: 'Azinag builds installable PWAs, mobile apps, and ultra-fast websites without heavy CMS like WordPress. Fast, native-like, and ready for business with WhatsApp checkout.',
+      title: 'مواقع ويب و تطبيقات موبايل تجلب طلبات واتساب',
+      description: 'مواقع ويب، تطبيقات موبايل، و تطبيقات ويب متقدمة. كلها مصممة لجلب طلبات واتساب مباشرة.',
       url: 'https://azinag.site',
       images: [
         {
           url: 'https://azinag.site/og-image.jpg',
           width: 1200,
           height: 630,
-          alt: 'Azinag Web Solutions',
+          alt: 'مواقع ويب و تطبيقات تجلب طلبات واتساب',
         },
       ],
     },
     twitter: {
       card: 'summary_large_image',
-      title: 'Azinag — Custom mobile apps and fast websites (no WordPress)',
-      description: 'Azinag builds installable PWAs, mobile apps, and ultra-fast websites without heavy CMS like WordPress. Fast, native-like, and ready for business with WhatsApp checkout.',
+      title: 'مواقع ويب و تطبيقات موبايل تجلب طلبات واتساب',
+      description: 'مواقع ويب، تطبيقات موبايل، و تطبيقات ويب متقدمة. كلها مصممة لجلب طلبات واتساب مباشرة.',
       images: ['https://azinag.site/og-image.jpg'],
     },
     alternates: {
@@ -49,12 +54,14 @@ export default function Home() {
   return (
     <>
       <Header />
-      <Hero />
-      <Services />
-      <SsgSsrBenefits />
-      <Pricing />
-      <Industries />
-      <ContactCTA />
+      <Suspense fallback={<div className="min-h-screen" />}>
+        <CasablancaHero />
+        <CasablancaProblem />
+        <CasablancaSolution />
+        <CasablancaOffer />
+        <CasablancaSocialProof />
+        <CasablancaFinalCTA />
+      </Suspense>
       <Footer />
     </>
   );

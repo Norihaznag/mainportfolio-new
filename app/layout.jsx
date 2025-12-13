@@ -1,5 +1,5 @@
 import './globals.css';
-import { Inter } from 'next/font/google';
+import { Inter, Cairo } from 'next/font/google';
 import { ThemeProvider } from '@/components/theme-provider';
 import { Toaster } from '@/components/ui/sonner';
 import GoogleAnalytics from '@/components/google-analytics';
@@ -16,6 +16,17 @@ const inter = Inter({
   variable: '--font-inter',
   fallback: ['system-ui', 'arial'],
   adjustFontFallback: true,
+});
+
+const cairo = Cairo({
+  subsets: ['arabic', 'latin'],
+  display: 'swap',
+  preload: true,
+  variable: '--font-cairo',
+  weight: ['400', '500', '600', '700'],
+  fallback: ['Arial', 'sans-serif'],
+  adjustFontFallback: true,
+  // Performance: only load what we need
 });
 
 export const metadata = {
@@ -110,14 +121,14 @@ export const metadata = {
 
 export default function RootLayout({ children }) {
   return (
-    <html lang="en" suppressHydrationWarning>
+    <html lang="ar" dir="rtl" suppressHydrationWarning>
       <head>
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
         <link rel="dns-prefetch" href="https://fonts.googleapis.com" />
         <link rel="dns-prefetch" href="https://fonts.gstatic.com" />
       </head>
-      <body className={inter.className} suppressHydrationWarning>
+      <body className={`${inter.variable} ${cairo.variable}`} suppressHydrationWarning>
         <BaseSEO />
         <LanguageProvider>
           <ThemeProvider attribute="class" defaultTheme="light" enableSystem disableTransitionOnChange>

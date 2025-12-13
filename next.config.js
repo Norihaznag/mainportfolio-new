@@ -4,7 +4,7 @@ const nextConfig = {
     ignoreDuringBuilds: true,
   },
   images: { 
-    unoptimized: true, // Keep as is if you have specific requirements
+    unoptimized: false, // Enable optimization for Lighthouse
     remotePatterns: [
       {
         protocol: 'https',
@@ -14,6 +14,7 @@ const nextConfig = {
     formats: ['image/avif', 'image/webp'],
     deviceSizes: [640, 750, 828, 1080, 1200, 1920, 2048, 3840],
     imageSizes: [16, 32, 48, 64, 96, 128, 256, 384],
+    minimumCacheTTL: 60,
   },
   trailingSlash: true,
   compress: true,
@@ -23,6 +24,29 @@ const nextConfig = {
   // Performance optimizations
   experimental: {
     optimizeCss: true,
+    optimizePackageImports: ['lucide-react', 'react-icons'],
+  },
+  // Performance headers
+  async headers() {
+    return [
+      {
+        source: '/:path*',
+        headers: [
+          {
+            key: 'X-DNS-Prefetch-Control',
+            value: 'on'
+          },
+          {
+            key: 'X-Frame-Options',
+            value: 'SAMEORIGIN'
+          },
+          {
+            key: 'X-Content-Type-Options',
+            value: 'nosniff'
+          },
+        ],
+      },
+    ];
   },
   // Target modern browsers only - removes legacy polyfills
   compiler: {
@@ -32,18 +56,8 @@ const nextConfig = {
   },
   // Modern browser support - removes unnecessary polyfills
   transpilePackages: [],
-  // Optimize bundle size
-  webpack: (config, { isServer }) => {
-    if (!isServer) {
-      // Tree shake unused exports
-      config.optimization = {
-        ...config.optimization,
-        usedExports: true,
-        sideEffects: false,
-      };
-    }
-    return config;
-  },
+  // Optimize bundle size - Next.js handles tree-shaking automatically
+  // Removed custom webpack optimization to avoid conflicts with Next.js internal optimizations
 };
 
 module.exports = nextConfig;

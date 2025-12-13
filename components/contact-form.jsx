@@ -1,18 +1,14 @@
 "use client";
 
 import { useState } from 'react';
-import { motion } from 'framer-motion';
 import { Mail, MapPin } from 'lucide-react';
 import { FaWhatsapp } from 'react-icons/fa';
 import { toast } from 'sonner';
 import { supabase } from '@/lib/supabase';
 import { event } from '@/lib/analytics';
-import { useLanguage } from '@/lib/language-context';
-import { getTranslation } from '@/lib/translations';
 import { WHATSAPP_NUMBER } from '@/lib/utils';
 
 export default function ContactForm() {
-  const { language } = useLanguage();
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -20,15 +16,10 @@ export default function ContactForm() {
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
 
-  // Format WhatsApp message
+  // Format WhatsApp message in Arabic
   const formatWhatsAppMessage = (data) => {
-    const greetings = {
-      en: `Hi Noureddine! 👋\n\nMy name is ${data.name} and I'd like to discuss a project with you.\n\n📧 Email: ${data.email}\n\n💬 Message:\n${data.message}\n\nLooking forward to hearing from you!`,
-      fr: `Salut Noureddine! 👋\n\nJe m'appelle ${data.name} et j'aimerais discuter d'un projet avec vous.\n\n📧 Email: ${data.email}\n\n💬 Message:\n${data.message}\n\nJ'ai hâte d'avoir de vos nouvelles!`,
-      ar: `مرحباً نور الدين! 👋\n\nاسمي ${data.name} وأود مناقشة مشروع معك.\n\n📧 البريد الإلكتروني: ${data.email}\n\n💬 الرسالة:\n${data.message}\n\nأتطلع إلى سماع ردك!`
-    };
-
-    return encodeURIComponent(greetings[language] || greetings.en);
+    const message = `مرحباً نور الدين! 👋\n\nاسمي ${data.name} وأود مناقشة مشروع معك.\n\n📧 البريد الإلكتروني: ${data.email}\n\n💬 الرسالة:\n${data.message}\n\nأتطلع إلى سماع ردك!`;
+    return encodeURIComponent(message);
   };
 
   // Send to WhatsApp
@@ -78,19 +69,13 @@ export default function ContactForm() {
       event({
         action: 'form_submit',
         category: 'Contact',
-        label: `Contact Form Submitted - ${language}`
+        label: 'Contact Form Submitted - Arabic'
       });
 
       // Send to WhatsApp
       sendToWhatsApp(formData);
       
-      const successMessages = {
-        en: 'Message saved and WhatsApp opened! Please send the message to complete your inquiry.',
-        fr: 'Message sauvegardé et WhatsApp ouvert! Veuillez envoyer le message pour compléter votre demande.',
-        ar: 'تم حفظ الرسالة وفتح واتساب! يرجى إرسال الرسالة لإكمال استفسارك.'
-      };
-      
-      toast.success(successMessages[language] || successMessages.en);
+      toast.success('تم حفظ الرسالة وفتح واتساب! يرجى إرسال الرسالة لإكمال استفسارك.');
       setFormData({ name: '', email: '', message: '' });
     } catch (error) {
       console.error('Error saving contact:', error);
@@ -98,13 +83,7 @@ export default function ContactForm() {
       // Still send to WhatsApp even if Supabase fails
       sendToWhatsApp(formData);
       
-      const fallbackMessages = {
-        en: 'WhatsApp opened! Please send the message. (Note: Message not saved to database)',
-        fr: 'WhatsApp ouvert! Veuillez envoyer le message. (Note: Message non sauvegardé en base de données)',
-        ar: 'تم فتح واتساب! يرجى إرسال الرسالة. (ملاحظة: لم يتم حفظ الرسالة في قاعدة البيانات)'
-      };
-      
-      toast.success(fallbackMessages[language] || fallbackMessages.en);
+      toast.success('تم فتح واتساب! يرجى إرسال الرسالة. (ملاحظة: لم يتم حفظ الرسالة في قاعدة البيانات)');
       setFormData({ name: '', email: '', message: '' });
     } finally {
       setIsSubmitting(false);
@@ -112,16 +91,12 @@ export default function ContactForm() {
   };
 
   return (
-    <div className="max-w-6xl mx-auto">
+    <div className="max-w-6xl mx-auto" dir="rtl">
       <div className="grid lg:grid-cols-2 gap-16">
-        <motion.div
-          initial={{ opacity: 0, x: -20 }}
-          animate={{ opacity: 1, x: 0 }}
-          transition={{ duration: 0.8 }}
-        >
-          <h2 className="text-3xl font-bold mb-8">{getTranslation('getInTouch', language)}</h2>
+        <div>
+          <h2 className="text-3xl font-bold mb-8">تواصل معنا</h2>
           <p className="text-lg text-muted-foreground mb-8 leading-relaxed">
-            {getTranslation('getInTouchDesc', language)}
+            جاهزين نناقش مشروعك. نجاوب بسرعة و نقدم دعم شخصي.
           </p>
 
           <div className="space-y-6">
@@ -130,7 +105,7 @@ export default function ContactForm() {
                 <Mail className="w-6 h-6 text-primary" />
               </div>
               <div>
-                <h3 className="font-semibold">{getTranslation('email', language)}</h3>
+                <h3 className="font-semibold">البريد الإلكتروني</h3>
                 <p className="text-muted-foreground">contact@azinag.site</p>
               </div>
             </div>
@@ -140,7 +115,7 @@ export default function ContactForm() {
                 <FaWhatsapp className="w-6 h-6 text-primary" />
               </div>
               <div>
-                <h3 className="font-semibold">WhatsApp</h3>
+                <h3 className="font-semibold">واتساب</h3>
                 <p className="text-muted-foreground">+{WHATSAPP_NUMBER}</p>
               </div>
             </div>
@@ -150,23 +125,19 @@ export default function ContactForm() {
                 <MapPin className="w-6 h-6 text-primary" />
               </div>
               <div>
-                <h3 className="font-semibold">{getTranslation('location', language)}</h3>
-                <p className="text-muted-foreground">Hay Hassani, Casablanca E45</p>
-                <p className="text-sm text-muted-foreground">{getTranslation('morocco', language)}</p>
+                <h3 className="font-semibold">الموقع</h3>
+                <p className="text-muted-foreground">حي الحسني، الدار البيضاء E45</p>
+                <p className="text-sm text-muted-foreground">المغرب 🇲🇦</p>
               </div>
             </div>
           </div>
-        </motion.div>
+        </div>
 
-        <motion.div
-          initial={{ opacity: 0, x: 20 }}
-          animate={{ opacity: 1, x: 0 }}
-          transition={{ duration: 0.8, delay: 0.2 }}
-        >
+        <div>
           <form onSubmit={handleSubmit} className="space-y-6">
             <div>
               <label htmlFor="name" className="block text-sm font-medium mb-2">
-                {getTranslation('nameRequired', language)}
+                الاسم *
               </label>
               <input
                 type="text"
@@ -176,13 +147,13 @@ export default function ContactForm() {
                 onChange={handleChange}
                 required
                 className="w-full px-4 py-3 border border-input rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
-                placeholder={getTranslation('namePlaceholder', language)}
+                placeholder="اسمك"
               />
             </div>
 
             <div>
               <label htmlFor="email" className="block text-sm font-medium mb-2">
-                {getTranslation('emailRequired', language)}
+                البريد الإلكتروني *
               </label>
               <input
                 type="email"
@@ -192,13 +163,13 @@ export default function ContactForm() {
                 onChange={handleChange}
                 required
                 className="w-full px-4 py-3 border border-input rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
-                placeholder={getTranslation('emailPlaceholder', language)}
+                placeholder="your@email.com"
               />
             </div>
 
             <div>
               <label htmlFor="message" className="block text-sm font-medium mb-2">
-                {getTranslation('messageRequired', language)}
+                الرسالة *
               </label>
               <textarea
                 id="message"
@@ -208,7 +179,7 @@ export default function ContactForm() {
                 required
                 rows={6}
                 className="w-full px-4 py-3 border border-input rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent resize-none"
-                placeholder={getTranslation('messagePlaceholder', language)}
+                placeholder="أخبرنا عن احتياجاتك..."
               />
             </div>
 
@@ -217,7 +188,7 @@ export default function ContactForm() {
               disabled={isSubmitting}
               className="w-full bg-green-600 hover:bg-green-700 text-white px-8 py-4 rounded-lg font-medium transition-colors disabled:opacity-50 disabled:cursor-not-allowed inline-flex items-center justify-center gap-2"
             >
-              {isSubmitting ? getTranslation('processing', language) : getTranslation('sendViaWhatsApp', language)}
+              {isSubmitting ? 'جاري المعالجة...' : 'إرسال عبر واتساب'}
               <FaWhatsapp size={16} />
             </button>
           </form>

@@ -1,38 +1,18 @@
 import Header from '@/components/header';
 import Footer from '@/components/footer';
 import ProjectsGrid from '@/components/projects-grid';
+import AppsClient from './apps-client';
 
 export function generateMetadata() {
   return {
-    title: 'Our Projects',
-    description: 'Discover our portfolio of custom websites, web applications, and PWA apps built without heavy CMS like WordPress. From modern marketing sites to complex business solutions, all with WhatsApp integration.',
+    title: 'أمثلة على مشاريعنا - مواقع ويب و تطبيقات موبايل',
+    description: 'شوف أمثلة على مواقع ويب، تطبيقات موبايل، و تطبيقات ويب أنشأناها لأصحاب محلات في كازابلانكا. كلها مصممة لجلب طلبات واتساب مباشرة.',
     keywords: [
-      'Azinag portfolio',
-      'web development projects',
-      'PWA examples',
-      'custom website examples',
-      'Next.js projects',
-      'mobile app portfolio',
+      'أمثلة مواقع',
+      'أمثلة تطبيقات',
+      'مواقع كازابلانكا',
+      'طلبات واتساب',
     ],
-    openGraph: {
-      title: 'Our Projects - Azinag Web Solutions',
-      description: 'Explore our portfolio of websites, web apps, and PWAs built by our team — no slow CMS like WordPress. From modern marketing sites to complex business solutions, all with WhatsApp integration.',
-      url: 'https://azinag.site/apps',
-      images: [
-        {
-          url: 'https://azinag.site/og-image.jpg',
-          width: 1200,
-          height: 630,
-          alt: 'Azinag Projects Portfolio',
-        },
-      ],
-    },
-    twitter: {
-      card: 'summary_large_image',
-      title: 'Our Projects - Azinag Web Solutions',
-      description: 'Explore our portfolio of websites, web apps, and PWAs built by our team — no slow CMS like WordPress.',
-      images: ['https://azinag.site/og-image.jpg'],
-    },
     alternates: {
       canonical: '/apps',
     },
@@ -44,31 +24,24 @@ export default function Apps() {
     <>
       <Header />
       <main className="pt-20">
-        <div className="container mx-auto px-4 py-16">
-          <div className="text-center mb-16">
-            <h1 className="text-4xl md:text-6xl font-bold mb-6">
-              <AppsTitle />
-            </h1>
-            <p className="text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto">
-              <AppsDescription />
-            </p>
+        <section className="py-24 bg-background">
+          <div className="container mx-auto px-4">
+            <div className="text-center mb-16">
+              <h1 className="text-4xl md:text-6xl font-bold mb-6">
+                أمثلة على <span className="text-red-500">مشاريعنا</span>
+              </h1>
+              <p className="text-lg md:text-xl text-muted-foreground max-w-3xl mx-auto mb-8 leading-relaxed">
+                شوف أمثلة على مواقع ويب، تطبيقات موبايل، و تطبيقات ويب أنشأناها لأصحاب محلات في كازابلانكا
+              </p>
+            </div>
+
+            <ProjectsGrid />
+
+            <AppsClient />
           </div>
-          <ProjectsGrid />
-        </div>
+        </section>
       </main>
       <Footer />
     </>
   );
-}
-
-function AppsTitle() {
-  return (
-    <>
-      Our <span className="text-primary">Projects</span>
-    </>
-  );
-}
-
-function AppsDescription() {
-  return "A collection of custom websites, web applications, and PWA apps we build for clients — from marketing sites to complex business platforms.";
 }
