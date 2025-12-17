@@ -9,35 +9,39 @@ import ContactCTA from '@/components/contact-cta';
 
 export function generateMetadata() {
   return {
-    title: 'مواقع ويب و تطبيقات موبايل تجلب طلبات واتساب | كازابلانكا',
-    description: 'ننشئ مواقع ويب سريعة، تطبيقات موبايل، و تطبيقات ويب متقدمة. كلها مصممة لجلب طلبات واتساب مباشرة. مثالي للمطاعم، الصالونات، والمحلات في كازابلانكا.',
+    title: 'Azinag — Custom mobile apps and ultra-fast websites with WhatsApp integration',
+    description:
+      'Azinag Web Solutions builds custom mobile apps, PWAs, and ultra-fast websites powered by Next.js and Supabase, with WhatsApp-first customer flows for faster sales.',
     keywords: [
-      'موقع ويب كازابلانكا',
-      'تطبيق موبايل',
-      'تطبيق ويب',
-      'طلبات واتساب',
-      'موقع مطعم',
-      'موقع صالون',
-      'موقع محلات',
-      'تطوير تطبيقات',
+      'Azinag',
+      'Azinag Web Solutions',
+      'mobile app development',
+      'PWA development',
+      'Next.js agency',
+      'Supabase apps',
+      'WhatsApp integration',
+      'fast websites',
+      'web development agency',
     ],
     openGraph: {
-      title: 'مواقع ويب و تطبيقات موبايل تجلب طلبات واتساب',
-      description: 'مواقع ويب، تطبيقات موبايل، و تطبيقات ويب متقدمة. كلها مصممة لجلب طلبات واتساب مباشرة.',
+      title: 'Azinag — Custom mobile apps and ultra-fast websites (no WordPress)',
+      description:
+        'Azinag builds installable PWAs, mobile apps, and ultra-fast websites with WhatsApp built in – no slow, bloated CMS.',
       url: 'https://azinag.site',
       images: [
         {
           url: 'https://azinag.site/og-image.jpg',
           width: 1200,
           height: 630,
-          alt: 'مواقع ويب و تطبيقات تجلب طلبات واتساب',
+          alt: 'Azinag Web Solutions – Next.js and Supabase agency',
         },
       ],
     },
     twitter: {
       card: 'summary_large_image',
-      title: 'مواقع ويب و تطبيقات موبايل تجلب طلبات واتساب',
-      description: 'مواقع ويب، تطبيقات موبايل، و تطبيقات ويب متقدمة. كلها مصممة لجلب طلبات واتساب مباشرة.',
+      title: 'Azinag — Custom mobile apps and ultra-fast websites',
+      description:
+        'Azinag builds modern PWAs, mobile apps, and ultra-fast websites with WhatsApp-first conversion flows.',
       images: ['https://azinag.site/og-image.jpg'],
     },
     alternates: {
