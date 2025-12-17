@@ -1,15 +1,11 @@
-import { Suspense } from 'react';
-import dynamic from 'next/dynamic';
 import Header from '@/components/header';
 import Footer from '@/components/footer';
-
-// Lazy load components for better performance
-const CasablancaHero = dynamic(() => import('@/components/casablanca-hero'), { ssr: true });
-const CasablancaProblem = dynamic(() => import('@/components/casablanca-problem'), { ssr: true });
-const CasablancaSolution = dynamic(() => import('@/components/casablanca-solution'), { ssr: true });
-const CasablancaOffer = dynamic(() => import('@/components/casablanca-offer'), { ssr: true });
-const CasablancaSocialProof = dynamic(() => import('@/components/casablanca-social-proof'), { ssr: true });
-const CasablancaFinalCTA = dynamic(() => import('@/components/casablanca-final-cta'), { ssr: true });
+import Hero from '@/components/hero';
+import FeaturedProjects from '@/components/featured-projects';
+import Services from '@/components/services';
+import Industries from '@/components/industries';
+import SsgSsrBenefits from '@/components/ssg-ssr-benefits';
+import ContactCTA from '@/components/contact-cta';
 
 export function generateMetadata() {
   return {
@@ -54,14 +50,14 @@ export default function Home() {
   return (
     <>
       <Header />
-      <Suspense fallback={<div className="min-h-screen" />}>
-        <CasablancaHero />
-        <CasablancaProblem />
-        <CasablancaSolution />
-        <CasablancaOffer />
-        <CasablancaSocialProof />
-        <CasablancaFinalCTA />
-      </Suspense>
+      <main className="pt-20">
+        <Hero />
+        <FeaturedProjects />
+        <Services />
+        <Industries />
+        <SsgSsrBenefits />
+        <ContactCTA />
+      </main>
       <Footer />
     </>
   );

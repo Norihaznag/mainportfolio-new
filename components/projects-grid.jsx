@@ -99,7 +99,7 @@ export default function ProjectsGrid() {
   return (
     <div>
       {/* Filter Tabs */}
-      <div className="flex flex-wrap justify-center gap-4 mb-12">
+      <div className="flex flex-wrap justify-center gap-4 mb-10 md:mb-12">
         <button
           className={`px-6 py-2 rounded-full font-medium border transition-colors ${activeType === 'all' ? 'bg-primary text-primary-foreground border-primary' : 'bg-background text-primary border-primary/30 hover:bg-primary/10'}`}
           onClick={() => setActiveType('all')}
@@ -125,7 +125,7 @@ export default function ProjectsGrid() {
           {getTranslation('noProjects', language)}
         </div>
       ) : (
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
           {filteredProjects.map((project, index) => (
             <motion.div
               key={project.id}
@@ -133,20 +133,26 @@ export default function ProjectsGrid() {
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: index * 0.08 }}
               viewport={{ once: true }}
-              className="bg-card border border-border rounded-2xl shadow-sm flex flex-col overflow-hidden transition-transform duration-200 hover:scale-[1.02]"
+              className="group bg-card/95 border border-border/70 rounded-2xl shadow-sm flex flex-col overflow-hidden transition-transform duration-200 hover:-translate-y-1 hover:shadow-lg"
             >
-              {/* App Thumbnail / Icon */}
-              <div className={`relative w-full h-40 flex items-center justify-center overflow-hidden rounded-t-2xl ${CARD_COLORS[index % CARD_COLORS.length]}`}>
+              {/* App Thumbnail / Icon with overlay */}
+              <div
+                className={`relative w-full h-40 flex items-center justify-center overflow-hidden rounded-t-2xl ${CARD_COLORS[index % CARD_COLORS.length]}`}
+              >
                 {project.image ? (
                   <Image
                     src={project.image}
                     alt={project.title || 'Project thumbnail'}
                     fill
                     sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                    className="object-cover"
+                    className="object-cover transition-transform duration-300 group-hover:scale-105"
                   />
                 ) : (
-                  <AppWindow size={56} className="" />
+                  <AppWindow size={56} className="opacity-80" />
+                )}
+
+                {(project.liveUrl || project.githubUrl) && (
+                  <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
                 )}
               </div>
 
@@ -246,18 +252,19 @@ export default function ProjectsGrid() {
                 })()}
 
                 {/* CTA */}
-                <div className="mt-auto">
-                  {(project.liveUrl || project.githubUrl) && (
+                {(project.liveUrl || project.githubUrl) && (
+                  <div className="mt-auto flex items-center justify-between pt-2">
                     <a
                       href={project.liveUrl || project.githubUrl}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="inline-flex items-center gap-2 text-primary font-medium text-base hover:gap-3 transition-all duration-200 underline underline-offset-4"
+                      className="inline-flex items-center gap-2 text-primary font-medium text-sm hover:gap-3 transition-all duration-200"
                     >
-                      Learn more <ArrowRight size={18} />
+                      {getTranslation('viewAllProjects', language)}
+                      <ArrowRight size={16} />
                     </a>
-                  )}
-                </div>
+                  </div>
+                )}
               </div>
             </motion.div>
           ))}
