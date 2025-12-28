@@ -52,7 +52,7 @@ export default async function Showcase({ params }: ShowcaseProps) {
     },
   };
 
-  const t = content[lang];
+  const t = content[lang as keyof typeof content] || content.ar;
 
   const projects = [
     { id: 1, title: 'Restaurant Website', image: '🍽️', category: 'Restaurant' },

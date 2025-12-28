@@ -55,7 +55,7 @@ export default async function HowItWorks({ params }: HowItWorksProps) {
     },
   };
 
-  const t = content[lang];
+  const t = content[lang as keyof typeof content] || content.ar;
 
   const steps = [
     { step: 1, title: t.step1, description: t.step1Desc },

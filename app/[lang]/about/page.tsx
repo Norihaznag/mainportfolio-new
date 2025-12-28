@@ -64,7 +64,7 @@ export default async function About({ params }: AboutProps) {
     },
   };
 
-  const t = content[lang];
+  const t = content[lang as keyof typeof content] || content.ar;
 
   return (
     <div>

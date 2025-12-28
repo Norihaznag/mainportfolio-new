@@ -9,7 +9,7 @@ interface HomeProps {
 
 export default async function Home({ params }: HomeProps) {
   const { lang } = await params;
-
+  
   const content = {
     en: {
       heroTitle: 'Professional Website For Your Business',
@@ -73,7 +73,7 @@ export default async function Home({ params }: HomeProps) {
     },
   };
 
-  const t = content[lang];
+  const t = content[lang as keyof typeof content] || content.ar;
 
   return (
     <div>

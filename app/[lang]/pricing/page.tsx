@@ -46,7 +46,7 @@ export default async function Pricing({ params }: PricingProps) {
     },
   };
 
-  const t = content[lang];
+  const t = content[lang as keyof typeof content] || content.ar;
 
   const packages = [
     {

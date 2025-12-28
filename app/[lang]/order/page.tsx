@@ -48,7 +48,7 @@ export default async function Order({ params }: OrderProps) {
     },
   };
 
-  const t = content[lang];
+  const t = content[lang as keyof typeof content] || content.ar;
 
   return (
     <div>
