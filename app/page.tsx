@@ -11,10 +11,10 @@ export default function Home() {
             <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-gray-900 mb-6 leading-tight">
               موقع ويب احترافي لعملك
               <br />
-              <span className="text-blue-600">بأسعار معقولة</span>
+              <span className="text-blue-600">بثمن معقول</span>
             </h1>
             <p className="text-xl text-gray-600 mb-8 leading-relaxed">
-              نحن نبني مواقع ويب وتطبيقات سريعة وفعالة للشركات المغربية. من المطاعم إلى المدارس، لدينا الحل المناسب لك.
+              رانا نبنيو لك مواقع ويب وتطبيقات سريعة وفعالة للشركات المغربية. من المطاعم لالمدارس، عندنا الحل اللي يناسبك.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Button href="/order" size="lg">

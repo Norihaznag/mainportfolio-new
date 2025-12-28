@@ -2,7 +2,7 @@ import { Card } from '@/components/Card';
 import { Button } from '@/components/Button';
 
 export const metadata = {
-  title: 'عننا - Azinag',
+  title: 'علينا - Azinag',
   description: 'تعرف على فريق Azinag ومهمتنا في دعم الشركات المغربية',
 };
 

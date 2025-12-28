@@ -44,10 +44,10 @@ export default function HowItWorks() {
       <section className="py-20 sm:py-32 border-b border-gray-200">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <h1 className="text-4xl sm:text-5xl font-bold text-gray-900 mb-6">
-            عملية بسيطة وموثوقة
+            عملية بسيطة وموثوق
           </h1>
           <p className="text-xl text-gray-600 max-w-2xl mx-auto">
-            نتبع نهجاً واضحاً ومنظماً لضمان الحصول على أفضل نتيجة
+            رانا ندازو شي واضح ومنظم باش نتر ليك أحسن نتيجة
           </p>
         </div>
       </section>
