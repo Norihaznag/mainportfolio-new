@@ -51,7 +51,7 @@ export default async function Pricing({ params }: PricingProps) {
   const packages = [
     {
       name: t.companyWebsite,
-      price: 4999,
+      price: 1999,
       deliveryDays: 14,
       features: [
         lang === 'ar' ? 'موقع احترافي مع تصميم حديث' : lang === 'fr' ? 'Site professionnel avec design moderne' : 'Professional website with modern design',
@@ -64,7 +64,7 @@ export default async function Pricing({ params }: PricingProps) {
     },
     {
       name: t.restaurantWebsite,
-      price: 5999,
+      price: 2999,
       deliveryDays: 14,
       features: [
         lang === 'ar' ? 'كل ميزات موقع الشركة' : lang === 'fr' ? 'Toutes les fonctionnalités du site professionnel' : 'All company website features',
@@ -78,7 +78,7 @@ export default async function Pricing({ params }: PricingProps) {
     },
     {
       name: t.ecommerce,
-      price: 7999,
+      price: 4999,
       deliveryDays: 21,
       features: [
         lang === 'ar' ? 'متجر إلكتروني كامل' : lang === 'fr' ? 'Boutique en ligne complète' : 'Complete e-commerce store',
@@ -91,7 +91,7 @@ export default async function Pricing({ params }: PricingProps) {
     },
     {
       name: t.customApp,
-      price: 12999,
+      price: 7999,
       deliveryDays: 30,
       features: [
         lang === 'ar' ? 'تطبيق مخصص حسب احتياجاتك' : lang === 'fr' ? 'Application personnalisée selon vos besoins' : 'Custom application tailored to your needs',
