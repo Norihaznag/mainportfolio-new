@@ -1,3 +1,5 @@
+'use client';
+
 import Link from 'next/link';
 import { translations } from '@/lib/translations';
 import { MobileMenu } from './MobileMenu';

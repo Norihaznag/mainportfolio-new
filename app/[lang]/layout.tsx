@@ -143,11 +143,12 @@ export default async function LangLayout({ children, params }: LangLayoutProps) 
         <link rel="alternate" hrefLang="fr" href={`${baseUrl}/fr`} />
         <link rel="alternate" hrefLang="ar" href={`${baseUrl}/ar`} />
         <link rel="alternate" hrefLang="x-default" href={`${baseUrl}/en`} />
-        <link rel="manifest" href="/manifest.json" />
+        <link rel="manifest" href="/manifest.json" suppressHydrationWarning />
         <link rel="icon" href="/favicon.ico" />
         <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
         <script
           type="application/ld+json"
+          suppressHydrationWarning
           dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationSchema) }}
         />
       </head>

@@ -52,7 +52,7 @@ export default function RootLayout({
         <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
         <meta name="apple-mobile-web-app-title" content="Azinag" />
         <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
-        <link rel="manifest" href="/manifest.json" />
+        <link rel="manifest" href="/manifest.json" suppressHydrationWarning />
         <link rel="icon" href="/favicon.ico" />
       </head>
       <body className={`bg-white text-gray-900 ${cairo.className}`}>
