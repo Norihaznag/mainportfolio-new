@@ -14,13 +14,13 @@ interface LangLayoutProps {
 const languageTitles = {
   en: 'Azinag - Professional Web Development for Moroccan Businesses',
   fr: 'Azinag - Développement Web Professionnel pour les Entreprises Marocaines',
-  ar: 'Azinag - تطوير الويب المحترف للشركات المغربية',
+  ar: 'Azinag - تطوير مواقع احترافي للشركات المغربية',
 };
 
 const languageDescriptions = {
   en: 'We build fast and effective websites and applications for Moroccan companies. Professional web development at affordable prices.',
   fr: 'Nous construisons des sites web et des applications rapides et efficaces pour les entreprises marocaines. Développement web professionnel à des prix abordables.',
-  ar: 'رانا نبنيو لك مواقع ويب وتطبيقات سريعة وفعالة للشركات المغربية. تطوير ويب احترافي بثمن معقول.',
+  ar: 'كنبنيو ليك مواقع ويب وتطبيقات سريعة وفعالة، موجهة خصيصاً للشركات المغربية وبثمن معقول.',
 };
 
 export async function generateMetadata({ params }: LangLayoutProps) {

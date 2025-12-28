@@ -34,13 +34,13 @@ export function Header({ lang }: HeaderProps) {
                 href={`/${lang}/pricing`}
                 className="text-gray-600 hover:text-gray-900 transition-colors"
               >
-                {lang === 'ar' ? 'الثمن' : lang === 'fr' ? 'Tarifs' : 'Pricing'}
+                {lang === 'ar' ? 'الأثمنة' : lang === 'fr' ? 'Tarifs' : 'Pricing'}
               </Link>
               <Link
                 href={`/${lang}/how-it-works`}
                 className="text-gray-600 hover:text-gray-900 transition-colors"
               >
-                {lang === 'ar' ? 'كيفاش كتشتغل' : lang === 'fr' ? 'Comment ça marche' : 'How It Works'}
+                {lang === 'ar' ? 'كيفاش كنخدمو' : lang === 'fr' ? 'Comment ça marche' : 'How It Works'}
               </Link>
               <Link
                 href={`/${lang}/about`}

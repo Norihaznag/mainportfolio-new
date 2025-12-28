@@ -35,16 +35,16 @@ export default async function Order({ params }: OrderProps) {
       whatsapp: 'Ou contactez-nous sur WhatsApp',
     },
     ar: {
-      title: 'طلب موقعك الآن',
-      subtitle: 'املأ الاستمارة أدناه وسنتواصل معك قريباً',
+      title: 'طلب موقعك دابا',
+      subtitle: 'عمّر الاستمارة وغادي نتاصلو معاك فالقريب',
       name: 'الاسم الكامل',
-      email: 'عنوان البريد الإلكتروني',
+      email: 'البريد الإلكتروني',
       phone: 'رقم الهاتف',
       company: 'اسم الشركة',
-      description: 'صف مشروعك',
+      description: 'شرح المشروع',
       budget: 'الميزانية',
-      submit: 'إرسال الطلب',
-      whatsapp: 'أو تواصل معنا على واتس اب',
+      submit: 'صيفط الطلب',
+      whatsapp: 'ولا تاصل معنا فالواتساب',
     },
   };
 
