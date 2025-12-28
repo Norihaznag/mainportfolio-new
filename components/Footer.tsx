@@ -11,7 +11,11 @@ const WHATSAPP_URL = `https://wa.me/${WHATSAPP_NUMBER}`;
 export function Footer() {
   const params = useParams();
   const lang = (params?.lang as Language) || 'ar';
-  const t = translations[lang];
+  const t = translations[lang] || translations.ar;
+
+  if (!t?.footer) {
+    return null;
+  }
 
   return (
     <footer className="bg-gray-900 text-gray-100 py-12">

@@ -1,12 +1,14 @@
-'use client';
-
 import { Card } from '@/components/Card';
 import { Button } from '@/components/Button';
-import { useParams } from 'next/navigation';
 
-export default function HowItWorks() {
-  const params = useParams();
-  const lang = (params?.lang as 'en' | 'fr' | 'ar') || 'ar';
+interface HowItWorksProps {
+  params: Promise<{
+    lang: 'en' | 'fr' | 'ar';
+  }>;
+}
+
+export default async function HowItWorks({ params }: HowItWorksProps) {
+  const { lang } = await params;
 
   const content = {
     en: {

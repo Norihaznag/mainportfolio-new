@@ -11,15 +11,15 @@ interface HomeProps {
 
 export async function generateMetadata({ params }: HomeProps): Promise<Metadata> {
   const { lang } = await params;
-  const meta = seoMetadata.pages.home[lang as keyof typeof seoMetadata.pages.home];
+  const meta = seoMetadata.pages.home[lang as keyof typeof seoMetadata.pages.home] || seoMetadata.pages.home.ar;
 
   return {
-    title: meta.title,
-    description: meta.description,
-    keywords: meta.keywords,
+    title: meta?.title || 'Azinag',
+    description: meta?.description || 'Professional websites for Moroccan businesses',
+    keywords: meta?.keywords || 'website, moroccan, business',
     openGraph: {
-      title: meta.title,
-      description: meta.description,
+      title: meta?.title || 'Azinag',
+      description: meta?.description || 'Professional websites for Moroccan businesses',
       type: 'website',
       url: `${seoMetadata.baseUrl}/${lang}`,
     },
