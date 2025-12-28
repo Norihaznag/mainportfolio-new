@@ -23,6 +23,7 @@ const nextConfig = {
   swcMinify: true,
   // Performance optimizations
   experimental: {
+    serverActions: true,
     optimizeCss: true,
     optimizePackageImports: ['lucide-react', 'react-icons'],
   },

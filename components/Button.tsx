@@ -6,6 +6,8 @@ interface ButtonProps
   variant?: 'primary' | 'secondary' | 'ghost';
   size?: 'sm' | 'md' | 'lg';
   children: React.ReactNode;
+  target?: string;
+  rel?: string;
 }
 
 export function Button({
@@ -14,6 +16,8 @@ export function Button({
   size = 'md',
   className = '',
   children,
+  target,
+  rel,
   ...props
 }: ButtonProps) {
   const baseStyles =
@@ -37,6 +41,15 @@ export function Button({
   const classes = `${baseStyles} ${variants[variant]} ${sizes[size]} ${className}`;
 
   if (href) {
+    // External link with _blank
+    if (target === '_blank') {
+      return (
+        <a href={href} target={target} rel={rel || 'noopener noreferrer'} className={classes}>
+          {children}
+        </a>
+      );
+    }
+    // Internal link
     return (
       <Link href={href} className={classes}>
         {children}
