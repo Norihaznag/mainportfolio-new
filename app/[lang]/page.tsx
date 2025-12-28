@@ -1,10 +1,29 @@
+import { Metadata } from 'next';
 import { Button } from '@/components/Button';
 import { Card } from '@/components/Card';
+import { seoMetadata } from '@/lib/seo-metadata';
 
 interface HomeProps {
   params: Promise<{
     lang: 'en' | 'fr' | 'ar';
   }>;
+}
+
+export async function generateMetadata({ params }: HomeProps): Promise<Metadata> {
+  const { lang } = await params;
+  const meta = seoMetadata.pages.home[lang as keyof typeof seoMetadata.pages.home];
+
+  return {
+    title: meta.title,
+    description: meta.description,
+    keywords: meta.keywords,
+    openGraph: {
+      title: meta.title,
+      description: meta.description,
+      type: 'website',
+      url: `${seoMetadata.baseUrl}/${lang}`,
+    },
+  };
 }
 
 export default async function Home({ params }: HomeProps) {
