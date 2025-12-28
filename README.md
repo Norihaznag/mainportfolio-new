@@ -1,97 +1,295 @@
-# Azinag Web Solutions – Portfolio Site
+# Azinag - High-Conversion SaaS for Moroccan Businesses
 
-Welcome to the codebase for **Azinag Web Solutions**, a modern agency portfolio built with Next.js, Tailwind CSS, and Supabase. This site showcases our services, projects, and contact information, with dynamic project management powered by Supabase.
+A production-ready SaaS website for selling productized web & app development services in Morocco.
 
----dd
+## 🎯 Features
 
-## Project Overview
+- **High-Conversion Homepage** - Clear value proposition with strong CTAs
+- **Pricing Page** - 4 productized packages with MAD prices
+- **Order Form** - Multi-step form with real-time price calculation
+- **Admin Dashboard** - Manage orders and update status
+- **WhatsApp Integration** - Direct communication button
+- **Fully Responsive** - Mobile-first design
+- **Arabic + French Ready** - RTL/LTR support
+- **Production-Ready** - Security, validation, error handling built-in
 
-This site is designed for a web agency, featuring:
-- Dynamic project listing (managed via Supabase)
-- Internationalization (i18n) for multilingual support
-- Responsive, modern design with Tailwind CSS
-- SEO-friendly structure
-- No admin dashboard – projects are managed directly in Supabase
+## 🛠️ Tech Stack
 
----
+- **Next.js 14+** - App Router, Server Components
+- **TypeScript** - Full type safety
+- **Tailwind CSS** - Responsive design
+- **Supabase** - Auth, Database, Real-time
+- **Server Actions** - Form handling
+- **Zod** - Input validation
+- **Vercel** - Deployment ready
 
-## Page-by-Page Breakdown
+## 📁 Project Structure
 
-### Home (`/`)
-- **Hero Section:** Agency name, tagline, and call-to-action.
-- **Featured Projects:** Highlights select projects, loaded dynamically from Supabase.
-- **Services:** Overview of agency offerings.
-- **Contact CTA:** Quick link to the contact page.
-- **Footer:** Agency info, navigation, and copyright.
+```
+app/
+├── layout.tsx                 # Root layout with header/footer
+├── globals.css               # Global styles
+├── page.tsx                  # Homepage
+├── pricing/page.tsx          # Pricing page
+├── order/page.tsx            # Order form
+├── how-it-works/page.tsx     # How it works page
+├── about/page.tsx            # About/trust page
+└── admin/
+    ├── login/page.tsx        # Admin login
+    └── orders/page.tsx       # Admin dashboard
+
+components/
+├── Button.tsx                # CTA button
+├── Input.tsx                 # Form input
+├── Select.tsx                # Form select
+├── Card.tsx                  # Card component
+├── Header.tsx                # Navigation
+├── Footer.tsx                # Footer
+└── WhatsAppButton.tsx        # WhatsApp float button
+
+lib/
+├── supabase.ts              # Supabase client setup
+├── database.types.ts        # TypeScript types
+├── schemas.ts               # Zod validation schemas
+└── actions.ts               # Server actions
+
+schema.sql                    # Database schema (run in Supabase)
+.env.example                  # Environment variables template
+```
+
+## 🚀 Quick Start
+
+### 1. Clone & Install
+
+```bash
+git clone <repo>
+cd mainportfolio
+npm install
+```
+
+### 2. Supabase Setup
+
+1. Create a free account at [supabase.com](https://supabase.com)
+2. Create a new project
+3. Go to SQL Editor and run the contents of `schema.sql`
+4. Copy your project URL and keys
+
+### 3. Environment Setup
+
+```bash
+cp .env.example .env.local
+```
+
+Fill in your Supabase credentials:
+
+```env
+NEXT_PUBLIC_SUPABASE_URL=https://your-project.supabase.co
+NEXT_PUBLIC_SUPABASE_ANON_KEY=your_anon_key
+SUPABASE_SERVICE_KEY=your_service_key
+NEXT_PUBLIC_SITE_URL=http://localhost:3000
+NEXT_PUBLIC_WHATSAPP_NUMBER=+212661234567
+```
+
+### 4. Create Admin User
+
+In Supabase:
+
+1. Go to Authentication → Users
+2. Create a new user with email & password
+3. Go to SQL Editor and run:
+
+```sql
+update public.users set role = 'admin' where email = 'your-email@example.com';
+```
+
+### 5. Run Development Server
+
+```bash
+npm run dev
+```
+
+Visit: `http://localhost:3000`
+Admin: `http://localhost:3000/admin/login`
+
+## 📱 Pages Overview
+
+### Homepage (`/`)
+- Hero with clear headline
+- Social proof statistics
+- 4-step how it works
+- Services preview
+- Final CTA
+
+### Pricing (`/pricing`)
+- 4 packages: Business Website, Restaurant, E-commerce, Custom App
+- MAD prices included
+- Feature lists
+- FAQ section
+
+### Order (`/order`)
+- Multi-step form
+- Business & contact info
+- Website type selection
+- Real-time price calculation
+- Supabase integration
+- Success confirmation
+
+### How It Works (`/how-it-works`)
+- 4 visual steps
+- Timeline (14-30 days)
+- What you get section
+- Why us section
 
 ### About (`/about`)
-- **Agency Story:** Who we are, our mission, and values.
-- **Team/Expertise:** (If present) Overview of skills and experience.
-- **Branding:** Uses "we/us" language and agency branding throughout.
+- Founder story
+- Mission & vision
+- Company values
+- Contact information
 
-### Apps (`/apps`)
-- **Apps Grid:** All apps are fetched from Supabase and displayed in a responsive grid.
-- **App Details:** Each card shows app name, description, tech stack, and links (e.g., GitHub, live demo).
-- **Dynamic Loading:** Updates automatically as apps are added/edited in Supabase.
+### Admin Orders (`/admin/orders`)
+- Secure login
+- View all orders
+- Update order status
+- Client details
+- WhatsApp & email links
 
-### Contact (`/contact`)
-- **Contact Form:** Users can send inquiries (form may be static or connected to an email service).
-- **Agency Contact Info:** Email, phone, or other contact methods.
-- **Internationalization:** All text supports multiple languages.
+## 🔐 Security
+
+- **Supabase Auth** - Secure user authentication
+- **Row Level Security (RLS)** - Database-level permissions
+- **Server Actions** - No API route exposure
+- **Zod Validation** - Input validation on server
+- **Environment Variables** - Secrets never in code
+- **Admin Role Check** - Only admins can view orders
+
+## ✅ Quality Checklist
+
+- ✅ TypeScript strict mode
+- ✅ No console errors
+- ✅ No hydration issues
+- ✅ Mobile-first responsive
+- ✅ Lighthouse 95+ ready
+- ✅ SEO metadata
+- ✅ Error handling
+- ✅ Arabic/French ready
+- ✅ Vercel deployment ready
+- ✅ Database with RLS
+
+## 📊 Database Schema
+
+### Orders Table
+- `id` - UUID primary key
+- `created_at` - Timestamp
+- `business_name` - String
+- `business_type` - Enum
+- `contact_name` - String
+- `whatsapp_number` - String
+- `email` - String
+- `website_type` - Enum
+- `language` - Enum (ar, fr, en)
+- `notes` - Text
+- `status` - Enum (pending, in_progress, delivered)
+- `price` - Numeric
+
+### Users Table
+- `id` - UUID (auth reference)
+- `email` - String
+- `role` - Enum (admin, user)
+- `created_at` - Timestamp
+
+## 🚀 Deployment to Vercel
+
+1. Push to GitHub
+2. Connect repo to Vercel
+3. Add environment variables in Vercel Settings
+4. Deploy!
+
+```bash
+git push origin main
+```
+
+Vercel will automatically build and deploy.
+
+## 💰 Monetization
+
+Orders saved to Supabase include:
+- Business details
+- Contact information
+- WhatsApp number
+- Website requirements
+- Budget/Price
+
+Use this data to:
+1. Follow up with clients
+2. Track conversion rates
+3. Analyze customer demographics
+4. Optimize pricing
+
+## 📝 Customization
+
+### Change Prices
+Edit `app/order/page.tsx` in the `prices` object:
+
+```typescript
+const prices: { [key: string]: number } = {
+  website: 4999,      // Change here
+  restaurant: 5999,
+  ecommerce: 7999,
+  app: 12999,
+  custom: 10000,
+};
+```
+
+### Change WhatsApp Number
+Edit `.env.local`:
+
+```
+NEXT_PUBLIC_WHATSAPP_NUMBER=+212YOUR_NUMBER
+```
+
+### Change Colors
+Edit Tailwind classes in components (currently using blue-600 as primary).
+
+### Add More Pages
+Create new folders in `app/` directory and add `page.tsx`.
+
+## 🐛 Troubleshooting
+
+### "Supabase URL not found"
+- Check `.env.local` has correct variables
+- Restart dev server: `npm run dev`
+
+### "Admin can't view orders"
+- Check if user is marked as admin in database
+- Run the SQL update command from setup
+
+### Form not submitting
+- Check browser console for errors
+- Verify Supabase credentials
+- Check RLS policies allow inserts
+
+### WhatsApp link not working
+- Verify `NEXT_PUBLIC_WHATSAPP_NUMBER` format: `+212...`
+- Test link directly in browser
+
+## 📚 Learning Resources
+
+- [Next.js Docs](https://nextjs.org/docs)
+- [Supabase Docs](https://supabase.com/docs)
+- [Tailwind CSS](https://tailwindcss.com/docs)
+- [TypeScript](https://www.typescriptlang.org/docs)
+- [Zod Validation](https://zod.dev)
+
+## 📄 License
+
+Built for Azinag Web Solutions
+
+## 🤝 Support
+
+For issues or questions:
+- Email: hello@azinag.site
+- WhatsApp: +212661234567
 
 ---
 
-## Dynamic Features
-
-- **Supabase Integration:**
-  - All project data is stored and managed in Supabase.
-  - No admin dashboard in the app; use the Supabase dashboard for CRUD operations.
-- **Internationalization (i18n):**
-  - Language switcher and translation support for all major pages.
-- **Responsive Design:**
-  - Mobile-first, accessible, and visually appealing.
-
----
-
-## Branding Notes
-
-- All content, metadata, and UI elements use "Azinag Web Solutions" and agency-focused language ("we", "our team", etc.).
-- SEO and social tags reflect the agency brand.
-- Consistent color palette and logo (if provided).
-
----
-
-## Managing Projects
-
-All project management (add, edit, delete) is handled directly in the Supabase dashboard:
-1. **Log in to your Supabase project.**
-2. **Navigate to the `projects` table.**
-3. **Add/Edit/Delete rows** as needed. Each row should include fields like `id`, `title`, `description`, `techStack`, `githubUrl`, `demoUrl`, and any images.
-4. **Changes are reflected instantly** on the site – no redeploy needed.
-
-For more details, see `SUPABASE_MANAGEMENT.md` (if present).
-
----
-
-## File Structure Reference
-
-- `app/` – Next.js app directory (pages, layouts, styles)
-- `components/` – Reusable UI and page components
-- `lib/` – Utility libraries (Supabase client, translations, etc.)
-- `public/` – Static assets
-- `hooks/` – Custom React hooks
-
----
-
-## Getting Started
-
-1. Clone the repo
-2. Install dependencies: `npm install`
-3. Set up your `.env` with Supabase credentials
-4. Run locally: `npm run dev`
-
----
-
-## License
-
-MIT. See [LICENSE](LICENSE) for details.
+**Ready to launch?** Your SaaS is production-ready. Deploy to Vercel and start selling! 🚀
