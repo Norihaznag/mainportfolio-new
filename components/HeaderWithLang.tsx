@@ -1,5 +1,6 @@
 import Link from 'next/link';
 import { translations } from '@/lib/translations';
+import { MobileMenu } from './MobileMenu';
 
 interface HeaderProps {
   lang: 'en' | 'fr' | 'ar';
@@ -15,6 +16,30 @@ function getLangSwitchPath(currentLang: string, newLang: string, pathname: strin
 export function Header({ lang }: HeaderProps) {
   const t = translations[lang];
 
+  // Mobile menu items
+  const mobileNavItems = [
+    {
+      href: `/${lang}/showcase`,
+      label: lang === 'ar' ? 'الأعمال' : 'Portfolio',
+      title: lang === 'ar' ? 'عرض الأعمال' : 'View our portfolio',
+    },
+    {
+      href: `/${lang}/pricing`,
+      label: lang === 'ar' ? 'الأثمنة' : lang === 'fr' ? 'Tarifs' : 'Pricing',
+      title: lang === 'ar' ? 'عرض الأسعار' : 'View pricing',
+    },
+    {
+      href: `/${lang}/how-it-works`,
+      label: lang === 'ar' ? 'كيفاش كنخدمو' : lang === 'fr' ? 'Comment ça marche' : 'How It Works',
+      title: lang === 'ar' ? 'كيف تعمل عملية الخدمة' : 'How our process works',
+    },
+    {
+      href: `/${lang}/about`,
+      label: lang === 'ar' ? 'علينا' : lang === 'fr' ? 'À propos' : 'About',
+      title: lang === 'ar' ? 'معلومات عننا' : 'About us',
+    },
+  ];
+
   return (
     <header className="sticky top-0 z-40 w-full border-b border-gray-200 bg-white shadow-sm" role="banner">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-4">
@@ -26,6 +51,8 @@ export function Header({ lang }: HeaderProps) {
           >
             Azinag
           </Link>
+
+          {/* Desktop Navigation */}
           <div className="hidden md:flex items-center gap-8">
             <nav className="flex items-center gap-8" role="navigation" aria-label="Main navigation">
               <Link
@@ -71,7 +98,7 @@ export function Header({ lang }: HeaderProps) {
                   lang="ar"
                   className={`px-3 py-2 rounded text-sm font-medium transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-600 ${
                     lang === 'ar'
-                      ? 'bg-blue-600 text-white aria-current'
+                      ? 'bg-blue-600 text-white'
                       : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
                   }`}
                   aria-label="Switch to Arabic"
@@ -108,6 +135,15 @@ export function Header({ lang }: HeaderProps) {
               </div>
             </nav>
           </div>
+
+          {/* Mobile Menu */}
+          <MobileMenu
+            lang={lang}
+            navItems={mobileNavItems}
+            orderLabel={lang === 'ar' ? 'طلب دابا' : lang === 'fr' ? 'Commander' : 'Order Now'}
+            orderTitle={lang === 'ar' ? 'طلب خدمة جديدة' : 'Start a new order'}
+            orderHref={`/${lang}/order`}
+          />
         </div>
       </div>
     </header>
