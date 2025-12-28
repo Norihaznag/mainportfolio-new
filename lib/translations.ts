@@ -36,6 +36,22 @@ export const translations = {
     services: {
       title: 'Our Services',
     },
+    footer: {
+      company: 'Azinag',
+      tagline: 'Professional Websites For Moroccan Businesses',
+      links: 'Links',
+      pricing: 'Pricing',
+      howItWorks: 'How It Works',
+      about: 'About',
+      legal: 'Legal',
+      privacy: 'Privacy Policy',
+      terms: 'Terms of Service',
+      contact: 'Contact',
+      phone: 'Phone: +212 661 234 567',
+      email: 'Email: hello@azinag.site',
+      copyright: '© 2024 Azinag. All rights reserved.',
+      contactVia: 'Contact via WhatsApp',
+    },
   },
   fr: {
     nav: {
@@ -75,6 +91,22 @@ export const translations = {
     services: {
       title: 'Nos Services',
     },
+    footer: {
+      company: 'Azinag',
+      tagline: 'Sites Web Professionnels Pour les Entreprises Marocaines',
+      links: 'Liens',
+      pricing: 'Tarifs',
+      howItWorks: 'Comment ça marche',
+      about: 'À propos',
+      legal: 'Légal',
+      privacy: 'Politique de confidentialité',
+      terms: 'Conditions de service',
+      contact: 'Contact',
+      phone: 'Téléphone: +212 661 234 567',
+      email: 'Email: hello@azinag.site',
+      copyright: '© 2024 Azinag. Tous droits réservés.',
+      contactVia: 'Contactez via WhatsApp',
+    },
   },
   ar: {
     nav: {
@@ -112,6 +144,22 @@ export const translations = {
     },
     services: {
       title: 'خدماتنا',
+    },
+    footer: {
+      company: 'أزيناج',
+      tagline: 'مواقع ويب احترافية للشركات المغربية',
+      links: 'الروابط',
+      pricing: 'الأثمنة',
+      howItWorks: 'كيفاش كنخدمو',
+      about: 'علينا',
+      legal: 'القانوني',
+      privacy: 'سياسة الخصوصية',
+      terms: 'شروط الخدمة',
+      contact: 'التواصل',
+      phone: 'الهاتف: +212 661 234 567',
+      email: 'البريد: hello@azinag.site',
+      copyright: '© 2024 أزيناج. جميع الحقوق محفوظة.',
+      contactVia: 'اتصل عبر واتساب',
     },
   },
 };
