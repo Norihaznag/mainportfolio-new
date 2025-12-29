@@ -12,7 +12,6 @@ const colorClasses: { [key: string]: string } = {
   green: 'ring-green-600',
   purple: 'ring-purple-600',
   orange: 'ring-orange-600',
-  red: 'ring-red-600',
 };
 
 const colorBgClasses: { [key: string]: string } = {
@@ -20,8 +19,77 @@ const colorBgClasses: { [key: string]: string } = {
   green: 'from-green-50 to-green-100 border-green-200',
   purple: 'from-purple-50 to-purple-100 border-purple-200',
   orange: 'from-orange-50 to-orange-100 border-orange-200',
-  red: 'from-red-50 to-red-100 border-red-200',
 };
+
+// Static pricing packages
+const staticPackages = [
+  {
+    id: 1,
+    name: 'Starter',
+    price: 999,
+    color: 'blue',
+    featured: false,
+    description: 'Perfect for small businesses getting started',
+    features: [
+      'Professional Website',
+      'Mobile Responsive',
+      'Up to 5 Pages',
+      'Contact Form',
+      'Basic SEO',
+      'SSL Certificate',
+    ],
+  },
+  {
+    id: 2,
+    name: 'Professional',
+    price: 1999,
+    color: 'green',
+    featured: true,
+    description: 'Most popular for growing businesses',
+    features: [
+      'Everything in Starter',
+      'Up to 10 Pages',
+      'Blog Section',
+      'Advanced SEO',
+      'Google Analytics',
+      'Email Support',
+      'Monthly Updates',
+    ],
+  },
+  {
+    id: 3,
+    name: 'Enterprise',
+    price: 3999,
+    color: 'purple',
+    featured: false,
+    description: 'Complete solution for established companies',
+    features: [
+      'Everything in Professional',
+      'Unlimited Pages',
+      'E-commerce Features',
+      'Payment Gateway',
+      'Advanced Analytics',
+      'Priority Support',
+      'Custom Features',
+    ],
+  },
+  {
+    id: 4,
+    name: 'Custom',
+    price: null,
+    color: 'orange',
+    featured: false,
+    description: 'Tailored solutions for unique needs',
+    features: [
+      'Fully Customized',
+      'Your Requirements',
+      'Your Timeline',
+      'Dedicated Team',
+      'Full Support',
+      'Lifetime Updates',
+    ],
+  },
+];
 
 export default async function Pricing({ params }: PricingProps) {
   const { lang } = await params;
@@ -32,36 +100,25 @@ export default async function Pricing({ params }: PricingProps) {
       subtitle: 'Choose the package that suits your business and start your digital journey with us',
       drh: 'DRH',
       orderButton: 'Order Now',
+      customPrice: 'Contact Us',
     },
     fr: {
       title: 'Tarifs Clairs et Simples',
       subtitle: 'Choisissez le forfait qui convient à votre entreprise et commencez votre voyage numérique avec nous',
       drh: 'DRH',
       orderButton: 'Commander Maintenant',
+      customPrice: 'Contactez-nous',
     },
     ar: {
       title: 'أثمنة واضحة وبلا تعقيد',
       subtitle: 'اختار الباقة اللي مناسبة ليك وبدا الرحلة الرقمية ديالك معنا',
       drh: 'درهم',
       orderButton: 'اطلب الآن',
+      customPrice: 'اتاصل معنا',
     },
   };
 
   const t = content[lang as keyof typeof content] || content.ar;
-
-  // Fetch pricing from the database
-  let packages = [];
-  try {
-    const response = await fetch(
-      `${process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000'}/api/public/pricing`,
-      { next: { revalidate: 3600 } }
-    );
-    const data = await response.json();
-    packages = data.pricing || [];
-  } catch (error) {
-    console.error('Error fetching pricing:', error);
-    packages = [];
-  }
 
   return (
     <div>
@@ -80,50 +137,46 @@ export default async function Pricing({ params }: PricingProps) {
       {/* Pricing Cards */}
       <section className="py-20 sm:py-32">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-          {packages.length === 0 ? (
-            <div className="text-center text-gray-600 py-12">
-              <p>No pricing packages available at the moment.</p>
-            </div>
-          ) : (
-            <div className={`grid grid-cols-1 ${packages.length === 1 ? 'grid-cols-1' : packages.length === 2 ? 'md:grid-cols-2' : 'md:grid-cols-2 lg:grid-cols-4'} gap-6`}>
-              {packages.map((pkg: any, index: number) => (
-                <Card
-                  key={pkg.id}
-                  className={`flex flex-col h-full bg-gradient-to-br ${colorBgClasses[pkg.color] || colorBgClasses.blue} ${
-                    pkg.featured ? `ring-2 ${colorClasses[pkg.color] || colorClasses.blue} transform lg:scale-105` : ''
-                  }`}
-                >
-                  <div className="mb-6">
-                    <h3 className="text-2xl font-bold text-gray-900 mb-4">
-                      {pkg.name}
-                    </h3>
-                    <p className="text-4xl font-bold text-gray-800 mb-2">
-                      {pkg.price.toLocaleString(lang === 'ar' ? 'ar-MA' : lang === 'fr' ? 'fr-FR' : 'en-US')}
-                    </p>
-                    <p className="text-gray-600">{t.drh}</p>
-                  </div>
-                  <div className="flex-1">
-                    {pkg.description && (
-                      <p className="text-gray-600 mb-4 text-sm">{pkg.description}</p>
-                    )}
-                    {pkg.features && pkg.features.length > 0 && (
-                      <ul className="space-y-3 mb-6">
-                        {pkg.features.map((feature: string, idx: number) => (
-                          <li key={idx} className="flex items-center gap-3 text-gray-700 text-sm">
-                            <span className="text-gray-800 font-bold">✓</span>
-                            {feature}
-                          </li>
-                        ))}
-                      </ul>
-                    )}
-                  </div>
-                  <Button href={`/${lang}/order`} className="w-full">
-                    {t.orderButton}
-                  </Button>
-                </Card>
-              ))}
-            </div>
-          )}
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+            {staticPackages.map((pkg) => (
+              <div
+                key={pkg.id}
+                className={`bg-gradient-to-br ${colorBgClasses[pkg.color]} rounded-lg p-6 flex flex-col h-full border-2 ${
+                  pkg.featured ? `${colorClasses[pkg.color]} shadow-lg` : 'border-gray-200 shadow-sm hover:shadow-md'
+                } transition-shadow`}
+              >
+                <div className="mb-6">
+                  <h3 className="text-2xl font-bold text-gray-900 mb-4">
+                    {pkg.name}
+                  </h3>
+                  {pkg.price ? (
+                    <>
+                      <p className="text-4xl font-bold text-gray-800 mb-2">
+                        {pkg.price.toLocaleString(lang === 'ar' ? 'ar-MA' : lang === 'fr' ? 'fr-FR' : 'en-US')}
+                      </p>
+                      <p className="text-gray-600">{t.drh}</p>
+                    </>
+                  ) : (
+                    <p className="text-3xl font-bold text-gray-700 mb-2">{t.customPrice}</p>
+                  )}
+                </div>
+                <p className="text-gray-600 mb-6 text-sm">{pkg.description}</p>
+                <div className="flex-1">
+                  <ul className="space-y-3 mb-6">
+                    {pkg.features.map((feature, idx) => (
+                      <li key={idx} className="flex items-center gap-3 text-gray-700 text-sm">
+                        <span className="text-gray-800 font-bold">✓</span>
+                        {feature}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+                <Button href={`/${lang}/order`} className="w-full">
+                  {pkg.price ? t.orderButton : t.customPrice}
+                </Button>
+              </div>
+            ))}
+          </div>
         </div>
       </section>
     </div>

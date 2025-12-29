@@ -185,23 +185,15 @@ async function WhatsAppContact({ lang, t }: { lang: string; t: any }) {
 
   return (
     <div className="text-center pt-6 border-t">
-                  <p className="text-gray-600 mb-4">{t.whatsapp}</p>
-                  <a
-                    href={waLink}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="inline-block px-6 py-3 bg-green-500 text-white font-medium rounded-lg hover:bg-green-600 transition-colors"
-                  >
-                    WhatsApp
-                  </a>
-                </div>
-  );
-}
-              </form>
-            </Card>
-          </div>
-        </div>
-      </section>
+      <p className="text-gray-600 mb-4">{t.whatsapp}</p>
+      <a
+        href={waLink}
+        target="_blank"
+        rel="noopener noreferrer"
+        className="inline-block px-6 py-3 bg-green-500 text-white font-medium rounded-lg hover:bg-green-600 transition-colors"
+      >
+        WhatsApp
+      </a>
     </div>
   );
 }

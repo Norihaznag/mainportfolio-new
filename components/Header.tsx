@@ -8,7 +8,6 @@ interface HeaderProps {
 }
 
 export function Header({ lang }: HeaderProps) {
-  // Mobile menu items
   const mobileNavItems = [
     {
       href: `/${lang}/showcase`,
@@ -33,7 +32,7 @@ export function Header({ lang }: HeaderProps) {
   ];
 
   return (
-    <header className="sticky top-0 z-40 w-full  bg-white " role="banner">
+    <header className="sticky top-0 z-40 w-full bg-white" role="banner">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-4">
         <div className="flex items-center justify-between">
           <Link 

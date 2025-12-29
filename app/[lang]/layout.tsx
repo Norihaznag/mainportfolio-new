@@ -1,7 +1,6 @@
 import type { Metadata } from 'next';
-import { Header } from '@/components/HeaderWithLang';
+import { Header } from '@/components/Header';
 import { Footer } from '@/components/Footer';
-import { WhatsAppButton } from '@/components/WhatsAppButton';
 import '../globals.css';
 
 interface LangLayoutProps {
@@ -156,7 +155,6 @@ export default async function LangLayout({ children, params }: LangLayoutProps) 
         <Header lang={lang} />
         <main className="min-h-screen">{children}</main>
         <Footer />
-        <WhatsAppButton />
       </body>
     </html>
   );

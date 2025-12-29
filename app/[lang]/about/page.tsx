@@ -1,5 +1,5 @@
-import { Card } from '@/components/Card';
 import { Button } from '@/components/Button';
+import { Card } from '@/components/Card';
 
 interface AboutProps {
   params: Promise<{
@@ -27,6 +27,8 @@ export default async function About({ params }: AboutProps) {
       value2Desc: 'We communicate clearly with you throughout the project. There are no surprises or hidden costs.',
       value3: 'Support',
       value3Desc: 'Our support does not end at launch. We are always here to help you succeed.',
+      cta: 'Ready to work with us?',
+      ctaBtn: 'Get Started',
     },
     fr: {
       title: 'À Propos d\'Azinag',
@@ -44,6 +46,8 @@ export default async function About({ params }: AboutProps) {
       value2Desc: 'Nous communiquons clairement avec vous tout au long du projet. Il n\'y a pas de surprises ou de frais cachés.',
       value3: 'Soutien',
       value3Desc: 'Notre soutien ne s\'arrête pas au lancement. Nous sommes toujours là pour vous aider à réussir.',
+      cta: 'Prêt à travailler avec nous?',
+      ctaBtn: 'Commencer',
     },
     ar: {
       title: 'شكون حنا',
@@ -61,6 +65,8 @@ export default async function About({ params }: AboutProps) {
       value2Desc: 'كنكونو واضحين معاك من الأول حتى للآخر، بلا مفاجآت.',
       value3: 'الدعم',
       value3Desc: 'الدعم ديالنا كيبقى حتى من بعد الإطلاق، وما كنخليوكش بوحدك.',
+      cta: 'باغي تخدموا معانا؟',
+      ctaBtn: 'بدا دابا',
     },
   };
 
@@ -126,18 +132,16 @@ export default async function About({ params }: AboutProps) {
             {t.values}
           </h2>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            <Card>
-              <h3 className="text-xl font-bold text-gray-900 mb-3">{t.value1}</h3>
-              <p className="text-gray-600">{t.value1Desc}</p>
-            </Card>
-            <Card>
-              <h3 className="text-xl font-bold text-gray-900 mb-3">{t.value2}</h3>
-              <p className="text-gray-600">{t.value2Desc}</p>
-            </Card>
-            <Card>
-              <h3 className="text-xl font-bold text-gray-900 mb-3">{t.value3}</h3>
-              <p className="text-gray-600">{t.value3Desc}</p>
-            </Card>
+            {[
+              { title: t.value1, desc: t.value1Desc },
+              { title: t.value2, desc: t.value2Desc },
+              { title: t.value3, desc: t.value3Desc },
+            ].map((value) => (
+              <Card key={value.title}>
+                <h3 className="text-xl font-bold text-gray-900 mb-3">{value.title}</h3>
+                <p className="text-gray-600">{value.desc}</p>
+              </Card>
+            ))}
           </div>
         </div>
       </section>
@@ -146,10 +150,10 @@ export default async function About({ params }: AboutProps) {
       <section className="py-20 sm:py-32">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <h2 className="text-3xl sm:text-4xl font-bold text-gray-900 mb-6">
-            Ready to work with us?
+            {t.cta}
           </h2>
           <Button href={`/${lang}/order`} size="lg">
-            Get Started
+            {t.ctaBtn}
           </Button>
         </div>
       </section>

@@ -14,11 +14,9 @@ export default async function Showcase({ params }: ShowcaseProps) {
     en: {
       title: 'Our Work',
       subtitle: 'See the projects and work we have created for Moroccan companies',
-      testimonials: 'Client Testimonials',
       cta: 'Want a professional website for your business?',
       ctaDesc: 'We are here to help you achieve your digital dreams. Contact us today!',
       ctaBtn: 'Order Your Website Now',
-      ctaBtn2: 'Contact on WhatsApp',
       completed: 'Completed Projects',
       satisfied: 'Satisfied Clients',
       rating: 'Satisfaction Rate',
@@ -27,11 +25,9 @@ export default async function Showcase({ params }: ShowcaseProps) {
     fr: {
       title: 'Nos Travaux',
       subtitle: 'Voir les projets et les travaux que nous avons créés pour les entreprises marocaines',
-      testimonials: 'Témoignages des Clients',
       cta: 'Vous voulez un site Web professionnel pour votre entreprise?',
       ctaDesc: 'Nous sommes là pour vous aider à réaliser vos rêves numériques. Contactez-nous aujourd\'hui!',
       ctaBtn: 'Commandez Votre Site Web',
-      ctaBtn2: 'Contactez sur WhatsApp',
       completed: 'Projets Complétés',
       satisfied: 'Clients Satisfaits',
       rating: 'Taux de Satisfaction',
@@ -40,11 +36,9 @@ export default async function Showcase({ params }: ShowcaseProps) {
     ar: {
       title: 'الأعمال ديالنا',
       subtitle: 'اكتشف بعض المشاريع اللي خدمنا عليها مع شركات ومؤسسات مغربية',
-      testimonials: 'آراء الزبناء',
       cta: 'باغي موقع احترافي لعملك؟',
       ctaDesc: 'حنا هنا باش نعاونوك تبني حضور رقمي قوي. تاصل معنا دابا!',
       ctaBtn: 'طلب موقعك دابا',
-      ctaBtn2: 'تواصل فالواتساب',
       completed: 'مشروع تكمّل',
       satisfied: 'عميل راضي',
       rating: 'نسبة الرضا',
@@ -82,7 +76,7 @@ export default async function Showcase({ params }: ShowcaseProps) {
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {projects.map((project) => (
-              <Card key={project.id} className="overflow-hidden hover:shadow-lg transition-shadow">
+              <Card key={project.id} className="overflow-hidden hover:shadow-md transition-shadow">
                 <div className="text-5xl mb-4 text-center">{project.image}</div>
                 <h3 className="text-xl font-bold text-gray-900 mb-2">{project.title}</h3>
                 <p className="text-sm text-blue-600 font-semibold">{project.category}</p>
@@ -96,22 +90,17 @@ export default async function Showcase({ params }: ShowcaseProps) {
       <section className="py-20 sm:py-32 bg-gray-50 border-b border-gray-200">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 md:grid-cols-4 gap-8 text-center">
-            <div>
-              <p className="text-4xl font-bold text-blue-600 mb-2">+50</p>
-              <p className="text-gray-600">{t.completed}</p>
-            </div>
-            <div>
-              <p className="text-4xl font-bold text-blue-600 mb-2">+40</p>
-              <p className="text-gray-600">{t.satisfied}</p>
-            </div>
-            <div>
-              <p className="text-4xl font-bold text-blue-600 mb-2">95%</p>
-              <p className="text-gray-600">{t.rating}</p>
-            </div>
-            <div>
-              <p className="text-4xl font-bold text-blue-600 mb-2">24/7</p>
-              <p className="text-gray-600">{t.support}</p>
-            </div>
+            {[
+              { number: '+50', label: t.completed },
+              { number: '+40', label: t.satisfied },
+              { number: '95%', label: t.rating },
+              { number: '24/7', label: t.support },
+            ].map((stat) => (
+              <div key={stat.label}>
+                <p className="text-4xl font-bold text-blue-600 mb-2">{stat.number}</p>
+                <p className="text-gray-600">{stat.label}</p>
+              </div>
+            ))}
           </div>
         </div>
       </section>
@@ -125,20 +114,9 @@ export default async function Showcase({ params }: ShowcaseProps) {
           <p className="text-xl mb-8 max-w-2xl mx-auto opacity-90">
             {t.ctaDesc}
           </p>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Button href={`/${lang}/order`} variant="secondary" size="lg">
-              {t.ctaBtn}
-            </Button>
-            <Button
-              href="https://wa.me/212661234567"
-              target="_blank"
-              rel="noopener noreferrer"
-              variant="secondary"
-              size="lg"
-            >
-              {t.ctaBtn2}
-            </Button>
-          </div>
+          <Button href={`/${lang}/order`} variant="secondary" size="lg">
+            {t.ctaBtn}
+          </Button>
         </div>
       </section>
     </div>

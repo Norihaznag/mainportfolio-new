@@ -1,5 +1,5 @@
 import { Metadata } from 'next';
-import { Button } from '@/components/Button';
+import { HeroSection } from '@/components/HeroSection';
 import { Card } from '@/components/Card';
 import { seoMetadata } from '@/lib/seo-metadata';
 
@@ -97,28 +97,16 @@ export default async function Home({ params }: HomeProps) {
   return (
     <div>
       {/* Hero Section */}
-      <section className="py-20 sm:py-32 border-b border-gray-200">
-        <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="max-w-3xl mx-auto text-center">
-            <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-gray-900 mb-6 leading-tight">
-              {t.heroTitle}
-              <br />
-              <span className="text-blue-600">{t.heroHighlight}</span>
-            </h1>
-            <p className="text-xl text-gray-600 mb-8 leading-relaxed">
-              {t.heroDesc}
-            </p>
-            <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Button href={`/${lang}/order`} size="lg">
-                {t.ctaPrimary}
-              </Button>
-              <Button href={`/${lang}/pricing`} variant="secondary" size="lg">
-                {t.ctaSecondary}
-              </Button>
-            </div>
-          </div>
-        </div>
-      </section>
+      <HeroSection
+        lang={lang}
+        title={t.heroTitle}
+        highlight={t.heroHighlight}
+        description={t.heroDesc}
+        ctaPrimaryText={t.ctaPrimary}
+        ctaSecondaryText={t.ctaSecondary}
+        ctaPrimaryHref={`/${lang}/order`}
+        ctaSecondaryHref={`/${lang}/pricing`}
+      />
 
       {/* Social Proof */}
       <section className="py-16 sm:py-20 bg-gray-50 border-b border-gray-200">
@@ -129,18 +117,16 @@ export default async function Home({ params }: HomeProps) {
             </h2>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            <div className="text-center">
-              <p className="text-4xl font-bold text-blue-600 mb-2">+50</p>
-              <p className="text-gray-600">{t.projects}</p>
-            </div>
-            <div className="text-center">
-              <p className="text-4xl font-bold text-blue-600 mb-2">+40</p>
-              <p className="text-gray-600">{t.clients}</p>
-            </div>
-            <div className="text-center">
-              <p className="text-4xl font-bold text-blue-600 mb-2">95+</p>
-              <p className="text-gray-600">{t.rating}</p>
-            </div>
+            {[
+              { number: '+50', label: t.projects },
+              { number: '+40', label: t.clients },
+              { number: '95+', label: t.rating },
+            ].map((stat) => (
+              <div key={stat.label} className="text-center">
+                <p className="text-4xl font-bold text-blue-600 mb-2">{stat.number}</p>
+                <p className="text-gray-600">{stat.label}</p>
+              </div>
+            ))}
           </div>
         </div>
       </section>
@@ -158,15 +144,17 @@ export default async function Home({ params }: HomeProps) {
               { step: '3', title: t.step3, description: t.step3Desc },
               { step: '4', title: t.step4, description: t.step4Desc },
             ].map((item) => (
-              <div key={item.step} className="text-center">
-                <div className="w-16 h-16 bg-blue-600 text-white rounded-full flex items-center justify-center text-2xl font-bold mx-auto mb-4">
-                  {item.step}
+              <Card key={item.step}>
+                <div className="text-center">
+                  <div className="w-16 h-16 bg-blue-600 text-white rounded-full flex items-center justify-center text-2xl font-bold mx-auto mb-4">
+                    {item.step}
+                  </div>
+                  <h3 className="text-xl font-semibold text-gray-900 mb-2">
+                    {item.title}
+                  </h3>
+                  <p className="text-gray-600">{item.description}</p>
                 </div>
-                <h3 className="text-xl font-semibold text-gray-900 mb-2">
-                  {item.title}
-                </h3>
-                <p className="text-gray-600">{item.description}</p>
-              </div>
+              </Card>
             ))}
           </div>
         </div>
