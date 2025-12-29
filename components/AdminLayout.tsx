@@ -17,9 +17,9 @@ export default function AdminLayout({ children, currentPage }: AdminLayoutProps)
   };
 
   return (
-    <div className="flex min-h-screen bg-gray-100">
+    <div className="flex min-h-screen bg-white">
       <Sidebar currentPage={currentPage} onLogout={handleLogout} />
-      <main className="flex-1 p-8">
+      <main className="flex-1 p-8 bg-gray-50">
         {children}
       </main>
     </div>

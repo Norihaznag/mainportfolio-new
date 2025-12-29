@@ -64,15 +64,17 @@ export default function SettingsPage() {
         body: JSON.stringify(formData),
       });
 
+      const data = await res.json();
+
       if (res.ok) {
         setMessage('WhatsApp settings saved successfully!');
         setTimeout(() => setMessage(''), 3000);
       } else {
-        setMessage('Failed to save settings');
+        setMessage(`Failed to save settings: ${data.error || data.message}`);
       }
     } catch (error) {
       console.error('Error saving settings:', error);
-      setMessage('Error saving settings');
+      setMessage(`Error saving settings: ${error instanceof Error ? error.message : 'Unknown error'}`);
     } finally {
       setSaving(false);
     }
