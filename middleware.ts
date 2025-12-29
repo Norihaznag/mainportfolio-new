@@ -10,8 +10,8 @@ export function middleware(request: NextRequest) {
   // Check if pathname starts with a language code
   const pathnameHasLanguage = /^\/(en|fr|ar)($|\/)/.test(pathname);
 
-  // If no language in pathname and not API route, redirect to default language (ar)
-  if (!pathnameHasLanguage && !pathname.startsWith('/api')) {
+  // If no language in pathname and not API route or admin route, redirect to default language (ar)
+  if (!pathnameHasLanguage && !pathname.startsWith('/api') && !pathname.startsWith('/admin')) {
     return NextResponse.redirect(
       new URL(`/ar${pathname === '/' ? '' : pathname}`, request.url)
     );
