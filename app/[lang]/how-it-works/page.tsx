@@ -299,16 +299,6 @@ export default async function HowItWorks({ params }: HowItWorksProps) {
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
           {/* Timeline Infographic */}
           <div className="max-w-6xl mx-auto">
-            <div className="progress-indicator">
-              <div className="progress-dot">1</div>
-              <span className="connector-arrow">→</span>
-              <div className="progress-dot">2</div>
-              <span className="connector-arrow">→</span>
-              <div className="progress-dot">3</div>
-              <span className="connector-arrow">→</span>
-              <div className="progress-dot">4</div>
-            </div>
-
             {/* Step Details */}
             <div className="timeline-content">
               {steps.map((item) => (
