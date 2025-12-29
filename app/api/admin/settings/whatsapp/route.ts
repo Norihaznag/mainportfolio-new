@@ -42,7 +42,7 @@ export async function POST(request: NextRequest) {
         .from('site_settings')
         .select('id')
         .eq('key', 'whatsapp_number')
-        .single();
+        .maybeSingle();
 
       if (existing) {
         await supabase
@@ -62,7 +62,7 @@ export async function POST(request: NextRequest) {
         .from('site_settings')
         .select('id')
         .eq('key', 'whatsapp_message')
-        .single();
+        .maybeSingle();
 
       if (existing) {
         await supabase

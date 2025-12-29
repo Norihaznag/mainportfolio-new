@@ -55,7 +55,7 @@ export default function RootLayout({
         <link rel="manifest" href="/manifest.json" suppressHydrationWarning />
         <link rel="icon" href="/favicon.ico" />
       </head>
-      <body className={`bg-white text-gray-900 ${cairo.className}`}>
+      <body className="bg-white text-gray-900">
         {children}
       </body>
     </html>
