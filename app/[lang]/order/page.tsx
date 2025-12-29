@@ -150,10 +150,44 @@ export default async function Order({ params }: OrderProps) {
                   {t.submit}
                 </button>
 
-                <div className="text-center pt-6 border-t">
+                <WhatsAppContact lang={lang} t={t} />
+              </form>
+            </Card>
+          </div>
+        </div>
+      </section>
+    </div>
+  );
+}
+
+async function WhatsAppContact({ lang, t }: { lang: string; t: any }) {
+  let whatsappNumber = '';
+  let whatsappMessage = '';
+
+  try {
+    const response = await fetch(
+      `${process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000'}/api/public/pricing`,
+      { next: { revalidate: 3600 } }
+    );
+    const data = await response.json();
+    whatsappNumber = data.whatsapp_number || '';
+    whatsappMessage = data.whatsapp_message || '';
+  } catch (error) {
+    console.error('Error fetching WhatsApp data:', error);
+  }
+
+  if (!whatsappNumber) {
+    return null;
+  }
+
+  const encodedMessage = encodeURIComponent(whatsappMessage);
+  const waLink = `https://wa.me/${whatsappNumber}?text=${encodedMessage}`;
+
+  return (
+    <div className="text-center pt-6 border-t">
                   <p className="text-gray-600 mb-4">{t.whatsapp}</p>
                   <a
-                    href="https://wa.me/212661234567"
+                    href={waLink}
                     target="_blank"
                     rel="noopener noreferrer"
                     className="inline-block px-6 py-3 bg-green-500 text-white font-medium rounded-lg hover:bg-green-600 transition-colors"
@@ -161,6 +195,8 @@ export default async function Order({ params }: OrderProps) {
                     WhatsApp
                   </a>
                 </div>
+  );
+}
               </form>
             </Card>
           </div>

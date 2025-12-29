@@ -7,6 +7,22 @@ interface PricingProps {
   }>;
 }
 
+const colorClasses: { [key: string]: string } = {
+  blue: 'ring-blue-600',
+  green: 'ring-green-600',
+  purple: 'ring-purple-600',
+  orange: 'ring-orange-600',
+  red: 'ring-red-600',
+};
+
+const colorBgClasses: { [key: string]: string } = {
+  blue: 'from-blue-50 to-blue-100 border-blue-200',
+  green: 'from-green-50 to-green-100 border-green-200',
+  purple: 'from-purple-50 to-purple-100 border-purple-200',
+  orange: 'from-orange-50 to-orange-100 border-orange-200',
+  red: 'from-red-50 to-red-100 border-red-200',
+};
+
 export default async function Pricing({ params }: PricingProps) {
   const { lang } = await params;
 
@@ -14,95 +30,38 @@ export default async function Pricing({ params }: PricingProps) {
     en: {
       title: 'Clear and Simple Pricing',
       subtitle: 'Choose the package that suits your business and start your digital journey with us',
-      companyWebsite: 'Company Website',
-      restaurantWebsite: 'Restaurant Website',
-      ecommerce: 'E-commerce Store',
-      customApp: 'Custom App',
-      daysDelivery: 'Delivery in',
-      days: 'days',
       drh: 'DRH',
+      orderButton: 'Order Now',
     },
     fr: {
       title: 'Tarifs Clairs et Simples',
       subtitle: 'Choisissez le forfait qui convient à votre entreprise et commencez votre voyage numérique avec nous',
-      companyWebsite: 'Site Web Professionnel',
-      restaurantWebsite: 'Site Web Restauration',
-      ecommerce: 'Boutique en Ligne',
-      customApp: 'Application Personnalisée',
-      daysDelivery: 'Livraison en',
-      days: 'jours',
       drh: 'DRH',
+      orderButton: 'Commander Maintenant',
     },
     ar: {
       title: 'أثمنة واضحة وبلا تعقيد',
       subtitle: 'اختار الباقة اللي مناسبة ليك وبدا الرحلة الرقمية ديالك معنا',
-      companyWebsite: 'موقع شركة',
-      restaurantWebsite: 'موقع ديال مطعم',
-      ecommerce: 'متجر إلكتروني',
-      customApp: 'تطبيق مفصّل على قياسك',
-      daysDelivery: 'التسليم فـ',
-      days: 'يوم',
       drh: 'درهم',
+      orderButton: 'اطلب الآن',
     },
   };
 
   const t = content[lang as keyof typeof content] || content.ar;
 
-  const packages = [
-    {
-      name: t.companyWebsite,
-      price: 1999,
-      deliveryDays: 14,
-      features: [
-        lang === 'ar' ? 'موقع احترافي مع تصميم حديث' : lang === 'fr' ? 'Site professionnel avec design moderne' : 'Professional website with modern design',
-        lang === 'ar' ? 'متوافق 100% مع الهاتف' : lang === 'fr' ? '100% compatible mobile' : '100% mobile compatible',
-        lang === 'ar' ? 'محسّن لمحركات البحث (SEO)' : lang === 'fr' ? 'Optimisé pour les moteurs de recherche' : 'SEO optimized',
-        lang === 'ar' ? 'نموذج اتصال' : lang === 'fr' ? 'Formulaire de contact' : 'Contact form',
-        lang === 'ar' ? 'ربط وسائل التواصل' : lang === 'fr' ? 'Liens réseaux sociaux' : 'Social media links',
-        lang === 'ar' ? 'دعم تقني لمدة سنة' : lang === 'fr' ? 'Support technique 1 an' : '1 year technical support',
-      ],
-    },
-    {
-      name: t.restaurantWebsite,
-      price: 2999,
-      deliveryDays: 14,
-      features: [
-        lang === 'ar' ? 'كل ميزات موقع الشركة' : lang === 'fr' ? 'Toutes les fonctionnalités du site professionnel' : 'All company website features',
-        lang === 'ar' ? 'قائمة طعام رقمية' : lang === 'fr' ? 'Menu numérique' : 'Digital menu system',
-        lang === 'ar' ? 'نظام حجز الطاولات' : lang === 'fr' ? 'Système de réservation' : 'Reservation system',
-        lang === 'ar' ? 'عرض الموقع على الخريطة' : lang === 'fr' ? 'Affichage sur Google Maps' : 'Google Maps integration',
-        lang === 'ar' ? 'عرض ساعات العمل' : lang === 'fr' ? 'Affichage des heures d\'ouverture' : 'Business hours display',
-        lang === 'ar' ? 'معرض صور للطعام' : lang === 'fr' ? 'Galerie de photos de plats' : 'Food photo gallery',
-      ],
-      highlighted: true,
-    },
-    {
-      name: t.ecommerce,
-      price: 4999,
-      deliveryDays: 21,
-      features: [
-        lang === 'ar' ? 'متجر إلكتروني كامل' : lang === 'fr' ? 'Boutique en ligne complète' : 'Complete e-commerce store',
-        lang === 'ar' ? 'نظام إدارة المنتجات' : lang === 'fr' ? 'Gestion des produits' : 'Product management system',
-        lang === 'ar' ? 'سلة تسوق وخروج آمن' : lang === 'fr' ? 'Panier et paiement sécurisé' : 'Secure shopping cart & checkout',
-        lang === 'ar' ? 'تكامل البوابات المالية' : lang === 'fr' ? 'Intégration des passerelles de paiement' : 'Payment gateway integration',
-        lang === 'ar' ? 'نظام إدارة الطلبات' : lang === 'fr' ? 'Gestion des commandes' : 'Order management system',
-        lang === 'ar' ? 'تقارير المبيعات' : lang === 'fr' ? 'Rapports de ventes' : 'Sales reports & analytics',
-      ],
-    },
-    {
-      name: t.customApp,
-      price: 7999,
-      deliveryDays: 30,
-      features: [
-        lang === 'ar' ? 'تطبيق مخصص حسب احتياجاتك' : lang === 'fr' ? 'Application personnalisée selon vos besoins' : 'Custom application tailored to your needs',
-        lang === 'ar' ? 'ميزات متقدمة مخصصة' : lang === 'fr' ? 'Fonctionnalités avancées personnalisées' : 'Advanced custom features',
-        lang === 'ar' ? 'لوحة تحكم متقدمة' : lang === 'fr' ? 'Tableau de bord avancé' : 'Advanced admin dashboard',
-        lang === 'ar' ? 'تكامل قواعد البيانات' : lang === 'fr' ? 'Intégration de bases de données' : 'Database integration',
-        lang === 'ar' ? 'واجهة برمجية (API)' : lang === 'fr' ? 'Interface de programmation (API)' : 'API integration',
-        lang === 'ar' ? 'دعم تقني ممتد' : lang === 'fr' ? 'Support technique étendu' : 'Extended technical support',
-      ],
-    },
-  ];
+  // Fetch pricing from the database
+  let packages = [];
+  try {
+    const response = await fetch(
+      `${process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000'}/api/public/pricing`,
+      { next: { revalidate: 3600 } }
+    );
+    const data = await response.json();
+    packages = data.pricing || [];
+  } catch (error) {
+    console.error('Error fetching pricing:', error);
+    packages = [];
+  }
 
   return (
     <div>
@@ -121,42 +80,50 @@ export default async function Pricing({ params }: PricingProps) {
       {/* Pricing Cards */}
       <section className="py-20 sm:py-32">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-            {packages.map((pkg) => (
-              <Card
-                key={pkg.name}
-                className={`flex flex-col h-full ${
-                  pkg.highlighted ? 'ring-2 ring-blue-600 transform lg:scale-105' : ''
-                }`}
-              >
-                <div className="mb-6">
-                  <h3 className="text-2xl font-bold text-gray-900 mb-4">
-                    {pkg.name}
-                  </h3>
-                  <p className="text-4xl font-bold text-blue-600 mb-2">
-                    {pkg.price.toLocaleString(lang === 'ar' ? 'ar-MA' : lang === 'fr' ? 'fr-FR' : 'en-US')}
-                  </p>
-                  <p className="text-gray-600">{t.drh}</p>
-                  <p className="text-sm text-gray-500 mt-2">
-                    {t.daysDelivery} {pkg.deliveryDays} {t.days}
-                  </p>
-                </div>
-                <div className="flex-1">
-                  <ul className="space-y-3 mb-6">
-                    {pkg.features.map((feature) => (
-                      <li key={feature} className="flex items-center gap-3 text-gray-600">
-                        <span className="text-blue-600">✓</span>
-                        {feature}
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-                <Button href={`/${lang}/order`} className="w-full">
-                  Order
-                </Button>
-              </Card>
-            ))}
-          </div>
+          {packages.length === 0 ? (
+            <div className="text-center text-gray-600 py-12">
+              <p>No pricing packages available at the moment.</p>
+            </div>
+          ) : (
+            <div className={`grid grid-cols-1 ${packages.length === 1 ? 'grid-cols-1' : packages.length === 2 ? 'md:grid-cols-2' : 'md:grid-cols-2 lg:grid-cols-4'} gap-6`}>
+              {packages.map((pkg: any, index: number) => (
+                <Card
+                  key={pkg.id}
+                  className={`flex flex-col h-full bg-gradient-to-br ${colorBgClasses[pkg.color] || colorBgClasses.blue} ${
+                    pkg.featured ? `ring-2 ${colorClasses[pkg.color] || colorClasses.blue} transform lg:scale-105` : ''
+                  }`}
+                >
+                  <div className="mb-6">
+                    <h3 className="text-2xl font-bold text-gray-900 mb-4">
+                      {pkg.name}
+                    </h3>
+                    <p className="text-4xl font-bold text-gray-800 mb-2">
+                      {pkg.price.toLocaleString(lang === 'ar' ? 'ar-MA' : lang === 'fr' ? 'fr-FR' : 'en-US')}
+                    </p>
+                    <p className="text-gray-600">{t.drh}</p>
+                  </div>
+                  <div className="flex-1">
+                    {pkg.description && (
+                      <p className="text-gray-600 mb-4 text-sm">{pkg.description}</p>
+                    )}
+                    {pkg.features && pkg.features.length > 0 && (
+                      <ul className="space-y-3 mb-6">
+                        {pkg.features.map((feature: string, idx: number) => (
+                          <li key={idx} className="flex items-center gap-3 text-gray-700 text-sm">
+                            <span className="text-gray-800 font-bold">✓</span>
+                            {feature}
+                          </li>
+                        ))}
+                      </ul>
+                    )}
+                  </div>
+                  <Button href={`/${lang}/order`} className="w-full">
+                    {t.orderButton}
+                  </Button>
+                </Card>
+              ))}
+            </div>
+          )}
         </div>
       </section>
     </div>
