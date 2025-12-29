@@ -36,6 +36,65 @@ export const translations = {
     services: {
       title: 'Our Services',
     },
+    pricing: {
+      title: 'Clear and Simple Pricing',
+      subtitle: 'Choose the package that suits your business and start your digital journey with us',
+      drh: 'DRH',
+      orderButton: 'Order Now',
+      customPrice: 'Contact Us',
+      packages: {
+        starter: {
+          name: 'Starter',
+          description: 'Perfect for small businesses getting started',
+          features: [
+            'Professional Website',
+            'Mobile Responsive',
+            'Up to 5 Pages',
+            'Contact Form',
+            'Basic SEO',
+            'SSL Certificate',
+          ],
+        },
+        professional: {
+          name: 'Professional',
+          description: 'Most popular for growing businesses',
+          features: [
+            'Everything in Starter',
+            'Up to 10 Pages',
+            'Blog Section',
+            'Advanced SEO',
+            'Google Analytics',
+            'Email Support',
+            'Monthly Updates',
+          ],
+        },
+        enterprise: {
+          name: 'Enterprise',
+          description: 'Complete solution for established companies',
+          features: [
+            'Everything in Professional',
+            'Unlimited Pages',
+            'E-commerce Features',
+            'Payment Gateway',
+            'Advanced Analytics',
+            'Priority Support',
+            'Custom Features',
+          ],
+        },
+        custom: {
+          name: 'Custom',
+          description: 'Tailored solutions for unique needs',
+          features: [
+            'Fully Customized',
+            'Your Requirements',
+            'Your Timeline',
+            'Dedicated Team',
+            'Full Support',
+            'Lifetime Updates',
+          ],
+        },
+      },
+    },
     footer: {
       company: 'Azinag',
       tagline: 'Professional Websites For Moroccan Businesses',
@@ -91,6 +150,65 @@ export const translations = {
     services: {
       title: 'Nos Services',
     },
+    pricing: {
+      title: 'Tarifs Clairs et Simples',
+      subtitle: 'Choisissez le forfait qui convient à votre entreprise et commencez votre voyage numérique avec nous',
+      drh: 'DRH',
+      orderButton: 'Commander Maintenant',
+      customPrice: 'Contactez-nous',
+      packages: {
+        starter: {
+          name: 'Démarrage',
+          description: 'Parfait pour les petites entreprises qui commencent',
+          features: [
+            'Site Web Professionnel',
+            'Adapté Mobile',
+            'Jusqu\'à 5 Pages',
+            'Formulaire de Contact',
+            'SEO de Base',
+            'Certificat SSL',
+          ],
+        },
+        professional: {
+          name: 'Professionnel',
+          description: 'Le plus populaire pour les entreprises en croissance',
+          features: [
+            'Tout dans Démarrage',
+            'Jusqu\'à 10 Pages',
+            'Section Blog',
+            'SEO Avancé',
+            'Google Analytics',
+            'Support Email',
+            'Mises à Jour Mensuelles',
+          ],
+        },
+        enterprise: {
+          name: 'Entreprise',
+          description: 'Solution complète pour les entreprises établies',
+          features: [
+            'Tout dans Professionnel',
+            'Pages Illimitées',
+            'Fonctionnalités E-commerce',
+            'Passerelle de Paiement',
+            'Analyses Avancées',
+            'Support Prioritaire',
+            'Fonctionnalités Personnalisées',
+          ],
+        },
+        custom: {
+          name: 'Personnalisé',
+          description: 'Solutions adaptées aux besoins uniques',
+          features: [
+            'Entièrement Personnalisé',
+            'Vos Exigences',
+            'Votre Calendrier',
+            'Équipe Dédiée',
+            'Support Complet',
+            'Mises à Jour Illimitées',
+          ],
+        },
+      },
+    },
     footer: {
       company: 'Azinag',
       tagline: 'Sites Web Professionnels Pour les Entreprises Marocaines',
@@ -144,6 +262,65 @@ export const translations = {
     },
     services: {
       title: 'خدماتنا',
+    },
+    pricing: {
+      title: 'أثمنة واضحة وبلا تعقيد',
+      subtitle: 'اختار الباقة اللي مناسبة ليك وبدا الرحلة الرقمية ديالك معنا',
+      drh: 'درهم',
+      orderButton: 'اطلب الآن',
+      customPrice: 'اتاصل معنا',
+      packages: {
+        starter: {
+          name: 'ابتدائي',
+          description: 'مثالي للشركات الصغيرة البداية',
+          features: [
+            'موقع احترافي',
+            'متوافق مع الجوال',
+            'حتى 5 صفحات',
+            'نموذج اتصال',
+            'SEO أساسي',
+            'شهادة SSL',
+          ],
+        },
+        professional: {
+          name: 'احترافي',
+          description: 'الخيار الأفضل للشركات النامية',
+          features: [
+            'كل شي في الابتدائي',
+            'حتى 10 صفحات',
+            'قسم المدونة',
+            'SEO متقدم',
+            'تحليلات جوجل',
+            'دعم عبر البريد',
+            'تحديثات شهرية',
+          ],
+        },
+        enterprise: {
+          name: 'شركات',
+          description: 'حل شامل للشركات الكبرى',
+          features: [
+            'كل شي في الاحترافي',
+            'صفحات غير محدودة',
+            'متجر إلكتروني كامل',
+            'بوابة دفع',
+            'تحليلات متقدمة',
+            'دعم أولويات',
+            'ميزات مخصصة',
+          ],
+        },
+        custom: {
+          name: 'مخصص',
+          description: 'حلول موجهة لاحتياجاتك الخاصة',
+          features: [
+            'مخصص تماماً',
+            'احتياجاتك',
+            'وقتك الخاص',
+            'فريق مخصص',
+            'دعم كامل',
+            'تحديثات دائمة',
+          ],
+        },
+      },
     },
     footer: {
       company: 'أزيناج',

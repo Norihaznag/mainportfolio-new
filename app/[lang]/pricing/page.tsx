@@ -1,9 +1,11 @@
 import { Button } from '@/components/Button';
 import { Card } from '@/components/Card';
+import { translations } from '@/lib/translations';
+import type { Language } from '@/lib/translations';
 
 interface PricingProps {
   params: Promise<{
-    lang: 'en' | 'fr' | 'ar';
+    lang: Language;
   }>;
 }
 
@@ -22,114 +24,36 @@ const colorBgClasses: { [key: string]: string } = {
 };
 
 // Static pricing packages
-const staticPackages = [
-  {
-    id: 1,
-    name: 'Starter',
-    price: 999,
-    color: 'blue',
-    featured: false,
-    description: 'Perfect for small businesses getting started',
-    features: [
-      'Professional Website',
-      'Mobile Responsive',
-      'Up to 5 Pages',
-      'Contact Form',
-      'Basic SEO',
-      'SSL Certificate',
-    ],
-  },
-  {
-    id: 2,
-    name: 'Professional',
-    price: 1999,
-    color: 'green',
-    featured: true,
-    description: 'Most popular for growing businesses',
-    features: [
-      'Everything in Starter',
-      'Up to 10 Pages',
-      'Blog Section',
-      'Advanced SEO',
-      'Google Analytics',
-      'Email Support',
-      'Monthly Updates',
-    ],
-  },
-  {
-    id: 3,
-    name: 'Enterprise',
-    price: 3999,
-    color: 'purple',
-    featured: false,
-    description: 'Complete solution for established companies',
-    features: [
-      'Everything in Professional',
-      'Unlimited Pages',
-      'E-commerce Features',
-      'Payment Gateway',
-      'Advanced Analytics',
-      'Priority Support',
-      'Custom Features',
-    ],
-  },
-  {
-    id: 4,
-    name: 'Custom',
-    price: null,
-    color: 'orange',
-    featured: false,
-    description: 'Tailored solutions for unique needs',
-    features: [
-      'Fully Customized',
-      'Your Requirements',
-      'Your Timeline',
-      'Dedicated Team',
-      'Full Support',
-      'Lifetime Updates',
-    ],
-  },
+const packageConfig = [
+  { id: 1, key: 'starter', price: 999, color: 'blue', featured: false },
+  { id: 2, key: 'professional', price: 1999, color: 'green', featured: true },
+  { id: 3, key: 'enterprise', price: 3999, color: 'purple', featured: false },
+  { id: 4, key: 'custom', price: null, color: 'orange', featured: false },
 ];
 
 export default async function Pricing({ params }: PricingProps) {
   const { lang } = await params;
+  const t = translations[lang] || translations.ar;
 
-  const content = {
-    en: {
-      title: 'Clear and Simple Pricing',
-      subtitle: 'Choose the package that suits your business and start your digital journey with us',
-      drh: 'DRH',
-      orderButton: 'Order Now',
-      customPrice: 'Contact Us',
-    },
-    fr: {
-      title: 'Tarifs Clairs et Simples',
-      subtitle: 'Choisissez le forfait qui convient à votre entreprise et commencez votre voyage numérique avec nous',
-      drh: 'DRH',
-      orderButton: 'Commander Maintenant',
-      customPrice: 'Contactez-nous',
-    },
-    ar: {
-      title: 'أثمنة واضحة وبلا تعقيد',
-      subtitle: 'اختار الباقة اللي مناسبة ليك وبدا الرحلة الرقمية ديالك معنا',
-      drh: 'درهم',
-      orderButton: 'اطلب الآن',
-      customPrice: 'اتاصل معنا',
-    },
-  };
-
-  const t = content[lang as keyof typeof content] || content.ar;
+  const pricingContent = t.pricing;
+  const packages = packageConfig.map((config) => {
+    const pkg = pricingContent.packages[config.key as keyof typeof pricingContent.packages];
+    return {
+      ...config,
+      ...pkg,
+    };
+  });
 
   return (
     <div>
       {/* Header */}
       <section className="py-20 sm:py-32 border-b border-gray-200">
-        <div className="container mx-auto px-4 sm:px-6 lg:px-8 text-center">
+        <div className={`container mx-auto px-4 sm:px-6 lg:px-8 ${lang === 'ar' ? 'text-right' : 'text-left'}`}>
           <h1 className="text-4xl sm:text-5xl font-bold text-gray-900 mb-6">
-            {t.title}
+            {pricingContent.title}
           </h1>
-          <p className="text-xl text-gray-600 max-w-2xl mx-auto">
-            {t.subtitle}
+          <p className="text-xl text-gray-600 max-w-2xl">
+            {pricingContent.subtitle}
           </p>
         </div>
       </section>
@@ -138,7 +62,7 @@ export default async function Pricing({ params }: PricingProps) {
       <section className="py-20 sm:py-32">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-            {staticPackages.map((pkg) => (
+            {packages.map((pkg) => (
               <div
                 key={pkg.id}
                 className={`bg-gradient-to-br ${colorBgClasses[pkg.color]} rounded-lg p-6 flex flex-col h-full border-2 ${
@@ -154,25 +78,36 @@ export default async function Pricing({ params }: PricingProps) {
                       <p className="text-4xl font-bold text-gray-800 mb-2">
                         {pkg.price.toLocaleString(lang === 'ar' ? 'ar-MA' : lang === 'fr' ? 'fr-FR' : 'en-US')}
                       </p>
-                      <p className="text-gray-600">{t.drh}</p>
+                      <p className="text-gray-600">{pricingContent.drh}</p>
                     </>
                   ) : (
-                    <p className="text-3xl font-bold text-gray-700 mb-2">{t.customPrice}</p>
+                    <p className="text-3xl font-bold text-gray-700 mb-2">{pricingContent.customPrice}</p>
                   )}
                 </div>
-                <p className="text-gray-600 mb-6 text-sm">{pkg.description}</p>
+                <p className={`text-gray-600 mb-6 text-sm ${lang === 'ar' ? 'text-right' : 'text-left'}`}>
+                  {pkg.description}
+                </p>
                 <div className="flex-1">
-                  <ul className="space-y-3 mb-6">
-                    {pkg.features.map((feature, idx) => (
+                  <ul className={`space-y-3 mb-6 ${lang === 'ar' ? 'text-right' : 'text-left'}`}>
+                    {pkg.features.map((feature: string, idx: number) => (
                       <li key={idx} className="flex items-center gap-3 text-gray-700 text-sm">
-                        <span className="text-gray-800 font-bold">✓</span>
-                        {feature}
+                        {lang === 'ar' ? (
+                          <>
+                            <span>{feature}</span>
+                            <span className="text-gray-800 font-bold">✓</span>
+                          </>
+                        ) : (
+                          <>
+                            <span className="text-gray-800 font-bold">✓</span>
+                            <span>{feature}</span>
+                          </>
+                        )}
                       </li>
                     ))}
                   </ul>
                 </div>
                 <Button href={`/${lang}/order`} className="w-full">
-                  {pkg.price ? t.orderButton : t.customPrice}
+                  {pkg.price ? pricingContent.orderButton : pricingContent.customPrice}
                 </Button>
               </div>
             ))}
