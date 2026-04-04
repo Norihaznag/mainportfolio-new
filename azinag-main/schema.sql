@@ -160,6 +160,39 @@ create policy "Admins can manage site settings" on public.site_settings
     )
   );
 
+-- Projects table (portfolio showcase)
+create table if not exists public.projects (
+  id uuid primary key default uuid_generate_v4(),
+  title text not null,
+  description text,
+  live_url text,
+  thumbnail_url text,
+  tags text[] default '{}',
+  category text default 'Web',
+  sort_order integer default 0,
+  featured boolean default false,
+  published boolean default true,
+  created_at timestamp with time zone default timezone('utc'::text, now()) not null,
+  updated_at timestamp with time zone default timezone('utc'::text, now()) not null
+);
+
+alter table public.projects enable row level security;
+
+drop policy if exists "Anyone can read published projects" on public.projects;
+create policy "Anyone can read published projects" on public.projects
+  for select
+  using (published = true);
+
+drop policy if exists "Admins can manage projects" on public.projects;
+create policy "Admins can manage projects" on public.projects
+  for all
+  using (
+    exists (
+      select 1 from public.users
+      where users.id = auth.uid() and users.role = 'admin'
+    )
+  );
+
 -- Indexes for performance
 create index if not exists orders_created_at_idx on public.orders(created_at desc);
 create index if not exists orders_status_idx on public.orders(status);
@@ -168,3 +201,6 @@ create index if not exists pricing_sort_order_idx on public.pricing(sort_order);
 create index if not exists pricing_active_idx on public.pricing(active);
 create index if not exists content_published_idx on public.content(published);
 create index if not exists site_settings_key_idx on public.site_settings(key);
+create index if not exists projects_sort_order_idx on public.projects(sort_order);
+create index if not exists projects_published_idx on public.projects(published);
+create index if not exists projects_featured_idx on public.projects(featured);
