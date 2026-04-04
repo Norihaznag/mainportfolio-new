@@ -66,33 +66,29 @@ export default function Home() {
         <p className="eyebrow mb-3">{c.offers.eyebrow}</p>
         <h2 className="text-3xl sm:text-4xl font-bold tracking-tight mb-2">{c.offers.title}</h2>
         <p className="text-ink-muted mb-14 text-[1.0625rem]">{c.offers.subtitle}</p>
-        <div className="grid md:grid-cols-2 gap-6">
-          <div className="border border-border-subtle rounded-2xl p-8 bg-surface hover:shadow-card-hover transition-shadow">
-            <p className="eyebrow mb-3">{c.offers.landingPage.name}</p>
-            <h3 className="text-xl font-bold mb-2">{c.offers.landingPage.tagline}</h3>
-            <p className="text-sm text-ink-muted leading-relaxed mb-6">{c.offers.landingPage.description}</p>
-            <ul className="space-y-2 mb-8">
-              {c.offers.landingPage.includes.map((item) => (
-                <li key={item} className="flex items-center gap-2 text-sm text-ink-muted">
-                  <span className="w-1.5 h-1.5 rounded-full bg-accent shrink-0" />{item}
-                </li>
-              ))}
-            </ul>
-            <CTAButton label={c.offers.landingPage.cta} trackEvent="book_call" trackSource="offer_lp" variant="primary" size="md" />
-          </div>
-          <div className="border border-border-subtle rounded-2xl p-8 bg-surface hover:shadow-card-hover transition-shadow">
-            <p className="eyebrow mb-3">{c.offers.mvp.name}</p>
-            <h3 className="text-xl font-bold mb-2">{c.offers.mvp.tagline}</h3>
-            <p className="text-sm text-ink-muted leading-relaxed mb-6">{c.offers.mvp.description}</p>
-            <ul className="space-y-2 mb-8">
-              {c.offers.mvp.includes.map((item) => (
-                <li key={item} className="flex items-center gap-2 text-sm text-ink-muted">
-                  <span className="w-1.5 h-1.5 rounded-full bg-accent shrink-0" />{item}
-                </li>
-              ))}
-            </ul>
-            <CTAButton label={c.offers.mvp.cta} trackEvent="book_call" trackSource="offer_mvp" variant="primary" size="md" />
-          </div>
+        <div className="grid md:grid-cols-3 gap-6">
+          {([  
+            { key: 'webApp', src: 'offer_web' },
+            { key: 'desktopApp', src: 'offer_desktop' },
+            { key: 'androidApp', src: 'offer_android' },
+          ] as const).map(({ key, src }) => {
+            const offer = c.offers[key];
+            return (
+              <div key={key} className="border border-border-subtle rounded-2xl p-8 bg-surface hover:shadow-card-hover transition-shadow flex flex-col">
+                <p className="eyebrow mb-3">{offer.name}</p>
+                <h3 className="text-xl font-bold mb-2">{offer.tagline}</h3>
+                <p className="text-sm text-ink-muted leading-relaxed mb-6">{offer.description}</p>
+                <ul className="space-y-2 mb-8 flex-1">
+                  {offer.includes.map((item) => (
+                    <li key={item} className="flex items-center gap-2 text-sm text-ink-muted">
+                      <span className="w-1.5 h-1.5 rounded-full bg-accent shrink-0" />{item}
+                    </li>
+                  ))}
+                </ul>
+                <CTAButton label={offer.cta} trackEvent="book_call" trackSource={src} variant="primary" size="md" />
+              </div>
+            );
+          })}
         </div>
       </section>
 

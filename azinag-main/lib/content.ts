@@ -15,7 +15,7 @@ export const content = {
       eyebrow: 'Founder-led studio',
       headline: 'The digital foundation your startup needs.',
       subheadline:
-        'Landing pages and SaaS MVPs built by a founder who ships. Clean code, sharp design, fixed scope.',
+        'Web apps, desktop apps, and Android apps — built by a founder who ships. Clean code, sharp design, fixed scope.',
       primaryCta: 'Book a discovery call',
       secondaryCta: 'See selected work',
     },
@@ -27,37 +27,52 @@ export const content = {
     ],
     offers: {
       eyebrow: 'What we build',
-      title: 'Two focused offers.',
+      title: 'Three focused services.',
       subtitle: 'Clear deliverables. Fixed pricing.',
-      landingPage: {
-        name: 'Landing Page',
-        tagline: 'Convert cold traffic into leads.',
+      webApp: {
+        name: 'Web App',
+        tagline: 'Full-featured web applications, shipped fast.',
         description:
-          'A high-conversion marketing page built to perform on paid and organic traffic. Designed around your audience and offer — not a generic template.',
+          'SaaS platforms, internal tools, and customer portals. Built with modern React stack and deployed to production.',
         includes: [
-          'Custom design system',
-          'Copywriting direction',
-          'Performance-optimized build',
-          'Analytics integration',
-          'A/B-ready structure',
-        ],
-        cta: 'Book a discovery call',
-        link: '/lp/landing-page-development',
-      },
-      mvp: {
-        name: 'SaaS / MVP',
-        tagline: 'Validate your idea with real software.',
-        description:
-          'A scoped MVP or SaaS feature set built to test a real business hypothesis. Functional, deployable, and handoff-ready.',
-        includes: [
-          'Product scoping session',
-          'Full-stack build (Next.js + Supabase)',
-          'Auth, database, and API layer',
+          'Custom UI/UX design',
+          'Full-stack Next.js build',
+          'Auth, database & API layer',
           'Admin dashboard',
-          'Deployment to production',
+          'Production deployment & handoff',
         ],
         cta: 'Book a discovery call',
         link: '/lp/startup-mvp-development',
+      },
+      desktopApp: {
+        name: 'Desktop App',
+        tagline: 'Native desktop software for serious workflows.',
+        description:
+          'Cross-platform desktop applications built with Electron or Tauri. Fast, native-feeling, and fully yours.',
+        includes: [
+          'Cross-platform (Windows / macOS / Linux)',
+          'Native OS integration',
+          'Offline-capable',
+          'Auto-update support',
+          'Full source code handoff',
+        ],
+        cta: 'Book a discovery call',
+        link: '/contact',
+      },
+      androidApp: {
+        name: 'Android App',
+        tagline: 'Android apps built to ship.',
+        description:
+          'Native or React Native Android apps from design to Play Store. Scoped, priced, and delivered.',
+        includes: [
+          'Android-native or React Native',
+          'Clean UI/UX design',
+          'Backend & API integration',
+          'Play Store submission',
+          'Full source code handoff',
+        ],
+        cta: 'Book a discovery call',
+        link: '/contact',
       },
     },
     selectedWork: {
@@ -117,7 +132,7 @@ export const content = {
         },
         {
           q: 'What stack do you build with?',
-          a: 'Next.js, React, TypeScript, Supabase, Tailwind. Production-grade, maintainable, and fully handoff-ready.',
+          a: 'Web: Next.js, React, TypeScript, Supabase, Tailwind. Desktop: Electron or Tauri. Android: React Native or native Android. All production-grade and handoff-ready.',
         },
         {
           q: 'Can I see examples first?',
@@ -152,10 +167,10 @@ export const content = {
     about: {
       eyebrow: 'About',
       headline: 'Founder-led. Outcome-focused.',
-      body: "Azinag is a one-person software studio. I build landing pages and SaaS MVPs for early-stage startups who want a direct line to the person actually doing the work.\n\nI've been building software products across SaaS, e-commerce, and service businesses. My current focus is helping global startups move from idea to traction with clean, maintainable software.",
+      body: "Azinag is a one-person software studio specializing in web apps, desktop apps, and Android apps. I work with early-stage startups and businesses who want a direct line to the person actually doing the work.\n\nI build across the full product surface — from web-based SaaS platforms to cross-platform desktop tools and Android apps. My focus is clean code, maintainable architecture, and outcomes that matter.",
       stack: {
         title: 'What I build with',
-        items: ['Next.js / React', 'TypeScript', 'Supabase / PostgreSQL', 'Tailwind CSS', 'Vercel'],
+        items: ['Next.js / React', 'TypeScript', 'Supabase / PostgreSQL', 'Tailwind CSS', 'Electron / Tauri', 'React Native / Android'],
       },
       values: {
         title: 'How I work',
@@ -260,7 +275,7 @@ export const content = {
       cta: 'See selected work',
     },
     footer: {
-      tagline: 'Landing pages and SaaS MVPs for global startups.',
+      tagline: 'Web apps, desktop apps, and Android apps for global clients.',
       links: {
         work: 'Work',
         pricing: 'Pricing',
@@ -285,7 +300,7 @@ export const content = {
       eyebrow: 'استوديو يقوده المؤسس',
       headline: 'الأساس الرقمي الذي تحتاجه شركتك الناشئة.',
       subheadline:
-        'صفحات هبوط ومنتجات SaaS مبنية من مؤسس يُنجز. كود نظيف، تصميم حاد، نطاق ثابت.',
+        'تطبيقات ويب وتطبيقات سطح المكتب وتطبيقات أندرويد — مبنية من مؤسس يُنجز. كود نظيف، تصميم حاد، نطاق ثابت.',
       primaryCta: 'احجز موعداً اكتشافياً',
       secondaryCta: 'شاهد الأعمال',
     },
@@ -297,37 +312,52 @@ export const content = {
     ],
     offers: {
       eyebrow: 'ماذا نبني',
-      title: 'عرضان محددان.',
+      title: 'ثلاث خدمات محددة.',
       subtitle: 'مخرجات واضحة. أسعار ثابتة.',
-      landingPage: {
-        name: 'صفحة هبوط',
-        tagline: 'حوّل الزوار إلى عملاء.',
+      webApp: {
+        name: 'تطبيق ويب',
+        tagline: 'تطبيقات ويب متكاملة، تُشحن بسرعة.',
         description:
-          'صفحة تسويقية عالية التحويل مبنية للأداء على الإعلانات والبحث الطبيعي.',
+          'منصات SaaS وأدوات داخلية وبوابات العملاء. مبنية بـ React وجاهزة للإنتاج.',
         includes: [
-          'نظام تصميم مخصص',
-          'توجيه الكتابة الإعلانية',
-          'بناء محسّن للأداء',
-          'تكامل التحليلات',
-          'هيكل جاهز للاختبار A/B',
-        ],
-        cta: 'احجز موعداً اكتشافياً',
-        link: '/lp/landing-page-development',
-      },
-      mvp: {
-        name: 'SaaS / MVP',
-        tagline: 'اختبر فكرتك ببرنامج حقيقي.',
-        description:
-          'MVP أو ميزة SaaS مبنية لاختبار فرضية تجارية حقيقية. وظيفية، قابلة للنشر، وجاهزة للتسليم.',
-        includes: [
-          'جلسة تحديد النطاق',
-          'بناء كامل (Next.js + Supabase)',
+          'تصميم UI/UX مخصص',
+          'بناء Next.js متكامل',
           'طبقة المصادقة وقاعدة البيانات والـ API',
           'لوحة إدارة',
-          'نشر في بيئة الإنتاج',
+          'نشر ونقل ملكية',
         ],
         cta: 'احجز موعداً اكتشافياً',
         link: '/lp/startup-mvp-development',
+      },
+      desktopApp: {
+        name: 'تطبيق سطح المكتب',
+        tagline: 'برمجيات سطح مكتب أصيلة للمهام الجدية.',
+        description:
+          'تطبيقات سطح مكتب متعددة المنصات مبنية بـ Electron أو Tauri. سريعة وأصيلة الشعور.',
+        includes: [
+          'متعدد المنصات (Windows / macOS / Linux)',
+          'تكامل مع نظام التشغيل',
+          'يعمل بدون إنترنت',
+          'دعم التحديث التلقائي',
+          'تسليم الكود المصدري كاملاً',
+        ],
+        cta: 'احجز موعداً اكتشافياً',
+        link: '/contact',
+      },
+      androidApp: {
+        name: 'تطبيق أندرويد',
+        tagline: 'تطبيقات أندرويد مبنية للشحن.',
+        description:
+          'تطبيقات أندرويد أصيلة أو React Native من التصميم إلى Play Store.',
+        includes: [
+          'أندرويد أصيل أو React Native',
+          'تصميم UI/UX نظيف',
+          'تكامل مع الـ Backend',
+          'رفع على Play Store',
+          'تسليم الكود المصدري كاملاً',
+        ],
+        cta: 'احجز موعداً اكتشافياً',
+        link: '/contact',
       },
     },
     selectedWork: {
@@ -387,7 +417,7 @@ export const content = {
         },
         {
           q: 'ما هي التقنيات التي تستخدمها؟',
-          a: 'Next.js وReact وTypeScript وSupabase وTailwind. جاهز للإنتاج وقابل للصيانة.',
+          a: 'ويب: Next.js وReact وTypeScript وSupabase وTailwind. سطح المكتب: Electron أو Tauri. أندرويد: React Native أو أندرويد أصيل. كل شيء جاهز للإنتاج وقابل للتسليم.',
         },
         {
           q: 'هل يمكنني رؤية أمثلة أولاً؟',
@@ -422,10 +452,10 @@ export const content = {
     about: {
       eyebrow: 'عنّا',
       headline: 'مؤسس يقود. متمحور حول النتائج.',
-      body: 'أزيناغ هو استوديو برمجيات بشخص واحد. أبني صفحات هبوط وSaaS MVPs للشركات الناشئة في المراحل الأولى التي تريد تواصلاً مباشراً مع من يقوم بالعمل فعلاً.',
+      body: 'أزيناغ هو استوديو برمجيات بشخص واحد متخصص في تطبيقات الويب وتطبيقات سطح المكتب وتطبيقات أندرويد. أعمل مع الشركات الناشئة والأعمال التي تريد تواصلاً مباشراً مع من يقوم بالعمل فعلاً.\n\nأبني عبر كامل سطح المنتج — من منصات SaaS إلى أدوات سطح مكتب متعددة المنصات وتطبيقات أندرويد.',
       stack: {
         title: 'ما أبني به',
-        items: ['Next.js / React', 'TypeScript', 'Supabase / PostgreSQL', 'Tailwind CSS', 'Vercel'],
+        items: ['Next.js / React', 'TypeScript', 'Supabase / PostgreSQL', 'Tailwind CSS', 'Electron / Tauri', 'React Native / Android'],
       },
       values: {
         title: 'كيف أعمل',
@@ -496,7 +526,7 @@ export const content = {
       cta: 'شاهد الأعمال المختارة',
     },
     footer: {
-      tagline: 'صفحات هبوط ومنتجات SaaS للشركات الناشئة العالمية.',
+      tagline: 'تطبيقات ويب وسطح المكتب وأندرويد للعملاء العالميين.',
       links: {
         work: 'الأعمال',
         pricing: 'الأسعار',

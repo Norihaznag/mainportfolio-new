@@ -14,88 +14,74 @@ export default function AdminLogin() {
     e.preventDefault();
     setLoading(true);
     setError('');
-
     try {
       const res = await fetch('/api/admin/auth/login', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email, password }),
       });
-
       const data = await res.json();
-
-      if (!res.ok) {
-        setError(data.message || 'Login failed');
-        return;
-      }
-
-      localStorage.setItem('adminToken', data.token);
-      router.push('/adminos');
-    } catch (err) {
-      setError('An error occurred. Please try again.');
-      console.error(err);
+      if (!res.ok) { setError(data.message || 'Login failed'); return; }
+      router.replace('/adminos/projects');
+    } catch {
+      setError('Something went wrong.');
     } finally {
       setLoading(false);
     }
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-cartoon-bg font-sans selection:bg-cartoon-pink selection:text-black p-6">
-      <div className="bg-white rounded-2xl border-4 border-black shadow-neo-lg p-8 sm:p-12 w-full max-w-md rotate-[-1deg] transition-transform hover:rotate-0 duration-300">
-        <h1 className="text-4xl font-black text-center text-black mb-2 uppercase tracking-wide">Azinag Admin</h1>
-        <p className="text-center text-lg font-bold text-gray-700 mb-8">Login to your admin panel</p>
+    <div className="min-h-screen bg-canvas flex items-center justify-center px-4">
+      <div className="w-full max-w-sm">
+        <p className="text-[0.65rem] font-bold tracking-widest uppercase text-ink-faint mb-10 text-center">
+          Azinag
+        </p>
+        <h1 className="text-2xl font-bold text-ink mb-1 text-center">Admin</h1>
+        <p className="text-sm text-ink-muted text-center mb-8">Sign in to manage your site</p>
 
         {error && (
-          <div className="bg-cartoon-pink border-3 border-black text-black font-bold px-4 py-3 rounded-xl mb-6 shadow-neo-sm">
+          <div className="bg-red-50 border border-red-200 text-red-700 text-sm px-4 py-3 rounded-xl mb-6">
             {error}
           </div>
         )}
 
-        <form onSubmit={handleSubmit} className="space-y-6">
+        <form onSubmit={handleSubmit} className="space-y-4">
           <div>
-            <label htmlFor="email" className="block text-lg font-bold text-black mb-2 uppercase">
+            <label className="block text-xs font-semibold text-ink-muted uppercase tracking-wide mb-1.5">
               Email
             </label>
             <input
               type="email"
-              id="email"
               value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              className="w-full px-5 py-3 border-3 border-black rounded-xl bg-[#FFFDF0] focus:bg-white focus:outline-none focus:shadow-neo-sm transition-all font-bold text-black"
-              placeholder="admin@example.com"
+              onChange={e => setEmail(e.target.value)}
               required
+              autoComplete="email"
+              className="w-full px-3.5 py-2.5 rounded-lg border border-border-subtle bg-surface text-ink text-sm focus:outline-none focus:ring-2 focus:ring-accent/30 focus:border-accent"
+              placeholder="admin@azinag.site"
             />
           </div>
-
           <div>
-            <label htmlFor="password" className="block text-lg font-bold text-black mb-2 uppercase">
+            <label className="block text-xs font-semibold text-ink-muted uppercase tracking-wide mb-1.5">
               Password
             </label>
             <input
               type="password"
-              id="password"
               value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              className="w-full px-5 py-3 border-3 border-black rounded-xl bg-[#FFFDF0] focus:bg-white focus:outline-none focus:shadow-neo-sm transition-all font-bold text-black"
-              placeholder="••••••••"
+              onChange={e => setPassword(e.target.value)}
               required
+              autoComplete="current-password"
+              className="w-full px-3.5 py-2.5 rounded-lg border border-border-subtle bg-surface text-ink text-sm focus:outline-none focus:ring-2 focus:ring-accent/30 focus:border-accent"
+              placeholder="••••••••"
             />
           </div>
-
           <button
             type="submit"
             disabled={loading}
-            className="w-full bg-cartoon-yellow text-black border-3 border-black shadow-neo py-3 rounded-xl font-black text-xl hover:-translate-y-1 hover:shadow-neo-md active:translate-y-1 active:shadow-none transition-all disabled:opacity-50 disabled:cursor-not-allowed uppercase tracking-wide mt-4"
+            className="w-full bg-ink text-white font-semibold py-2.5 rounded-lg text-sm hover:bg-ink/90 transition-colors disabled:opacity-50 mt-2"
           >
-            {loading ? 'Logging in...' : 'Login'}
+            {loading ? 'Signing in…' : 'Sign in'}
           </button>
         </form>
-
-        <div className="mt-10 p-5 bg-[#f5f5f7] border-3 border-black shadow-neo-sm rounded-xl text-black">
-          <p className="font-black text-lg mb-2 uppercase">Demo Credentials:</p>
-          <p className="font-bold">Email: admin@azinag.site</p>
-          <p className="font-bold">Password: admin123</p>
-        </div>
       </div>
     </div>
   );

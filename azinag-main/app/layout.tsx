@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import { headers } from 'next/headers';
 import { Header } from '@/components/Header';
 import { Footer } from '@/components/Footer';
 import { Plus_Jakarta_Sans, Newsreader } from 'next/font/google';
@@ -49,6 +50,9 @@ export default function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
+  const pathname = headers().get('x-pathname') ?? '';
+  const isAdmin = pathname.startsWith('/adminos');
+
   return (
     <html lang="en" className={`${jakarta.variable} ${newsreader.variable}`}>
       <head>
@@ -57,11 +61,15 @@ export default function RootLayout({
         <link rel="icon" href="/favicon.ico" />
       </head>
       <body className="bg-canvas text-ink font-sans min-h-screen selection:bg-accent-light selection:text-accent antialiased">
-        <LanguageProvider>
-          <Header />
-          <main className="min-h-screen">{children}</main>
-          <Footer />
-        </LanguageProvider>
+        {isAdmin ? (
+          children
+        ) : (
+          <LanguageProvider>
+            <Header />
+            <main className="min-h-screen">{children}</main>
+            <Footer />
+          </LanguageProvider>
+        )}
       </body>
     </html>
   );
