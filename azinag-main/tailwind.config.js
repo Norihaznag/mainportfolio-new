@@ -8,18 +8,22 @@ module.exports = {
   theme: {
     extend: {
       fontFamily: {
-        sans: ['var(--font-fredoka)', 'system-ui', 'sans-serif'],
-        arabic: ['var(--font-cairo)', 'var(--font-inter)', 'system-ui', 'sans-serif'],
-        inter: ['var(--font-inter)', 'system-ui', 'sans-serif'],
-      },
-      boxShadow: {
-        'neo-sm': '2px 2px 0px 0px rgba(0,0,0,1)',
-        'neo': '4px 4px 0px 0px rgba(0,0,0,1)',
-        'neo-md': '6px 6px 0px 0px rgba(0,0,0,1)',
-        'neo-lg': '8px 8px 0px 0px rgba(0,0,0,1)',
-        'neo-xl': '12px 12px 0px 0px rgba(0,0,0,1)',
+        sans: ['var(--font-jakarta)', 'system-ui', 'sans-serif'],
+        serif: ['var(--font-newsreader)', 'Georgia', 'serif'],
+        arabic: ['var(--font-cairo)', 'system-ui', 'sans-serif'],
       },
       colors: {
+        // Premium design tokens
+        canvas: '#F8F7F4',
+        ink: '#1C1C1E',
+        'ink-muted': '#6E6E73',
+        'ink-faint': '#AEAEB2',
+        accent: '#4A6FA5',
+        'accent-light': '#EDF2F9',
+        'surface': '#FFFFFF',
+        'surface-raised': '#FAFAFA',
+        'border-subtle': '#E8E8ED',
+        // Keep cartoon colors for admin compatibility
         background: 'hsl(var(--background))',
         foreground: 'hsl(var(--foreground))',
         cartoon: {
@@ -63,6 +67,17 @@ module.exports = {
         input: 'hsl(var(--input))',
         ring: 'hsl(var(--ring))',
       },
+      boxShadow: {
+        'card': '0 1px 3px 0 rgba(0,0,0,0.07), 0 1px 2px -1px rgba(0,0,0,0.05)',
+        'card-hover': '0 4px 16px 0 rgba(0,0,0,0.10), 0 1px 4px -1px rgba(0,0,0,0.06)',
+        'subtle': '0 0 0 1px rgba(0,0,0,0.06)',
+        // Keep for admin
+        'neo-sm': '2px 2px 0px 0px rgba(0,0,0,1)',
+        'neo': '4px 4px 0px 0px rgba(0,0,0,1)',
+        'neo-md': '6px 6px 0px 0px rgba(0,0,0,1)',
+        'neo-lg': '8px 8px 0px 0px rgba(0,0,0,1)',
+        'neo-xl': '12px 12px 0px 0px rgba(0,0,0,1)',
+      },
       keyframes: {
         'accordion-down': {
           from: { height: '0' },
@@ -72,6 +87,14 @@ module.exports = {
           from: { height: 'var(--radix-accordion-content-height)' },
           to: { height: '0' },
         },
+        'fade-up': {
+          from: { opacity: '0', transform: 'translateY(16px)' },
+          to: { opacity: '1', transform: 'translateY(0)' },
+        },
+        'fade-in': {
+          from: { opacity: '0' },
+          to: { opacity: '1' },
+        },
         'wiggle': {
           '0%, 100%': { transform: 'rotate(-3deg)' },
           '50%': { transform: 'rotate(3deg)' },
@@ -80,6 +103,8 @@ module.exports = {
       animation: {
         'accordion-down': 'accordion-down 0.2s ease-out',
         'accordion-up': 'accordion-up 0.2s ease-out',
+        'fade-up': 'fade-up 0.5s ease-out both',
+        'fade-in': 'fade-in 0.4s ease-out both',
         'wiggle': 'wiggle 1s ease-in-out infinite',
       },
       borderWidth: {
