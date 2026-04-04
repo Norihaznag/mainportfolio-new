@@ -2,7 +2,7 @@ import type { Metadata } from 'next';
 import { headers } from 'next/headers';
 import { Header } from '@/components/Header';
 import { Footer } from '@/components/Footer';
-import { Plus_Jakarta_Sans, Newsreader, Cairo } from 'next/font/google';
+import { Plus_Jakarta_Sans, Newsreader, IBM_Plex_Arabic } from 'next/font/google';
 import { LanguageProvider } from '@/components/LanguageContext';
 import './globals.css';
 
@@ -21,9 +21,9 @@ const newsreader = Newsreader({
   display: 'swap',
 });
 
-const cairo = Cairo({
+const ibmPlexArabic = IBM_Plex_Arabic({
   subsets: ['arabic', 'latin'],
-  weight: ['400', '500', '600', '700', '800'],
+  weight: ['300', '400', '500', '600', '700'],
   variable: '--font-cairo',
   display: 'swap',
 });
@@ -61,7 +61,7 @@ export default function RootLayout({
   const isAdmin = pathname.startsWith('/adminos');
 
   return (
-    <html lang="en" className={`${jakarta.variable} ${newsreader.variable} ${cairo.variable}`}>
+    <html lang="en" className={`${jakarta.variable} ${newsreader.variable} ${ibmPlexArabic.variable}`}>
       <head>
         <meta charSet="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
