@@ -21,7 +21,7 @@ export default function Pricing() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    fetch('/api/public/pricing')
+    fetch(`/api/public/pricing?t=${Date.now()}`)
       .then((r) => r.ok ? r.json() : { pricing: [] })
       .then((data) => setPackages(data.pricing || []))
       .catch(() => setPackages([]))

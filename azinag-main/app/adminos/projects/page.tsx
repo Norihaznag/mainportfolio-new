@@ -75,7 +75,7 @@ export default function ProjectsPage() {
 
   const load = async () => {
     setLoading(true);
-    const r = await fetch('/api/admin/projects', { cache: 'no-store' });
+    const r = await fetch(`/api/admin/projects?t=${Date.now()}`, { cache: 'no-store' });
     if (r.ok) {
       const d = await r.json();
       setItems(d.projects || []);
@@ -174,9 +174,9 @@ export default function ProjectsPage() {
 
   const handleDelete = async (id: string) => {
     if (!confirm('Delete this project?')) return;
+    setItems(prev => prev.filter(p => p.id !== id));
     const res = await fetch(`/api/admin/projects/${id}`, { method: 'DELETE' });
-    if (!res.ok) { alert('Delete failed'); return; }
-    load();
+    if (!res.ok) { alert('Delete failed'); load(); return; }
   };
 
   const previewThumb = getThumb(form.live_url || null, form.thumbnail_url || null);

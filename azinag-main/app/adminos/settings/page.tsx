@@ -11,7 +11,7 @@ export default function SettingsPage() {
   const [saveError, setSaveError] = useState<string | null>(null);
 
   useEffect(() => {
-    fetch('/api/admin/settings', { cache: 'no-store' })
+    fetch(`/api/admin/settings?t=${Date.now()}`, { cache: 'no-store' })
       .then(r => r.ok ? r.json() : {} as Record<string, string>)
       .then((d: Record<string, string>) => {
         setForm({ booking_url: d.booking_url || '', contact_email: d.contact_email || '' });

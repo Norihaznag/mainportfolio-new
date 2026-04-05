@@ -38,7 +38,7 @@ export default function Showcase() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    fetch('/api/public/projects')
+    fetch(`/api/public/projects?t=${Date.now()}`)
       .then((r) => r.ok ? r.json() : { projects: [] })
       .then((data) => setProjects(data.projects || []))
       .catch(() => setProjects([]))

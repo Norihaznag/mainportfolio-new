@@ -31,7 +31,7 @@ export default function PricingPage() {
 
   const load = async () => {
     setLoading(true);
-    const r = await fetch('/api/admin/pricing', { cache: 'no-store' });
+    const r = await fetch(`/api/admin/pricing?t=${Date.now()}`, { cache: 'no-store' });
     if (r.ok) { const d = await r.json(); setItems(d.pricing || []); }
     setLoading(false);
   };
@@ -83,9 +83,9 @@ export default function PricingPage() {
 
   const handleDelete = async (id: string) => {
     if (!confirm('Delete this package?')) return;
+    setItems(prev => prev.filter(p => p.id !== id));
     const res = await fetch(`/api/admin/pricing/${id}`, { method: 'DELETE' });
-    if (!res.ok) { alert('Delete failed'); return; }
-    load();
+    if (!res.ok) { alert('Delete failed'); load(); return; }
   };
 
   return (

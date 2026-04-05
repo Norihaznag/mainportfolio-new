@@ -1,6 +1,8 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { supabaseAdmin as supabase } from '@/lib/supabase';
 
+export const dynamic = 'force-dynamic';
+
 const KEYS = ['booking_url', 'contact_email'] as const;
 
 async function upsertKey(key: string, value: string) {
