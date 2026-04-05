@@ -52,11 +52,9 @@ const nextConfig = {
             key: 'Permissions-Policy',
             value: 'geolocation=(), microphone=(), camera=()'
           },
-          // Performance and caching headers
-          {
-            key: 'Cache-Control',
-            value: 'public, max-age=3600, must-revalidate'
-          },
+          // Performance and caching headers — only for HTML pages, not API routes
+          // API routes use force-dynamic and must not be cached by CDN
+
           // Content Security Policy - adjust as needed
           {
             key: 'Content-Security-Policy',
@@ -81,6 +79,17 @@ const nextConfig = {
           {
             key: 'Cache-Control',
             value: 'public, max-age=31536000, immutable'
+          }
+        ]
+      },
+      // Prevent CDN from caching API responses (they use force-dynamic server-side but
+      // the response headers still need to opt out of edge caching)
+      {
+        source: '/api/:path*',
+        headers: [
+          {
+            key: 'Cache-Control',
+            value: 'no-store, no-cache, must-revalidate'
           }
         ]
       },

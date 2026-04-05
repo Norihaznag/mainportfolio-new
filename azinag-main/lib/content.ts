@@ -111,7 +111,7 @@ export const content = {
       eyebrow: 'Who builds this',
       title: 'Built by someone with skin in the game.',
       body: "I'm a software developer who builds for early-stage startups. Not an agency, not a team of contractors — one builder who owns the outcome.\n\nEvery project gets my direct attention. You won't get passed to a junior or ghosted after deposit.",
-      name: '[Your Name]',
+      name: 'Noureddine Azinag',
       role: 'Founder, Azinag',
       cta: 'Book a discovery call',
     },

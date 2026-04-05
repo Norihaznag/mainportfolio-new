@@ -20,13 +20,17 @@ export default function Contact() {
     e.preventDefault();
     setStatus('sending');
     try {
-      // Simple mailto fallback — replace with a real form handler if needed
-      const subject = encodeURIComponent(`Project inquiry from ${form.name}`);
-      const body = encodeURIComponent(
-        `Name: ${form.name}\nEmail: ${form.email}\nCompany: ${form.company}\n\n${form.message}`
-      );
-      window.location.href = `mailto:hello@azinag.com?subject=${subject}&body=${body}`;
-      setStatus('sent');
+      const res = await fetch('/api/contact', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(form),
+      });
+      if (res.ok) {
+        setStatus('sent');
+        setForm({ name: '', email: '', company: '', message: '' });
+      } else {
+        setStatus('error');
+      }
     } catch {
       setStatus('error');
     }

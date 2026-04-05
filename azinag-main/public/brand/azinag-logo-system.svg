@@ -1,0 +1,34 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="1200" viewBox="0 0 1600 1200" fill="none">
+  <defs>
+    <g id="mark">
+      <rect x="15" y="10" width="11.5" height="44" rx="3.25" transform="rotate(14 20.75 32)"/>
+      <rect x="37.5" y="10" width="11.5" height="44" rx="3.25" transform="rotate(-14 43.25 32)"/>
+      <rect x="19" y="34" width="25" height="10.5" rx="3" transform="rotate(-14 31.5 39.25)"/>
+    </g>
+    <style>
+      .wordmark {
+        fill: #1D4ED8;
+        font-family: "Plus Jakarta Sans", "General Sans", "Satoshi", "Inter", "Segoe UI", Arial, sans-serif;
+        font-weight: 600;
+        letter-spacing: 0.14em;
+      }
+      .wordmark-lg {
+        font-size: 124px;
+      }
+      .wordmark-md {
+        font-size: 90px;
+      }
+    </style>
+  </defs>
+  <rect width="1600" height="1200" fill="#FFFFFF"/>
+  <g fill="#1D4ED8" transform="translate(723 136) scale(2.4)">
+    <use href="#mark"/>
+  </g>
+  <text class="wordmark wordmark-lg" x="800" y="648" text-anchor="middle">Azinag</text>
+  <g fill="#1D4ED8" transform="translate(428 854)">
+    <g transform="translate(0 8) scale(1.7)">
+      <use href="#mark"/>
+    </g>
+    <text class="wordmark wordmark-md" x="190" y="99">Azinag</text>
+  </g>
+</svg>

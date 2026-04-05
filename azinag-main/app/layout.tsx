@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import { headers } from 'next/headers';
 import { Header } from '@/components/Header';
 import { Footer } from '@/components/Footer';
+import { WhatsAppButton } from '@/components/WhatsAppButton';
 import { Plus_Jakarta_Sans, Newsreader } from 'next/font/google';
 import { LanguageProvider } from '@/components/LanguageContext';
 import './globals.css';
@@ -21,7 +22,7 @@ const newsreader = Newsreader({
   display: 'swap',
 });
 
-const baseUrl = 'https://azinag.com';
+const baseUrl = 'https://azinag.site';
 
 export const metadata: Metadata = {
   metadataBase: new URL(baseUrl),
@@ -61,6 +62,51 @@ export default function RootLayout({
         <meta name="theme-color" content="#1D4ED8" />
         <meta name="color-scheme" content="dark" />
         <link rel="icon" href="/favicon.ico" />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              '@context': 'https://schema.org',
+              '@type': 'ProfessionalService',
+              name: 'Azinag',
+              url: 'https://azinag.site',
+              description:
+                'Founder-led software studio building web apps, desktop apps, and Android apps for global startups. Fixed scope, fixed price.',
+              founder: {
+                '@type': 'Person',
+                name: 'Noureddine Azinag',
+              },
+              areaServed: 'Worldwide',
+              priceRange: '$997 – $4,997+',
+              email: 'hello@azinag.com',
+              sameAs: [],
+              hasOfferCatalog: {
+                '@type': 'OfferCatalog',
+                name: 'Software Development Services',
+                itemListElement: [
+                  {
+                    '@type': 'Offer',
+                    itemOffered: { '@type': 'Service', name: 'Landing Page Development' },
+                    price: '997',
+                    priceCurrency: 'USD',
+                  },
+                  {
+                    '@type': 'Offer',
+                    itemOffered: { '@type': 'Service', name: 'Business Website' },
+                    price: '2500',
+                    priceCurrency: 'USD',
+                  },
+                  {
+                    '@type': 'Offer',
+                    itemOffered: { '@type': 'Service', name: 'Web App MVP' },
+                    price: '4997',
+                    priceCurrency: 'USD',
+                  },
+                ],
+              },
+            }),
+          }}
+        />
       </head>
       <body className="bg-canvas text-ink font-sans min-h-screen selection:bg-accent selection:text-white antialiased">
         {/* Skip to main content — Lighthouse a11y */}
@@ -77,6 +123,7 @@ export default function RootLayout({
             <Header />
             <main id="main-content" className="min-h-screen">{children}</main>
             <Footer />
+            <WhatsAppButton />
           </LanguageProvider>
         )}
       </body>

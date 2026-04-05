@@ -13,7 +13,7 @@ export default function robots(): MetadataRoute.Robots {
         allow: '/',
       },
     ],
-    sitemap: 'https://azinag.com/sitemap.xml',
-    host: 'https://azinag.com',
+    sitemap: 'https://azinag.site/sitemap.xml',
+    host: 'https://azinag.site',
   };
 }

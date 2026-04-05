@@ -1,25 +1,24 @@
 import { MetadataRoute } from 'next';
 
-const baseUrl = 'https://azinag.com';
-const languages = ['en', 'fr', 'ar'];
-const routes = ['', 'pricing', 'showcase', 'about', 'how-it-works', 'order'];
+const baseUrl = 'https://azinag.site';
+
+const routes: { path: string; priority: number; changeFrequency: 'daily' | 'weekly' | 'monthly' }[] = [
+  { path: '',          priority: 1.0, changeFrequency: 'daily'   },
+  { path: 'pricing',   priority: 0.9, changeFrequency: 'weekly'  },
+  { path: 'showcase',  priority: 0.8, changeFrequency: 'weekly'  },
+  { path: 'about',     priority: 0.7, changeFrequency: 'monthly' },
+  { path: 'contact',   priority: 0.7, changeFrequency: 'monthly' },
+  { path: 'privacy',   priority: 0.3, changeFrequency: 'monthly' },
+  { path: 'terms',     priority: 0.3, changeFrequency: 'monthly' },
+  { path: 'lp/startup-mvp-development',   priority: 0.8, changeFrequency: 'weekly' },
+  { path: 'lp/landing-page-development',  priority: 0.8, changeFrequency: 'weekly' },
+];
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  const entries = languages.flatMap((lang) =>
-    routes.map((route) => ({
-      url: `${baseUrl}/${lang}${route ? `/${route}` : ''}`,
-      lastModified: new Date(),
-      changeFrequency: route ? ('weekly' as const) : ('daily' as const),
-      priority: route ? (route === 'pricing' ? 0.9 : 0.8) : 1.0,
-      alternates: {
-        languages: {
-          en: `${baseUrl}/en${route ? `/${route}` : ''}`,
-          fr: `${baseUrl}/fr${route ? `/${route}` : ''}`,
-          ar: `${baseUrl}/ar${route ? `/${route}` : ''}`,
-        },
-      },
-    }))
-  );
-
-  return entries;
+  return routes.map(({ path, priority, changeFrequency }) => ({
+    url: `${baseUrl}${path ? `/${path}` : ''}`,
+    lastModified: new Date(),
+    changeFrequency,
+    priority,
+  }));
 }
