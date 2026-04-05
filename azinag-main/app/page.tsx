@@ -64,6 +64,24 @@ export default function Home() {
               {c.hero.secondaryCta}
             </Link>
           </div>
+
+          {/* Hero visual placeholder */}
+          <div className="mt-14 relative w-full aspect-[16/9] rounded-2xl border border-border-subtle bg-surface-raised overflow-hidden flex items-center justify-center group cursor-pointer">
+            {/* Grid pattern overlay */}
+            <div className="absolute inset-0 opacity-40" style={{ backgroundImage: 'linear-gradient(rgba(100,116,139,0.15) 1px, transparent 1px), linear-gradient(90deg, rgba(100,116,139,0.15) 1px, transparent 1px)', backgroundSize: '32px 32px' }} />
+            {/* Corner labels */}
+            <span className="absolute top-4 left-4 text-xs font-medium text-ink-faint tracking-wide uppercase">Preview</span>
+            <span className="absolute top-4 right-4 text-xs font-medium text-ink-faint tracking-wide">Video / Image</span>
+            {/* Play button */}
+            <div className="relative flex flex-col items-center gap-4">
+              <div className="w-16 h-16 rounded-full bg-white border border-border-subtle flex items-center justify-center shadow-sm group-hover:scale-105 transition-transform">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor" className="text-accent ml-1" aria-hidden="true">
+                  <path d="M8 5v14l11-7z"/>
+                </svg>
+              </div>
+              <p className="text-sm text-ink-muted font-medium">Add your hero video or screenshot here</p>
+            </div>
+          </div>
         </div>
       </section>
 
@@ -87,13 +105,54 @@ export default function Home() {
           <p className="text-ink-muted mb-14 text-[1.0625rem]">{c.offers.subtitle}</p>
           <div className="grid md:grid-cols-3 gap-6">
             {([
-              { key: 'webApp'     , src: 'offer_web'     , icon: '🌐' },
-              { key: 'desktopApp' , src: 'offer_desktop' , icon: '🖥' },
-              { key: 'androidApp' , src: 'offer_android' , icon: '📱' },
-            ] as const).map(({ key, src, icon }) => {
+              {
+                key: 'webApp', src: 'offer_web', icon: '🌐',
+                visual: (
+                  <div className="w-full aspect-[16/9] bg-blue-50 border-b border-border-subtle flex items-center justify-center relative overflow-hidden group-hover:bg-blue-100 transition-colors">
+                    <div className="absolute inset-0 opacity-30" style={{ backgroundImage: 'linear-gradient(rgba(29,78,216,0.12) 1px, transparent 1px), linear-gradient(90deg, rgba(29,78,216,0.12) 1px, transparent 1px)', backgroundSize: '24px 24px' }} />
+                    <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.2" className="text-accent opacity-60" aria-hidden="true">
+                      <rect x="2" y="4" width="20" height="14" rx="2"/>
+                      <path d="M8 20h8M12 18v2"/>
+                      <circle cx="12" cy="11" r="2"/>
+                      <path d="M6 8h.01M6 11h.01"/>
+                    </svg>
+                    <span className="absolute bottom-2 right-3 text-xs text-accent/60 font-medium">Web App</span>
+                  </div>
+                ),
+              },
+              {
+                key: 'desktopApp', src: 'offer_desktop', icon: '🖥',
+                visual: (
+                  <div className="w-full aspect-[16/9] bg-violet-50 border-b border-border-subtle flex items-center justify-center relative overflow-hidden group-hover:bg-violet-100 transition-colors">
+                    <div className="absolute inset-0 opacity-30" style={{ backgroundImage: 'linear-gradient(rgba(109,40,217,0.12) 1px, transparent 1px), linear-gradient(90deg, rgba(109,40,217,0.12) 1px, transparent 1px)', backgroundSize: '24px 24px' }} />
+                    <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.2" className="text-violet-500 opacity-60" aria-hidden="true">
+                      <rect x="2" y="3" width="20" height="14" rx="2"/>
+                      <path d="M8 21h8M12 17v4"/>
+                      <path d="M6 7h4M6 10h6M6 13h3"/>
+                    </svg>
+                    <span className="absolute bottom-2 right-3 text-xs text-violet-500/60 font-medium">Desktop App</span>
+                  </div>
+                ),
+              },
+              {
+                key: 'androidApp', src: 'offer_android', icon: '📱',
+                visual: (
+                  <div className="w-full aspect-[16/9] bg-emerald-50 border-b border-border-subtle flex items-center justify-center relative overflow-hidden group-hover:bg-emerald-100 transition-colors">
+                    <div className="absolute inset-0 opacity-30" style={{ backgroundImage: 'linear-gradient(rgba(5,150,105,0.12) 1px, transparent 1px), linear-gradient(90deg, rgba(5,150,105,0.12) 1px, transparent 1px)', backgroundSize: '24px 24px' }} />
+                    <svg width="40" height="64" viewBox="0 0 24 38" fill="none" stroke="currentColor" strokeWidth="1.2" className="text-emerald-600 opacity-60" aria-hidden="true">
+                      <rect x="2" y="1" width="20" height="36" rx="4"/>
+                      <path d="M9 5h6M12 32v.5"/>
+                    </svg>
+                    <span className="absolute bottom-2 right-3 text-xs text-emerald-600/60 font-medium">Android App</span>
+                  </div>
+                ),
+              },
+            ] as const).map(({ key, src, icon, visual }) => {
               const offer = c.offers[key];
               return (
-                <div key={key} className="border border-border-subtle rounded-2xl p-8 bg-white hover:shadow-card transition-all duration-300 flex flex-col group">
+                <div key={key} className="border border-border-subtle rounded-2xl bg-white hover:shadow-card transition-all duration-300 flex flex-col group overflow-hidden">
+                  {visual}
+                  <div className="p-8 flex flex-col flex-1">
                   <div className="w-10 h-10 rounded-xl bg-accent-light flex items-center justify-center text-xl mb-5 group-hover:scale-110 transition-transform">
                     {icon}
                   </div>
@@ -109,6 +168,7 @@ export default function Home() {
                     ))}
                   </ul>
                   <CTAButton label={offer.cta} trackEvent="book_call" trackSource={src} variant="primary" size="md" />
+                  </div>
                 </div>
               );
             })}
