@@ -6,7 +6,6 @@ export async function GET(request: NextRequest) {
     const { data, error } = await supabase
       .from('pricing')
       .select('*')
-      .eq('active', true)
       .order('sort_order', { ascending: true });
 
     if (error) {

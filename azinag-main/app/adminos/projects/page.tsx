@@ -75,7 +75,7 @@ export default function ProjectsPage() {
 
   const load = async () => {
     setLoading(true);
-    const r = await fetch('/api/admin/projects');
+    const r = await fetch('/api/admin/projects', { cache: 'no-store' });
     if (r.ok) {
       const d = await r.json();
       setItems(d.projects || []);
