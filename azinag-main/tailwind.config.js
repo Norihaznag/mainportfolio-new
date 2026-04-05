@@ -13,16 +13,16 @@ module.exports = {
         arabic: ['var(--font-cairo)', 'system-ui', 'sans-serif'],
       },
       colors: {
-        // Premium design tokens
-        canvas: '#F8F7F4',
-        ink: '#1C1C1E',
-        'ink-muted': '#6E6E73',
-        'ink-faint': '#AEAEB2',
-        accent: '#4A6FA5',
-        'accent-light': '#EDF2F9',
-        'surface': '#FFFFFF',
-        'surface-raised': '#FAFAFA',
-        'border-subtle': '#E8E8ED',
+        // Dark purple theme — Spotify / Instagram notification mood
+        canvas: '#0B0B12',
+        ink: '#F0EEFF',
+        'ink-muted': '#9B93B3',
+        'ink-faint': '#5A5375',
+        accent: '#9B5CFF',
+        'accent-light': '#1E1535',
+        'surface': '#13111E',
+        'surface-raised': '#1C1830',
+        'border-subtle': '#2A2342',
         // Keep cartoon colors for admin compatibility
         background: 'hsl(var(--background))',
         foreground: 'hsl(var(--foreground))',
@@ -55,10 +55,6 @@ module.exports = {
           DEFAULT: 'hsl(var(--muted))',
           foreground: 'hsl(var(--muted-foreground))',
         },
-        accent: {
-          DEFAULT: 'hsl(var(--accent))',
-          foreground: 'hsl(var(--accent-foreground))',
-        },
         destructive: {
           DEFAULT: 'hsl(var(--destructive))',
           foreground: 'hsl(var(--destructive-foreground))',
@@ -68,9 +64,10 @@ module.exports = {
         ring: 'hsl(var(--ring))',
       },
       boxShadow: {
-        'card': '0 1px 3px 0 rgba(0,0,0,0.07), 0 1px 2px -1px rgba(0,0,0,0.05)',
-        'card-hover': '0 4px 16px 0 rgba(0,0,0,0.10), 0 1px 4px -1px rgba(0,0,0,0.06)',
-        'subtle': '0 0 0 1px rgba(0,0,0,0.06)',
+        'card': '0 1px 3px 0 rgba(0,0,0,0.40), 0 1px 2px -1px rgba(0,0,0,0.30)',
+        'card-hover': '0 4px 24px 0 rgba(155,92,255,0.18), 0 1px 4px -1px rgba(0,0,0,0.30)',
+        'subtle': '0 0 0 1px rgba(155,92,255,0.10)',
+        'glow': '0 0 32px 0 rgba(155,92,255,0.25)',
         // Keep for admin
         'neo-sm': '2px 2px 0px 0px rgba(0,0,0,1)',
         'neo': '4px 4px 0px 0px rgba(0,0,0,1)',

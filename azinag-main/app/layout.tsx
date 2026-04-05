@@ -67,7 +67,7 @@ export default function RootLayout({
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
       </head>
-      <body className="bg-canvas text-ink font-sans min-h-screen selection:bg-accent-light selection:text-accent antialiased">
+      <body className="bg-canvas text-ink font-sans min-h-screen selection:bg-accent selection:text-white antialiased">
         {isAdmin ? (
           children
         ) : (

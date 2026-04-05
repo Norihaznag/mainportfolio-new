@@ -2,6 +2,19 @@
 @tailwind components;
 @tailwind utilities;
 
+/* ── Dark purple theme ─────────────────────────────────── */
+:root {
+  --canvas:        #0B0B12;
+  --ink:           #F0EEFF;
+  --ink-muted:     #9B93B3;
+  --ink-faint:     #5A5375;
+  --accent:        #9B5CFF;
+  --accent-light:  #1E1535;
+  --surface:       #13111E;
+  --surface-raised:#1C1830;
+  --border-subtle: #2A2342;
+}
+
 * {
   margin: 0;
   padding: 0;
@@ -25,7 +38,7 @@ button:focus-visible,
 input:focus-visible,
 select:focus-visible,
 textarea:focus-visible {
-  outline: 2px solid #4A6FA5;
+  outline: 2px solid #9B5CFF;
   outline-offset: 2px;
   border-radius: 4px;
 }

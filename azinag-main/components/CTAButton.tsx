@@ -21,9 +21,9 @@ const baseClass =
 
 const variants = {
   primary:
-    'bg-ink text-surface hover:bg-ink/90 active:scale-[0.98] px-6 py-3 text-[0.9375rem]',
+    'bg-accent text-white hover:bg-accent/90 active:scale-[0.98] px-6 py-3 text-[0.9375rem]',
   secondary:
-    'bg-accent text-surface hover:bg-accent/90 active:scale-[0.98] px-6 py-3 text-[0.9375rem]',
+    'bg-surface-raised text-ink border border-border-subtle hover:bg-accent/10 hover:border-accent/40 active:scale-[0.98] px-6 py-3 text-[0.9375rem]',
   ghost:
     'border border-border-subtle text-ink hover:bg-surface-raised active:scale-[0.98] px-6 py-3 text-[0.9375rem]',
 };
