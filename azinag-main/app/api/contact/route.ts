@@ -17,7 +17,7 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ message: 'Invalid email address.' }, { status: 400 });
     }
 
-    const adminEmail = process.env.ADMIN_EMAIL;
+    const adminEmail = process.env.CONTACT_EMAIL;
     const resendKey = process.env.RESEND_API_KEY;
 
     if (!resendKey || !adminEmail) {
