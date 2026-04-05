@@ -27,18 +27,20 @@ export default function PricingPage() {
   const [editId, setEditId] = useState<string | null>(null);
   const [open, setOpen] = useState(false);
   const [saving, setSaving] = useState(false);
+  const [saveError, setSaveError] = useState<string | null>(null);
 
   const load = async () => {
     setLoading(true);
-    const r = await fetch('/api/admin/pricing');
+    const r = await fetch('/api/admin/pricing', { cache: 'no-store' });
     if (r.ok) { const d = await r.json(); setItems(d.pricing || []); }
     setLoading(false);
   };
 
   useEffect(() => { load(); }, []);
 
-  const openAdd = () => { setForm(EMPTY); setEditId(null); setOpen(true); };
+  const openAdd = () => { setForm(EMPTY); setEditId(null); setSaveError(null); setOpen(true); };
   const openEdit = (p: PricingPackage) => {
+    setSaveError(null);
     setForm({
       name: p.name, price: String(p.price),
       description: p.description || '',
@@ -53,6 +55,7 @@ export default function PricingPage() {
 
   const handleSave = async () => {
     setSaving(true);
+    setSaveError(null);
     const body = {
       name: form.name,
       price: parseFloat(form.price) || 0,
@@ -62,19 +65,26 @@ export default function PricingPage() {
       active: form.active,
       is_featured: form.is_featured,
     };
+    let res: Response;
     if (editId) {
-      await fetch(`/api/admin/pricing/${editId}`, { method: 'PUT', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body) });
+      res = await fetch(`/api/admin/pricing/${editId}`, { method: 'PUT', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body) });
     } else {
-      await fetch('/api/admin/pricing', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body) });
+      res = await fetch('/api/admin/pricing', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body) });
     }
     setSaving(false);
+    if (!res.ok) {
+      const err = await res.json().catch(() => ({}));
+      setSaveError(err.message || `Error ${res.status}`);
+      return;
+    }
     closeModal();
     load();
   };
 
   const handleDelete = async (id: string) => {
     if (!confirm('Delete this package?')) return;
-    await fetch(`/api/admin/pricing/${id}`, { method: 'DELETE' });
+    const res = await fetch(`/api/admin/pricing/${id}`, { method: 'DELETE' });
+    if (!res.ok) { alert('Delete failed'); return; }
     load();
   };
 
@@ -200,6 +210,9 @@ export default function PricingPage() {
               </div>
             </div>
             <div className="flex gap-3 mt-6 justify-end">
+              {saveError && (
+                <p className="flex-1 text-xs text-red-600 self-center">{saveError}</p>
+              )}
               <button onClick={closeModal} className="px-4 py-2 text-sm font-medium text-ink-muted hover:text-ink transition-colors">
                 Cancel
               </button>

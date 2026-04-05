@@ -8,9 +8,10 @@ export default function SettingsPage() {
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
   const [saved, setSaved] = useState(false);
+  const [saveError, setSaveError] = useState<string | null>(null);
 
   useEffect(() => {
-    fetch('/api/admin/settings')
+    fetch('/api/admin/settings', { cache: 'no-store' })
       .then(r => r.ok ? r.json() : {} as Record<string, string>)
       .then((d: Record<string, string>) => {
         setForm({ booking_url: d.booking_url || '', contact_email: d.contact_email || '' });
@@ -21,12 +22,18 @@ export default function SettingsPage() {
 
   const handleSave = async () => {
     setSaving(true);
-    await fetch('/api/admin/settings', {
+    setSaveError(null);
+    const res = await fetch('/api/admin/settings', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(form),
     });
     setSaving(false);
+    if (!res.ok) {
+      const err = await res.json().catch(() => ({}));
+      setSaveError(err.message || `Error ${res.status}`);
+      return;
+    }
     setSaved(true);
     setTimeout(() => setSaved(false), 2500);
   };
@@ -80,6 +87,9 @@ export default function SettingsPage() {
           >
             {saving ? 'Saving…' : saved ? 'Saved ✓' : 'Save settings'}
           </button>
+          {saveError && (
+            <p className="mt-3 text-xs text-red-600">{saveError}</p>
+          )}
         </div>
       )}
     </AdminShell>
