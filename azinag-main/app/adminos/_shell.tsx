@@ -7,6 +7,7 @@ import Link from 'next/link';
 const NAV = [
   { href: '/adminos/projects', label: 'Projects' },
   { href: '/adminos/pricing', label: 'Pricing' },
+  { href: '/adminos/contacts', label: 'Contacts' },
   { href: '/adminos/settings', label: 'Settings' },
 ];
 
