@@ -78,9 +78,9 @@ export default function ContactsPage() {
           No submissions yet.
         </div>
       ) : (
-        <div className="flex gap-6 h-[calc(100vh-200px)]">
+        <div className="flex flex-col lg:flex-row gap-6 lg:h-[calc(100vh-200px)]">
           {/* List */}
-          <div className="w-72 shrink-0 flex flex-col gap-1 overflow-y-auto pr-1">
+          <div className="lg:w-72 shrink-0 flex flex-col gap-1 lg:overflow-y-auto">
             {items.map(s => (
               <button
                 key={s.id}
@@ -110,10 +110,10 @@ export default function ContactsPage() {
           </div>
 
           {/* Detail */}
-          <div className="flex-1 overflow-y-auto">
+          <div className="flex-1 lg:overflow-y-auto">
             {selected ? (
-              <div className="border border-border-subtle rounded-xl bg-white p-8">
-                <div className="flex items-start justify-between gap-4 mb-6">
+              <div className="border border-border-subtle rounded-xl bg-white p-5 sm:p-8">
+                <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-4 mb-6">
                   <div>
                     <h2 className="text-lg font-bold">{selected.name}</h2>
                     <a
@@ -129,7 +129,7 @@ export default function ContactsPage() {
                       {new Date(selected.created_at).toLocaleString('en-GB')}
                     </p>
                   </div>
-                  <div className="flex items-center gap-2 shrink-0">
+                  <div className="flex flex-wrap items-center gap-2 shrink-0">
                     <button
                       onClick={() => markRead(selected.id, !selected.read)}
                       className="text-xs px-3 py-1.5 rounded-lg border border-border-subtle hover:bg-surface-raised transition-colors"
@@ -155,7 +155,7 @@ export default function ContactsPage() {
                 </div>
               </div>
             ) : (
-              <div className="flex items-center justify-center h-full text-sm text-ink-muted">
+              <div className="hidden lg:flex items-center justify-center h-full text-sm text-ink-muted">
                 Select a submission to view
               </div>
             )}
