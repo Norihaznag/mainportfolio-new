@@ -37,9 +37,13 @@ create table if not exists public.pricing (
   color text default 'blue',
   sort_order integer default 0,
   active boolean default true,
+  is_featured boolean default false,
   created_at timestamp with time zone default timezone('utc'::text, now()) not null,
   updated_at timestamp with time zone default timezone('utc'::text, now()) not null
 );
+
+-- Add is_featured if upgrading existing schema
+alter table public.pricing add column if not exists is_featured boolean default false;
 
 -- Content table
 create table if not exists public.content (

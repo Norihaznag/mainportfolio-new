@@ -13,16 +13,16 @@ module.exports = {
         arabic: ['var(--font-cairo)', 'system-ui', 'sans-serif'],
       },
       colors: {
-        // Dark purple theme — Spotify / Instagram notification mood
-        canvas: '#0B0B12',
-        ink: '#F0EEFF',
-        'ink-muted': '#9B93B3',
-        'ink-faint': '#5A5375',
-        accent: '#9B5CFF',
-        'accent-light': '#1E1535',
-        'surface': '#13111E',
-        'surface-raised': '#1C1830',
-        'border-subtle': '#2A2342',
+        // Copybook light theme
+        canvas: '#FFFFFF',
+        ink: '#111118',
+        'ink-muted': '#52525B',
+        'ink-faint': '#A1A1AA',
+        accent: '#1D4ED8',
+        'accent-light': '#EFF6FF',
+        'surface': '#F8FAFC',
+        'surface-raised': '#F1F5F9',
+        'border-subtle': '#E2E8F0',
         // Keep cartoon colors for admin compatibility
         background: 'hsl(var(--background))',
         foreground: 'hsl(var(--foreground))',
@@ -64,10 +64,10 @@ module.exports = {
         ring: 'hsl(var(--ring))',
       },
       boxShadow: {
-        'card': '0 1px 3px 0 rgba(0,0,0,0.40), 0 1px 2px -1px rgba(0,0,0,0.30)',
-        'card-hover': '0 4px 24px 0 rgba(155,92,255,0.18), 0 1px 4px -1px rgba(0,0,0,0.30)',
-        'subtle': '0 0 0 1px rgba(155,92,255,0.10)',
-        'glow': '0 0 32px 0 rgba(155,92,255,0.25)',
+        'card': '0 1px 3px 0 rgba(0,0,0,0.08), 0 1px 2px -1px rgba(0,0,0,0.06)',
+        'card-hover': '0 4px 16px 0 rgba(0,0,0,0.12), 0 1px 4px -1px rgba(0,0,0,0.08)',
+        'subtle': '0 0 0 1px rgba(0,0,0,0.06)',
+        'glow': '0 0 32px 0 rgba(29,78,216,0.20)',
         // Keep for admin
         'neo-sm': '2px 2px 0px 0px rgba(0,0,0,1)',
         'neo': '4px 4px 0px 0px rgba(0,0,0,1)',

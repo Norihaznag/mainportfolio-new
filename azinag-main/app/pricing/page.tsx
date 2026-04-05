@@ -29,18 +29,21 @@ export default function Pricing() {
   }, []);
 
   return (
-    <div className="bg-canvas text-ink">
+    <div className="text-ink">
       {/* Header */}
-      <section className="pt-28 pb-16 px-6 max-w-5xl mx-auto">
-        <p className="eyebrow mb-4">{c.pricing.eyebrow}</p>
-        <h1 className="text-4xl sm:text-5xl font-bold tracking-tight mb-4">
-          {c.pricing.title}
-        </h1>
-        <p className="text-[1.0625rem] text-ink-muted max-w-xl">{c.pricing.subtitle}</p>
+      <section className="relative overflow-hidden pt-28 pb-16 px-6" aria-label="Pricing hero">
+        <div className="relative max-w-5xl mx-auto">
+          <p className="eyebrow mb-4">{c.pricing.eyebrow}</p>
+          <h1 className="text-4xl sm:text-5xl font-bold tracking-tight mb-4">
+            {c.pricing.title}
+          </h1>
+          <p className="text-[1.0625rem] text-ink-muted max-w-xl">{c.pricing.subtitle}</p>
+        </div>
       </section>
 
       {/* Packages */}
-      <section className="pb-28 px-6 max-w-5xl mx-auto">
+      <section className="relative overflow-hidden pb-28 px-6" aria-label="Pricing packages">
+        <div className="relative max-w-5xl mx-auto">
         {loading ? (
           <div className="flex items-center justify-center h-40">
             <div className="w-6 h-6 rounded-full border-2 border-accent border-t-transparent animate-spin" />
@@ -54,7 +57,7 @@ export default function Pricing() {
             {packages.map((pkg) => (
               <div
                 key={pkg.id}
-                className={`flex flex-col border rounded-2xl p-8 bg-surface transition-shadow hover:shadow-card-hover ${
+                className={`flex flex-col border rounded-2xl p-8 bg-white transition-all duration-300 hover:shadow-card ${
                   pkg.is_featured
                     ? 'border-accent ring-1 ring-accent'
                     : 'border-border-subtle'
@@ -78,10 +81,10 @@ export default function Pricing() {
                 )}
 
                 {pkg.features && pkg.features.length > 0 && (
-                  <ul className="space-y-2.5 mb-8 flex-1">
+                  <ul className="space-y-2.5 mb-8 flex-1" role="list">
                     {pkg.features.map((feat) => (
                       <li key={feat} className="flex items-start gap-2 text-sm text-ink-muted">
-                        <span className="mt-1.5 w-1.5 h-1.5 rounded-full bg-accent shrink-0" />
+                        <span className="mt-1.5 w-1.5 h-1.5 rounded-full bg-accent shrink-0" aria-hidden="true" />
                         {feat}
                       </li>
                     ))}
@@ -102,13 +105,14 @@ export default function Pricing() {
           </div>
         )}
 
-        {/* Bottom note */}
-        <p className="mt-12 text-center text-sm text-ink-muted">
-          Not sure what fits?{' '}
-          <Link href="/contact" className="text-accent hover:underline font-medium">
-            Talk first →
-          </Link>
-        </p>
+          {/* Bottom note */}
+          <p className="mt-12 text-center text-sm text-ink-muted">
+            Not sure what fits?{' '}
+            <Link href="/contact" className="text-accent hover:underline font-medium">
+              Talk first →
+            </Link>
+          </p>
+        </div>
       </section>
     </div>
   );

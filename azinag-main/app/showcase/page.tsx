@@ -46,19 +46,22 @@ export default function Showcase() {
   }, []);
 
   return (
-    <div className="bg-canvas text-ink">
-      <section className="pt-28 pb-16 px-6 max-w-5xl mx-auto">
-        <p className="eyebrow mb-4">{c.showcase.eyebrow}</p>
-        <h1 className="text-4xl sm:text-5xl font-bold tracking-tight mb-4">{c.showcase.title}</h1>
-        <p className="text-[1.0625rem] text-ink-muted max-w-xl">{c.showcase.subtitle}</p>
+    <div className="text-ink">
+      <section className="relative overflow-hidden pt-28 pb-16 px-6" aria-label="Showcase hero">
+        <div className="relative max-w-5xl mx-auto">
+          <p className="eyebrow mb-4">{c.showcase.eyebrow}</p>
+          <h1 className="text-4xl sm:text-5xl font-bold tracking-tight mb-4">{c.showcase.title}</h1>
+          <p className="text-[1.0625rem] text-ink-muted max-w-xl">{c.showcase.subtitle}</p>
+        </div>
       </section>
-      <section className="pb-28 px-6 max-w-5xl mx-auto">
+      <section className="relative overflow-hidden pb-28 px-6" aria-label="Projects grid">
+        <div className="relative max-w-5xl mx-auto">
         {loading ? (
           <div className="flex items-center justify-center h-40">
             <div className="w-6 h-6 rounded-full border-2 border-accent border-t-transparent animate-spin" />
           </div>
         ) : projects.length === 0 ? (
-          <div className="border border-border-subtle rounded-2xl p-10 text-center bg-surface max-w-lg mx-auto">
+          <div className="border border-border-subtle rounded-2xl p-10 text-center bg-white max-w-lg mx-auto">
             <p className="text-ink-muted text-sm">{c.showcase.empty}</p>
           </div>
         ) : (
@@ -66,7 +69,7 @@ export default function Showcase() {
             {projects.map((project) => {
               const thumb = getThumb(project);
               return (
-                <article key={project.id} className="border border-border-subtle rounded-2xl bg-surface overflow-hidden hover:shadow-card-hover transition-shadow flex flex-col">
+                <article key={project.id} className="border border-border-subtle rounded-2xl bg-white overflow-hidden hover:shadow-card transition-shadow flex flex-col">
                   {thumb ? (
                     <div className="relative w-full aspect-[16/9] bg-surface-raised overflow-hidden">
                       <Image src={thumb} alt={project.name} fill className="object-cover" unoptimized />
@@ -126,6 +129,7 @@ export default function Showcase() {
             <CTAButton label={c.hero.primaryCta} trackEvent="book_call" trackSource="showcase_bottom" variant="primary" size="md" />
           </div>
         )}
+        </div>
       </section>
     </div>
   );

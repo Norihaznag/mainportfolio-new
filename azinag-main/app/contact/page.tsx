@@ -33,15 +33,16 @@ export default function Contact() {
   }
 
   return (
-    <div className="bg-canvas text-ink">
-      <section className="pt-28 pb-28 px-6 max-w-5xl mx-auto">
+    <div className="text-ink">
+      <section className="relative overflow-hidden pt-28 pb-28 px-6" aria-labelledby="contact-heading">
+        <div className="relative max-w-5xl mx-auto">
         <div className="max-w-xl">
           <p className="eyebrow mb-4">{c.contact.eyebrow}</p>
-          <h1 className="text-4xl sm:text-5xl font-bold tracking-tight mb-4">{c.contact.title}</h1>
+          <h1 id="contact-heading" className="text-4xl sm:text-5xl font-bold tracking-tight mb-4">{c.contact.title}</h1>
           <p className="text-[1.0625rem] text-ink-muted mb-10">{c.contact.subtitle}</p>
 
           {/* Book a call alt */}
-          <div className="mb-10 p-5 border border-border-subtle rounded-xl bg-surface flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+          <div className="mb-10 p-5 border border-border-subtle rounded-xl bg-white hover:shadow-card transition-all duration-300 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
             <p className="text-sm text-ink-muted">{c.contact.bookAlt}</p>
             <CTAButton
               label={c.contact.bookLinkLabel}
@@ -53,13 +54,14 @@ export default function Contact() {
           </div>
 
           {/* Form */}
-          <form onSubmit={handleSubmit} className="space-y-5">
+          <form onSubmit={handleSubmit} className="space-y-5" aria-label={c.contact.title} noValidate>
             <div className="grid sm:grid-cols-2 gap-5">
               <label className="flex flex-col gap-1.5">
                 <span className="text-sm font-medium text-ink">{fields.name}</span>
                 <input
                   type="text"
                   required
+                  autoComplete="name"
                   value={form.name}
                   onChange={(e) => setForm((f) => ({ ...f, name: e.target.value }))}
                   className="px-4 py-2.5 text-sm border border-border-subtle rounded-lg bg-surface text-ink placeholder-ink-faint focus:outline-none focus:border-accent focus:ring-1 focus:ring-accent transition"
@@ -71,6 +73,7 @@ export default function Contact() {
                 <input
                   type="email"
                   required
+                  autoComplete="email"
                   value={form.email}
                   onChange={(e) => setForm((f) => ({ ...f, email: e.target.value }))}
                   className="px-4 py-2.5 text-sm border border-border-subtle rounded-lg bg-surface text-ink placeholder-ink-faint focus:outline-none focus:border-accent focus:ring-1 focus:ring-accent transition"
@@ -83,6 +86,7 @@ export default function Contact() {
               <span className="text-sm font-medium text-ink">{fields.company}</span>
               <input
                 type="text"
+                autoComplete="organization"
                 value={form.company}
                 onChange={(e) => setForm((f) => ({ ...f, company: e.target.value }))}
                 className="px-4 py-2.5 text-sm border border-border-subtle rounded-lg bg-surface text-ink placeholder-ink-faint focus:outline-none focus:border-accent focus:ring-1 focus:ring-accent transition"
@@ -105,7 +109,7 @@ export default function Contact() {
             <button
               type="submit"
               disabled={status === 'sending' || status === 'sent'}
-              className="inline-flex items-center justify-center font-semibold rounded-lg bg-ink text-surface hover:bg-ink/90 disabled:opacity-60 transition-colors px-6 py-3 text-[0.9375rem] w-full sm:w-auto"
+              className="inline-flex items-center justify-center font-semibold rounded-lg bg-accent text-white hover:bg-accent/90 disabled:opacity-60 transition-colors px-6 py-3 text-[0.9375rem] w-full sm:w-auto"
             >
               {status === 'sending'
                 ? fields.sending
@@ -118,6 +122,7 @@ export default function Contact() {
               <p className="text-sm text-red-600">{fields.error}</p>
             )}
           </form>
+        </div>
         </div>
       </section>
     </div>

@@ -2,7 +2,7 @@ import type { Metadata } from 'next';
 import { headers } from 'next/headers';
 import { Header } from '@/components/Header';
 import { Footer } from '@/components/Footer';
-import { Plus_Jakarta_Sans, Newsreader, Cairo } from 'next/font/google';
+import { Plus_Jakarta_Sans, Newsreader } from 'next/font/google';
 import { LanguageProvider } from '@/components/LanguageContext';
 import './globals.css';
 
@@ -18,13 +18,6 @@ const newsreader = Newsreader({
   style: ['normal', 'italic'],
   weight: ['400', '500'],
   variable: '--font-newsreader',
-  display: 'swap',
-});
-
-const ibmPlexArabic = Cairo({
-  subsets: ['arabic', 'latin'],
-  weight: ['300', '400', '500', '600', '700'],
-  variable: '--font-cairo',
   display: 'swap',
 });
 
@@ -61,19 +54,28 @@ export default function RootLayout({
   const isAdmin = pathname.startsWith('/adminos');
 
   return (
-    <html lang="en" className={`${jakarta.variable} ${newsreader.variable} ${ibmPlexArabic.variable}`}>
+    <html lang="en" className={`${jakarta.variable} ${newsreader.variable}`}>
       <head>
         <meta charSet="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <meta name="theme-color" content="#1D4ED8" />
+        <meta name="color-scheme" content="dark" />
         <link rel="icon" href="/favicon.ico" />
       </head>
       <body className="bg-canvas text-ink font-sans min-h-screen selection:bg-accent selection:text-white antialiased">
+        {/* Skip to main content — Lighthouse a11y */}
+        <a
+          href="#main-content"
+          className="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-[9999] focus:px-4 focus:py-2 focus:bg-accent focus:text-white focus:rounded-lg focus:text-sm focus:font-semibold"
+        >
+          Skip to main content
+        </a>
         {isAdmin ? (
           children
         ) : (
           <LanguageProvider>
             <Header />
-            <main className="min-h-screen">{children}</main>
+            <main id="main-content" className="min-h-screen">{children}</main>
             <Footer />
           </LanguageProvider>
         )}

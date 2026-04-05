@@ -36,7 +36,6 @@ export function Header() {
 
         {/* Right cluster */}
         <div className="flex items-center gap-3">
-          <LanguageToggle />
           <CTAButton
             label={c.nav.cta}
             trackEvent="book_call"
@@ -52,6 +51,7 @@ export function Header() {
             onClick={() => setMobileOpen((v) => !v)}
             aria-label={mobileOpen ? 'Close menu' : 'Open menu'}
             aria-expanded={mobileOpen}
+            aria-controls="mobile-nav"
           >
             {mobileOpen ? (
               <svg className="w-5 h-5" viewBox="0 0 20 20" fill="none" stroke="currentColor" strokeWidth="1.5">
@@ -67,8 +67,12 @@ export function Header() {
       </div>
 
       {/* Mobile drawer */}
-      {mobileOpen && (
-        <div className="md:hidden border-t border-border-subtle bg-canvas px-6 py-5 flex flex-col gap-5">
+      <div
+        id="mobile-nav"
+        className={`md:hidden border-t border-border-subtle bg-canvas px-6 py-5 flex flex-col gap-5 ${mobileOpen ? '' : 'hidden'}`}
+        role="navigation"
+        aria-label="Mobile navigation"
+      >
           <Link
             href="/showcase"
             className="text-sm font-medium text-ink-muted hover:text-ink transition-colors"
@@ -99,25 +103,7 @@ export function Header() {
             className="self-start"
           />
         </div>
-      )}
     </header>
   );
 }
-
-function LanguageToggle() {
-  const { language, toggleLanguage } = useLanguageCtx();
-  return (
-    <button
-      type="button"
-      onClick={toggleLanguage}
-      className="text-xs font-semibold text-ink-muted border border-border-subtle rounded-md px-2.5 py-1.5 hover:bg-surface-raised hover:text-ink transition-colors uppercase tracking-wider"
-      aria-label="Toggle language"
-    >
-      {language === 'en' ? 'AR' : 'EN'}
-    </button>
-  );
-}
-
-// Import separately so we can access raw language value
-import { useLanguage as useLanguageCtx } from '@/components/LanguageContext';
 
