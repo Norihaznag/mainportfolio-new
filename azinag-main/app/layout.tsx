@@ -62,6 +62,13 @@ export default function RootLayout({
         <meta name="theme-color" content="#1D4ED8" />
         <meta name="color-scheme" content="dark" />
         <link rel="icon" href="/favicon.ico" />
+        {/* Google Analytics GA4 */}
+        <script async src="https://www.googletagmanager.com/gtag/js?id=G-PRFYHRG5PQ" />
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-PRFYHRG5PQ');`,
+          }}
+        />
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{
