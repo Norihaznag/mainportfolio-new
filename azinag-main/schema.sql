@@ -208,3 +208,35 @@ create index if not exists site_settings_key_idx on public.site_settings(key);
 create index if not exists projects_sort_order_idx on public.projects(sort_order);
 create index if not exists projects_published_idx on public.projects(published);
 create index if not exists projects_featured_idx on public.projects(featured);
+
+-- Contact form submissions
+create table if not exists public.contact_submissions (
+  id uuid primary key default uuid_generate_v4(),
+  name text not null,
+  email text not null,
+  company text,
+  message text not null,
+  read boolean default false,
+  created_at timestamp with time zone default timezone('utc'::text, now()) not null
+);
+
+alter table public.contact_submissions enable row level security;
+
+-- Anyone can insert (public form)
+drop policy if exists "Anyone can submit contact form" on public.contact_submissions;
+create policy "Anyone can submit contact form" on public.contact_submissions
+  for insert with check (true);
+
+-- Only admins can read
+drop policy if exists "Admins can read contact submissions" on public.contact_submissions;
+create policy "Admins can read contact submissions" on public.contact_submissions
+  for all
+  using (
+    exists (
+      select 1 from public.users
+      where users.id = auth.uid() and users.role = 'admin'
+    )
+  );
+
+create index if not exists contact_submissions_created_at_idx on public.contact_submissions(created_at desc);
+create index if not exists contact_submissions_read_idx on public.contact_submissions(read);

@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
+import { supabaseAdmin } from '@/lib/supabase';
 
 export const dynamic = 'force-dynamic';
 
@@ -11,43 +12,48 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ message: 'Name, email, and message are required.' }, { status: 400 });
     }
 
-    // Basic email format check
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailRegex.test(email)) {
       return NextResponse.json({ message: 'Invalid email address.' }, { status: 400 });
     }
 
-    const adminEmail = process.env.CONTACT_EMAIL;
-    const resendKey = process.env.RESEND_API_KEY;
+    // Primary: save to Supabase (always works, no external dependency)
+    const { error: dbError } = await supabaseAdmin
+      .from('contact_submissions')
+      .insert([{
+        name: name.trim(),
+        email: email.trim(),
+        company: company?.trim() || null,
+        message: message.trim(),
+      }]);
 
-    if (!resendKey || !adminEmail) {
-      // Fallback: log and return success so the site doesn't break
-      console.warn('Contact form: RESEND_API_KEY or ADMIN_EMAIL not set — message not delivered.', {
-        name, email, company, message
-      });
-      return NextResponse.json({ ok: true });
+    if (dbError) {
+      console.error('Supabase contact error:', dbError);
+      return NextResponse.json({ message: 'Failed to save your message. Please email hello@azinag.com directly.' }, { status: 500 });
     }
 
-    const res = await fetch('https://api.resend.com/emails', {
-      method: 'POST',
-      headers: {
-        Authorization: `Bearer ${resendKey}`,
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        from: 'Azinag Contact <onboarding@resend.dev>',
-        to: [adminEmail],
-        reply_to: email,
-        subject: `New inquiry from ${name}${company ? ` (${company})` : ''}`,
-        text: `Name: ${name}\nEmail: ${email}\nCompany: ${company || '—'}\n\n${message}`,
-        html: `<p><strong>Name:</strong> ${name}</p><p><strong>Email:</strong> ${email}</p><p><strong>Company:</strong> ${company || '—'}</p><hr/><p>${message.replace(/\n/g, '<br/>')}</p>`,
-      }),
-    });
-
-    if (!res.ok) {
-      const err = await res.text();
-      console.error('Resend error:', err);
-      return NextResponse.json({ message: 'Failed to send. Please email hello@azinag.com directly.' }, { status: 500 });
+    // Best-effort: send email notification via Resend if configured
+    const resendKey = process.env.RESEND_API_KEY;
+    const contactEmail = process.env.CONTACT_EMAIL;
+    if (resendKey && contactEmail) {
+      try {
+        await fetch('https://api.resend.com/emails', {
+          method: 'POST',
+          headers: {
+            Authorization: `Bearer ${resendKey}`,
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            from: 'Azinag Contact <onboarding@resend.dev>',
+            to: [contactEmail],
+            reply_to: email,
+            subject: `New inquiry from ${name}${company ? ` (${company})` : ''}`,
+            text: `Name: ${name}\nEmail: ${email}\nCompany: ${company || '—'}\n\n${message}`,
+          }),
+        });
+      } catch {
+        // Email notification is best-effort — submission already saved in DB
+      }
     }
 
     return NextResponse.json({ ok: true });
