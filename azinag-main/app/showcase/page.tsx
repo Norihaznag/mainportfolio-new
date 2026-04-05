@@ -22,6 +22,16 @@ function getThumb(project: Project): string {
   return '';
 }
 
+function extractDomain(url: string): string {
+  try {
+    const normalized = url.startsWith('http') ? url : `https://${url}`;
+    const hostname = new URL(normalized).hostname;
+    return hostname.replace(/^www\./, '');
+  } catch {
+    return url.replace(/^https?:\/\/(www\.)?/, '').split('/')[0];
+  }
+}
+
 export default function Showcase() {
   const c = useContent();
   const [projects, setProjects] = useState<Project[]>([]);
@@ -65,15 +75,27 @@ export default function Showcase() {
                     <div className="w-full aspect-[16/9] bg-surface-raised" />
                   )}
                   <div className="p-6 flex flex-col gap-3 flex-1">
-                    <div className="flex items-center gap-2 flex-wrap">
-                      <h2 className="text-base font-bold leading-snug">{project.name}</h2>
+                    <div className="flex items-start gap-2 flex-wrap">
+                      <div className="flex-1 min-w-0">
+                        {project.live_url && project.desc ? (
+                          <p className="text-base font-bold leading-snug">
+                            <span>{extractDomain(project.live_url)}</span>
+                            <span className="text-ink-muted font-normal mx-1.5">·</span>
+                            <span className="text-ink-muted font-medium">{project.desc}</span>
+                          </p>
+                        ) : (
+                          <>
+                            <h2 className="text-base font-bold leading-snug">{project.name}</h2>
+                            {project.desc && (
+                              <p className="text-sm text-ink-muted leading-relaxed mt-1 line-clamp-3">{project.desc}</p>
+                            )}
+                          </>
+                        )}
+                      </div>
                       {project.featured && (
-                        <span className="text-xs px-2 py-0.5 rounded-full font-medium bg-amber-50 text-amber-700">Featured</span>
+                        <span className="text-xs px-2 py-0.5 rounded-full font-medium bg-amber-50 text-amber-700 shrink-0">Featured</span>
                       )}
                     </div>
-                    {project.desc && (
-                      <p className="text-sm text-ink-muted leading-relaxed line-clamp-3">{project.desc}</p>
-                    )}
                     {project.tags && project.tags.length > 0 && (
                       <div className="flex flex-wrap gap-1.5">
                         {project.tags.map((tag) => (

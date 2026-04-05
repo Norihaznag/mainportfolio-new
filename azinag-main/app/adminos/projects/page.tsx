@@ -41,6 +41,16 @@ const EMPTY: FormState = {
   published: true,
 };
 
+function extractDomain(url: string): string {
+  try {
+    const normalized = url.startsWith('http') ? url : `https://${url}`;
+    const hostname = new URL(normalized).hostname;
+    return hostname.replace(/^www\./, '');
+  } catch {
+    return url.replace(/^https?:\/\/(www\.)?/, '').split('/')[0];
+  }
+}
+
 function getThumb(liveUrl: string | null, thumbnailUrl: string | null): string {
   if (thumbnailUrl) return thumbnailUrl;
   if (liveUrl) return `https://image.thum.io/get/width/600/crop/400/${liveUrl}`;
@@ -54,6 +64,13 @@ export default function ProjectsPage() {
   const [editId, setEditId] = useState<string | null>(null);
   const [open, setOpen] = useState(false);
   const [saving, setSaving] = useState(false);
+
+  // Quick-add state
+  const [quickUrl, setQuickUrl] = useState('');
+  const [quickType, setQuickType] = useState('');
+  const [quickTags, setQuickTags] = useState('');
+  const [quickAdding, setQuickAdding] = useState(false);
+  const [quickDone, setQuickDone] = useState(false);
 
   const load = async () => {
     setLoading(true);
@@ -84,6 +101,38 @@ export default function ProjectsPage() {
     setOpen(true);
   };
   const closeModal = () => { setOpen(false); setEditId(null); };
+
+  const handleQuickAdd = async () => {
+    const url = quickUrl.trim();
+    const type = quickType.trim();
+    if (!url || !type) return;
+    setQuickAdding(true);
+    setQuickDone(false);
+    const normalizedUrl = url.startsWith('http') ? url : `https://${url}`;
+    const domain = extractDomain(normalizedUrl);
+    await fetch('/api/admin/projects', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        title: domain,
+        description: type,
+        live_url: normalizedUrl,
+        thumbnail_url: '',
+        tags: quickTags,
+        category: 'Web',
+        sort_order: 0,
+        featured: false,
+        published: true,
+      }),
+    });
+    setQuickUrl('');
+    setQuickType('');
+    setQuickTags('');
+    setQuickAdding(false);
+    setQuickDone(true);
+    setTimeout(() => setQuickDone(false), 2000);
+    load();
+  };
 
   const handleSave = async () => {
     if (!form.title.trim()) return;
@@ -131,6 +180,43 @@ export default function ProjectsPage() {
           Add project
         </button>
       </div>
+
+      {/* Quick Add bar */}
+      <div className="mb-8 border border-border-subtle rounded-2xl bg-surface p-4">
+        <p className="text-xs font-semibold text-ink-muted uppercase tracking-wide mb-3">⚡ Quick Add by URL</p>
+        <div className="flex flex-col sm:flex-row gap-2">
+          <input
+            value={quickUrl}
+            onChange={e => setQuickUrl(e.target.value)}
+            onKeyDown={e => e.key === 'Enter' && handleQuickAdd()}
+            placeholder="prismporo.ma or https://example.com"
+            className="flex-1 min-w-0 px-3.5 py-2.5 rounded-lg border border-border-subtle text-sm text-ink bg-canvas focus:outline-none focus:ring-2 focus:ring-accent/30 focus:border-accent"
+          />
+          <input
+            value={quickType}
+            onChange={e => setQuickType(e.target.value)}
+            onKeyDown={e => e.key === 'Enter' && handleQuickAdd()}
+            placeholder="e.g. car rental website"
+            className="flex-1 min-w-0 px-3.5 py-2.5 rounded-lg border border-border-subtle text-sm text-ink bg-canvas focus:outline-none focus:ring-2 focus:ring-accent/30 focus:border-accent"
+          />
+          <input
+            value={quickTags}
+            onChange={e => setQuickTags(e.target.value)}
+            onKeyDown={e => e.key === 'Enter' && handleQuickAdd()}
+            placeholder="Tags (optional): Next.js, Tailwind"
+            className="flex-1 min-w-0 px-3.5 py-2.5 rounded-lg border border-border-subtle text-sm text-ink bg-canvas focus:outline-none focus:ring-2 focus:ring-accent/30 focus:border-accent"
+          />
+          <button
+            onClick={handleQuickAdd}
+            disabled={quickAdding || !quickUrl.trim() || !quickType.trim()}
+            className="shrink-0 px-4 py-2.5 bg-accent text-white text-sm font-semibold rounded-lg hover:bg-accent/90 transition-colors disabled:opacity-50"
+          >
+            {quickAdding ? 'Adding…' : quickDone ? '✓ Added!' : '+ Add'}
+          </button>
+        </div>
+        <p className="text-xs text-ink-faint mt-2">Domain is auto-extracted as the title · thumbnail auto-generated · published immediately</p>
+      </div>
+
 
       {loading ? (
         <div className="flex justify-center py-20">

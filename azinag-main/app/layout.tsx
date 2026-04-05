@@ -2,7 +2,7 @@ import type { Metadata } from 'next';
 import { headers } from 'next/headers';
 import { Header } from '@/components/Header';
 import { Footer } from '@/components/Footer';
-import { Plus_Jakarta_Sans, Newsreader, IBM_Plex_Arabic } from 'next/font/google';
+import { Plus_Jakarta_Sans, Newsreader, Cairo } from 'next/font/google';
 import { LanguageProvider } from '@/components/LanguageContext';
 import './globals.css';
 
@@ -21,7 +21,7 @@ const newsreader = Newsreader({
   display: 'swap',
 });
 
-const ibmPlexArabic = IBM_Plex_Arabic({
+const ibmPlexArabic = Cairo({
   subsets: ['arabic', 'latin'],
   weight: ['300', '400', '500', '600', '700'],
   variable: '--font-cairo',
