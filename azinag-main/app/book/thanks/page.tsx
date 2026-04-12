@@ -1,12 +1,26 @@
 'use client';
 
+import { useEffect } from 'react';
 import Link from 'next/link';
 import { useContent } from '@/components/LanguageContext';
 import { trackWorkCtaClick } from '@/lib/analytics';
 
+declare global {
+  interface Window {
+    fbq?: (...args: unknown[]) => void;
+  }
+}
+
 export default function BookThanks() {
   const c = useContent();
   const t = c.bookThanks;
+
+  useEffect(() => {
+    // Fire Meta Pixel Schedule conversion on confirmed booking page load
+    if (typeof window !== 'undefined' && typeof window.fbq === 'function') {
+      window.fbq('track', 'Schedule');
+    }
+  }, []);
 
   return (
     <div className="bg-canvas text-ink min-h-[70vh] flex items-center">

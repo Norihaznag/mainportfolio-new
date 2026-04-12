@@ -73,6 +73,11 @@ export function CTAButton({
         break;
     }
 
+    // Meta Pixel — fire Schedule on every booking CTA click
+    if (typeof window !== 'undefined' && typeof (window as Window & { fbq?: (...args: unknown[]) => void }).fbq === 'function') {
+      (window as Window & { fbq: (...args: unknown[]) => void }).fbq('track', 'Schedule');
+    }
+
     // Preserve UTM params when navigating to external booking URL
     if (bookingUrl && typeof window !== 'undefined') {
       const currentSearch = window.location.search;

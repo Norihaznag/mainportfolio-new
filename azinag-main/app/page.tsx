@@ -1,6 +1,7 @@
 ﻿'use client';
 
 import { useEffect, useState } from 'react';
+import Image from 'next/image';
 import Link from 'next/link';
 import { useContent } from '@/components/LanguageContext';
 import { CTAButton } from '@/components/CTAButton';
@@ -31,14 +32,14 @@ export default function Home() {
 
       {/* ─── Hero ─────────────────────────────────────────────── */}
       <section className="relative overflow-hidden pt-28 pb-28 px-6" aria-label="Hero">
-        {/* Ambient glow orbs */}
+        {/* Ambient glow orbs — terracotta */}
         <div aria-hidden="true" className="pointer-events-none select-none absolute inset-0">
           <div className="orb -top-40 -right-20 w-[700px] h-[600px] opacity-100"
-            style={{ background: 'radial-gradient(ellipse at center, rgba(155,92,255,0.22) 0%, transparent 70%)' }} />
+            style={{ background: 'radial-gradient(ellipse at center, rgba(194,65,12,0.18) 0%, transparent 70%)' }} />
           <div className="orb top-32 -left-32 w-[500px] h-[400px] opacity-80"
-            style={{ background: 'radial-gradient(ellipse at center, rgba(99,44,200,0.14) 0%, transparent 70%)' }} />
+            style={{ background: 'radial-gradient(ellipse at center, rgba(234,88,12,0.10) 0%, transparent 70%)' }} />
           <div className="orb bottom-0 left-1/2 -translate-x-1/2 w-full h-40 opacity-60"
-            style={{ background: 'radial-gradient(ellipse at center, rgba(155,92,255,0.10) 0%, transparent 70%)' }} />
+            style={{ background: 'radial-gradient(ellipse at center, rgba(194,65,12,0.08) 0%, transparent 70%)' }} />
         </div>
         {/* Dot grid */}
         <div aria-hidden="true" className="pointer-events-none select-none absolute inset-0 bg-grid" />
@@ -57,30 +58,64 @@ export default function Home() {
           <div className="flex flex-wrap gap-3">
             <CTAButton label={c.hero.primaryCta} trackEvent="book_call" trackSource="hero" variant="primary" size="lg" />
             <Link
-              href="/showcase"
-              onClick={() => trackWorkCtaClick('hero')}
+              href="/pricing"
+              onClick={() => trackPricingCtaClick('hero')}
               className="inline-flex items-center justify-center font-semibold rounded-lg border border-border-subtle text-ink hover:bg-surface-raised transition-colors px-8 py-4 text-base"
             >
               {c.hero.secondaryCta}
             </Link>
           </div>
 
-          {/* Hero visual placeholder */}
-          <div className="mt-14 relative w-full aspect-[16/9] rounded-2xl border border-border-subtle bg-surface-raised overflow-hidden flex items-center justify-center group cursor-pointer">
-            {/* Grid pattern overlay */}
-            <div className="absolute inset-0 opacity-40" style={{ backgroundImage: 'linear-gradient(rgba(100,116,139,0.15) 1px, transparent 1px), linear-gradient(90deg, rgba(100,116,139,0.15) 1px, transparent 1px)', backgroundSize: '32px 32px' }} />
-            {/* Corner labels */}
-            <span className="absolute top-4 left-4 text-xs font-medium text-ink-faint tracking-wide uppercase">Preview</span>
-            <span className="absolute top-4 right-4 text-xs font-medium text-ink-faint tracking-wide">Video / Image</span>
-            {/* Play button */}
-            <div className="relative flex flex-col items-center gap-4">
-              <div className="w-16 h-16 rounded-full bg-white border border-border-subtle flex items-center justify-center shadow-sm group-hover:scale-105 transition-transform">
-                <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor" className="text-accent ml-1" aria-hidden="true">
-                  <path d="M8 5v14l11-7z"/>
-                </svg>
+          {/* Hero visual — restaurant image mosaic */}
+          <div className="mt-14 grid grid-cols-3 gap-3 h-[260px] sm:h-[340px] lg:h-[400px]">
+
+            {/* Large main image */}
+            <div className="col-span-2 relative rounded-2xl overflow-hidden shadow-lg">
+              <Image
+                src="https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?w=1200&q=85"
+                alt="Intérieur de restaurant chaleureux"
+                fill
+                className="object-cover transition-transform duration-700 hover:scale-105"
+                priority
+                sizes="(max-width: 768px) 66vw, 800px"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-black/10 to-transparent" />
+              <div className="absolute bottom-4 left-4 flex items-center gap-2">
+                <span className="text-xs font-semibold text-white/90 tracking-widest uppercase bg-black/30 backdrop-blur-sm px-3 py-1 rounded-full">
+                  Votre restaurant
+                </span>
               </div>
-              <p className="text-sm text-ink-muted font-medium">Add your hero video or screenshot here</p>
             </div>
+
+            {/* Right column — two stacked images */}
+            <div className="flex flex-col gap-3">
+              <div className="flex-1 relative rounded-2xl overflow-hidden shadow-lg">
+                <Image
+                  src="https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=600&q=85"
+                  alt="Cuisine locale"
+                  fill
+                  className="object-cover transition-transform duration-700 hover:scale-105"
+                  sizes="(max-width: 768px) 33vw, 400px"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent" />
+              </div>
+              <div className="flex-1 relative rounded-2xl overflow-hidden shadow-lg">
+                <Image
+                  src="https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=600&q=85"
+                  alt="Salle de restaurant"
+                  fill
+                  className="object-cover transition-transform duration-700 hover:scale-105"
+                  sizes="(max-width: 768px) 33vw, 400px"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent" />
+                <div className="absolute bottom-3 left-3">
+                  <span className="text-[10px] font-semibold text-white/80 tracking-widest uppercase bg-black/30 backdrop-blur-sm px-2 py-0.5 rounded-full">
+                    Guelmim · Tiznit
+                  </span>
+                </div>
+              </div>
+            </div>
+
           </div>
         </div>
       </section>
@@ -106,44 +141,50 @@ export default function Home() {
           <div className="grid md:grid-cols-3 gap-6">
             {([
               {
-                key: 'webApp', src: 'offer_web', icon: '🌐',
+                key: 'webApp', src: 'offer_presence', icon: '📍',
                 visual: (
-                  <div className="w-full aspect-[16/9] bg-blue-50 border-b border-border-subtle flex items-center justify-center relative overflow-hidden group-hover:bg-blue-100 transition-colors">
-                    <div className="absolute inset-0 opacity-30" style={{ backgroundImage: 'linear-gradient(rgba(29,78,216,0.12) 1px, transparent 1px), linear-gradient(90deg, rgba(29,78,216,0.12) 1px, transparent 1px)', backgroundSize: '24px 24px' }} />
-                    <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.2" className="text-accent opacity-60" aria-hidden="true">
-                      <rect x="2" y="4" width="20" height="14" rx="2"/>
-                      <path d="M8 20h8M12 18v2"/>
-                      <circle cx="12" cy="11" r="2"/>
-                      <path d="M6 8h.01M6 11h.01"/>
-                    </svg>
-                    <span className="absolute bottom-2 right-3 text-xs text-accent/60 font-medium">Web App</span>
+                  <div className="w-full aspect-[16/9] relative overflow-hidden">
+                    <Image
+                      src="https://images.unsplash.com/photo-1559305616-3f99cd43e353?w=700&q=80"
+                      alt="Café local"
+                      fill
+                      className="object-cover transition-transform duration-500 group-hover:scale-105"
+                      sizes="(max-width: 768px) 100vw, 33vw"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/10 to-transparent" />
+                    <span className="absolute bottom-3 left-4 text-xs font-bold text-white tracking-widest uppercase">Présence</span>
                   </div>
                 ),
               },
               {
-                key: 'desktopApp', src: 'offer_desktop', icon: '🖥',
+                key: 'desktopApp', src: 'offer_vitrine', icon: '🍽️',
                 visual: (
-                  <div className="w-full aspect-[16/9] bg-violet-50 border-b border-border-subtle flex items-center justify-center relative overflow-hidden group-hover:bg-violet-100 transition-colors">
-                    <div className="absolute inset-0 opacity-30" style={{ backgroundImage: 'linear-gradient(rgba(109,40,217,0.12) 1px, transparent 1px), linear-gradient(90deg, rgba(109,40,217,0.12) 1px, transparent 1px)', backgroundSize: '24px 24px' }} />
-                    <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.2" className="text-violet-500 opacity-60" aria-hidden="true">
-                      <rect x="2" y="3" width="20" height="14" rx="2"/>
-                      <path d="M8 21h8M12 17v4"/>
-                      <path d="M6 7h4M6 10h6M6 13h3"/>
-                    </svg>
-                    <span className="absolute bottom-2 right-3 text-xs text-violet-500/60 font-medium">Desktop App</span>
+                  <div className="w-full aspect-[16/9] relative overflow-hidden">
+                    <Image
+                      src="https://images.unsplash.com/photo-1555396273-367ea4eb4db5?w=700&q=80"
+                      alt="Cuisine de restaurant"
+                      fill
+                      className="object-cover transition-transform duration-500 group-hover:scale-105"
+                      sizes="(max-width: 768px) 100vw, 33vw"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/10 to-transparent" />
+                    <span className="absolute bottom-3 left-4 text-xs font-bold text-white tracking-widest uppercase">Vitrine</span>
                   </div>
                 ),
               },
               {
-                key: 'androidApp', src: 'offer_android', icon: '📱',
+                key: 'androidApp', src: 'offer_reservation', icon: '📅',
                 visual: (
-                  <div className="w-full aspect-[16/9] bg-emerald-50 border-b border-border-subtle flex items-center justify-center relative overflow-hidden group-hover:bg-emerald-100 transition-colors">
-                    <div className="absolute inset-0 opacity-30" style={{ backgroundImage: 'linear-gradient(rgba(5,150,105,0.12) 1px, transparent 1px), linear-gradient(90deg, rgba(5,150,105,0.12) 1px, transparent 1px)', backgroundSize: '24px 24px' }} />
-                    <svg width="40" height="64" viewBox="0 0 24 38" fill="none" stroke="currentColor" strokeWidth="1.2" className="text-emerald-600 opacity-60" aria-hidden="true">
-                      <rect x="2" y="1" width="20" height="36" rx="4"/>
-                      <path d="M9 5h6M12 32v.5"/>
-                    </svg>
-                    <span className="absolute bottom-2 right-3 text-xs text-emerald-600/60 font-medium">Android App</span>
+                  <div className="w-full aspect-[16/9] relative overflow-hidden">
+                    <Image
+                      src="https://images.unsplash.com/photo-1424847651672-bf20a4b0982b?w=700&q=80"
+                      alt="Réservation restaurant"
+                      fill
+                      className="object-cover transition-transform duration-500 group-hover:scale-105"
+                      sizes="(max-width: 768px) 100vw, 33vw"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/10 to-transparent" />
+                    <span className="absolute bottom-3 left-4 text-xs font-bold text-white tracking-widest uppercase">Réservation+</span>
                   </div>
                 ),
               },
@@ -216,7 +257,7 @@ export default function Home() {
         <div className="relative max-w-5xl mx-auto">
           <p className="eyebrow mb-3">{c.process.eyebrow}</p>
           <h2 id="process-heading" className="text-3xl sm:text-4xl font-bold tracking-tight mb-16">{c.process.title}</h2>
-          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-10">
+          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-10">
             {c.process.steps.map((step, idx) => (
               <div key={step.number} className="flex flex-col">
                   <div className="gradient-number text-5xl font-bold mb-4 font-serif italic leading-none">
@@ -231,16 +272,31 @@ export default function Home() {
       </section>
 
       {/* ─── Founder ──────────────────────────────────────────── */}
-      <section className="relative overflow-hidden py-28 px-6 border-t border-border-subtle" aria-labelledby="founder-heading">
-        <div className="relative max-w-3xl mx-auto">
-          <p className="eyebrow mb-5">{c.founder.eyebrow}</p>
-          <h2 id="founder-heading" className="text-3xl sm:text-4xl font-bold tracking-tight mb-6">{c.founder.title}</h2>
-          <div className="text-[1.0625rem] text-ink-muted leading-relaxed space-y-4 mb-8">
-            {c.founder.body.split('\n\n').map((para, i) => (<p key={i}>{para}</p>))}
+      <section className="relative overflow-hidden border-t border-border-subtle" aria-labelledby="founder-heading">
+        {/* Background image with dark overlay */}
+        <div className="absolute inset-0">
+          <Image
+            src="https://images.unsplash.com/photo-1466978913421-dad2ebd01d17?w=1600&q=80"
+            alt=""
+            fill
+            className="object-cover object-center"
+            aria-hidden="true"
+            sizes="100vw"
+          />
+          <div className="absolute inset-0 bg-gradient-to-r from-black/80 via-black/70 to-black/50" />
+        </div>
+
+        <div className="relative py-28 px-6">
+          <div className="max-w-3xl mx-auto">
+            <p className="eyebrow mb-5 text-white/60">{c.founder.eyebrow}</p>
+            <h2 id="founder-heading" className="text-3xl sm:text-4xl font-bold tracking-tight mb-6 text-white">{c.founder.title}</h2>
+            <div className="text-[1.0625rem] text-white/70 leading-relaxed space-y-4 mb-8">
+              {c.founder.body.split('\n\n').map((para, i) => (<p key={i}>{para}</p>))}
+            </div>
+            <p className="text-[0.9375rem] font-semibold text-white">{c.founder.name}</p>
+            <p className="text-sm text-white/60 mb-8">{c.founder.role}</p>
+            <CTAButton label={c.founder.cta} trackEvent="book_call" trackSource="founder_section" variant="secondary" size="md" />
           </div>
-          <p className="text-[0.9375rem] font-semibold text-ink">{c.founder.name}</p>
-          <p className="text-sm text-ink-muted mb-8">{c.founder.role}</p>
-          <CTAButton label={c.founder.cta} trackEvent="book_call" trackSource="founder_section" variant="ghost" size="md" />
         </div>
       </section>
 
@@ -275,20 +331,38 @@ export default function Home() {
       </section>
 
       {/* ─── Final CTA ────────────────────────────────────────── */}
-      <section className="relative py-32 px-6 border-t border-border-subtle" aria-labelledby="cta-heading">
+      <section className="relative overflow-hidden border-t border-border-subtle" aria-labelledby="cta-heading">
+        {/* Background image */}
+        <div className="absolute inset-0">
+          <Image
+            src="https://images.unsplash.com/photo-1600891964599-f61ba0e24092?w=1600&q=80"
+            alt=""
+            fill
+            className="object-cover object-center"
+            aria-hidden="true"
+            sizes="100vw"
+          />
+          <div className="absolute inset-0 bg-gradient-to-br from-black/75 via-black/65 to-orange-950/70" />
+        </div>
+        <div className="relative py-32 px-6">
         <div className="relative max-w-2xl mx-auto text-center">
-          <h2 id="cta-heading" className="text-3xl sm:text-4xl font-bold tracking-tight mb-4">{c.finalCta.headline}</h2>
-          <p className="text-ink-muted mb-10 text-[1.0625rem]">{c.finalCta.sub}</p>
+          <h2 id="cta-heading" className="text-3xl sm:text-4xl font-bold tracking-tight mb-4 text-white">{c.finalCta.headline}</h2>
+          <p className="text-white/70 mb-10 text-[1.0625rem]">{c.finalCta.sub}</p>
           <div className="flex flex-wrap gap-3 justify-center">
             <CTAButton label={c.finalCta.primaryCta} trackEvent="book_call" trackSource="final_cta" variant="primary" size="lg" />
-            <Link
-              href="/pricing"
-              onClick={() => trackPricingCtaClick('final_cta')}
-              className="inline-flex items-center justify-center font-semibold rounded-lg border border-border-subtle text-ink hover:bg-surface-raised transition-colors px-8 py-4 text-base"
+            <a
+              href={`https://wa.me/212609343953?text=${encodeURIComponent('Bonjour, je voudrais un site web pour mon restaurant/café.')}`}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center justify-center font-semibold rounded-lg border border-white/30 text-white hover:bg-white/10 transition-colors px-8 py-4 text-base gap-2"
             >
-              {c.finalCta.secondaryCta}
-            </Link>
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" width="18" height="18" className="text-[#25D366]" aria-hidden="true">
+                <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
+              </svg>
+              Écrire sur WhatsApp
+            </a>
           </div>
+        </div>
         </div>
       </section>
 

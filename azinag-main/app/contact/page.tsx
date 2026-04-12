@@ -69,7 +69,7 @@ export default function Contact() {
                   value={form.name}
                   onChange={(e) => setForm((f) => ({ ...f, name: e.target.value }))}
                   className="px-4 py-2.5 text-sm border border-border-subtle rounded-lg bg-surface text-ink placeholder-ink-faint focus:outline-none focus:border-accent focus:ring-1 focus:ring-accent transition"
-                  placeholder="Jane Smith"
+                  placeholder="Ahmed Benali"
                 />
               </label>
               <label className="flex flex-col gap-1.5">
@@ -81,7 +81,7 @@ export default function Contact() {
                   value={form.email}
                   onChange={(e) => setForm((f) => ({ ...f, email: e.target.value }))}
                   className="px-4 py-2.5 text-sm border border-border-subtle rounded-lg bg-surface text-ink placeholder-ink-faint focus:outline-none focus:border-accent focus:ring-1 focus:ring-accent transition"
-                  placeholder="jane@startup.com"
+                  placeholder="0612345678"
                 />
               </label>
             </div>
@@ -94,7 +94,7 @@ export default function Contact() {
                 value={form.company}
                 onChange={(e) => setForm((f) => ({ ...f, company: e.target.value }))}
                 className="px-4 py-2.5 text-sm border border-border-subtle rounded-lg bg-surface text-ink placeholder-ink-faint focus:outline-none focus:border-accent focus:ring-1 focus:ring-accent transition"
-                placeholder="Acme Inc."
+                placeholder="Restaurant Atlas, Guelmim"
               />
             </label>
 
@@ -106,7 +106,7 @@ export default function Contact() {
                 value={form.message}
                 onChange={(e) => setForm((f) => ({ ...f, message: e.target.value }))}
                 className="px-4 py-2.5 text-sm border border-border-subtle rounded-lg bg-surface text-ink placeholder-ink-faint focus:outline-none focus:border-accent focus:ring-1 focus:ring-accent transition resize-none"
-                placeholder="I'm building a SaaS for..."
+                placeholder="Parlez-nous de votre restaurant et ce que vous cherchez..."
               />
             </label>
 

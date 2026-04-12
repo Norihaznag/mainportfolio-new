@@ -1,16 +1,29 @@
 'use client';
 
+declare global {
+  interface Window {
+    fbq?: (...args: unknown[]) => void;
+  }
+}
+
 export function WhatsAppButton() {
   const phone = '212609343953';
-  const message = encodeURIComponent("Hi Noureddine, I'd like to discuss a project with you.");
+  const message = encodeURIComponent('Bonjour, je voudrais un site web pour mon restaurant/café.');
   const href = `https://wa.me/${phone}?text=${message}`;
+
+  function handleClick() {
+    if (typeof window !== 'undefined' && typeof window.fbq === 'function') {
+      window.fbq('track', 'Contact', { method: 'whatsapp' });
+    }
+  }
 
   return (
     <a
       href={href}
       target="_blank"
       rel="noopener noreferrer"
-      aria-label="Chat on WhatsApp"
+      aria-label="Écrire sur WhatsApp"
+      onClick={handleClick}
       className="fixed bottom-6 right-6 z-50 flex items-center justify-center w-14 h-14 rounded-full shadow-lg bg-[#25D366] hover:bg-[#1ebe57] transition-colors"
     >
       <svg

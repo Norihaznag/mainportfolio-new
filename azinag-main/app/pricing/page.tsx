@@ -65,7 +65,7 @@ export default function Pricing() {
               >
                 {pkg.is_featured && (
                   <span className="self-start text-xs font-semibold tracking-widest uppercase text-accent bg-accent-light px-2 py-1 rounded-full mb-4">
-                    Most popular
+                    Le plus populaire
                   </span>
                 )}
                 <h2 className="text-xl font-bold mb-1">{pkg.name}</h2>
@@ -73,11 +73,11 @@ export default function Pricing() {
 
                 {pkg.price > 0 ? (
                   <p className="text-3xl font-bold tracking-tight mb-6">
-                    ${pkg.price.toLocaleString()}
-                    <span className="text-base font-normal text-ink-muted"> fixed</span>
+                    {pkg.price.toLocaleString('fr-MA')} DH
+                    <span className="text-base font-normal text-ink-muted"> fixe</span>
                   </p>
                 ) : (
-                  <p className="text-xl font-bold mb-6 text-ink-muted">Custom</p>
+                  <p className="text-xl font-bold mb-6 text-ink-muted">Sur devis</p>
                 )}
 
                 {pkg.features && pkg.features.length > 0 && (
@@ -107,9 +107,9 @@ export default function Pricing() {
 
           {/* Bottom note */}
           <p className="mt-12 text-center text-sm text-ink-muted">
-            Not sure what fits?{' '}
+            Vous ne savez pas quelle formule choisir ?{' '}
             <Link href="/contact" className="text-accent hover:underline font-medium">
-              Talk first →
+              On vous conseille →
             </Link>
           </p>
         </div>

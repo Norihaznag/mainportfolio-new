@@ -28,7 +28,7 @@ export default function LandingPageDevelopment() {
             size="lg"
           />
           <Link
-            href="/showcase"
+            href="/pricing"
             className="inline-flex items-center justify-center font-semibold rounded-lg border border-border-subtle text-ink hover:bg-surface-raised transition-colors px-8 py-4 text-base"
           >
             {lp.secondaryCta}
@@ -51,7 +51,7 @@ export default function LandingPageDevelopment() {
       {/* Process */}
       <section className="py-20 px-6">
         <div className="max-w-4xl mx-auto">
-          <h2 className="text-2xl font-bold tracking-tight mb-10 text-center">The process</h2>
+          <h2 className="text-2xl font-bold tracking-tight mb-10 text-center">Comment ça marche</h2>
           <ol className="flex flex-col sm:flex-row gap-0 sm:gap-0 divide-y sm:divide-y-0 sm:divide-x divide-border-subtle border border-border-subtle rounded-2xl overflow-hidden bg-surface">
             {lp.process.map((step, i) => (
               <li key={step} className="flex-1 p-6">

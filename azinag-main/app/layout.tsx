@@ -26,23 +26,23 @@ const baseUrl = 'https://azinag.site';
 
 export const metadata: Metadata = {
   metadataBase: new URL(baseUrl),
-  title: 'Azinag — Founder-led Studio for Startups',
+  title: 'Azinag — Sites web pour restaurants et cafés au Maroc',
   description:
-    'Landing pages and SaaS MVPs built by a founder who ships. Clean code, sharp design, fixed scope. Working with global startups.',
+    'Sites web professionnels pour restaurants et cafés à Guelmim, Tan-Tan, Tiznit et Sidi Ifni. WhatsApp intégré, Google Maps, livré en 7 jours. Prix fixe en dirhams.',
   openGraph: {
     type: 'website',
-    locale: 'en_US',
+    locale: 'fr_MA',
     url: baseUrl,
     siteName: 'Azinag',
-    title: 'Azinag — Founder-led Studio for Startups',
+    title: 'Azinag — Sites web pour restaurants et cafés au Maroc',
     description:
-      'Landing pages and SaaS MVPs built by a founder who ships. Fixed scope, direct communication, global clients.',
+      'Sites web professionnels pour restaurants et cafés. WhatsApp, Google Maps, livré en 7 jours. Prix fixe en dirhams.',
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Azinag — Founder-led Studio for Startups',
+    title: 'Azinag — Sites web pour restaurants et cafés au Maroc',
     description:
-      'Landing pages and SaaS MVPs built by a founder who ships. Fixed scope, direct communication, global clients.',
+      'Sites web professionnels pour restaurants et cafés. WhatsApp, Google Maps, livré en 7 jours. Prix fixe en dirhams.',
   },
 };
 
@@ -59,7 +59,7 @@ export default function RootLayout({
       <head>
         <meta charSet="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <meta name="theme-color" content="#1D4ED8" />
+        <meta name="theme-color" content="#C2410C" />
         <meta name="color-scheme" content="dark" />
         <link rel="icon" href="/favicon.ico" />
         {/* Google Analytics GA4 */}
@@ -93,40 +93,45 @@ export default function RootLayout({
           dangerouslySetInnerHTML={{
             __html: JSON.stringify({
               '@context': 'https://schema.org',
-              '@type': 'ProfessionalService',
+              '@type': 'LocalBusiness',
               name: 'Azinag',
               url: 'https://azinag.site',
               description:
-                'Founder-led software studio building web apps, desktop apps, and Android apps for global startups. Fixed scope, fixed price.',
+                'Sites web professionnels pour restaurants et cafés au Maroc — Guelmim, Tan-Tan, Tiznit, Sidi Ifni. WhatsApp, Google Maps, prix fixe en dirhams.',
               founder: {
-                '@type': 'Person',
-                name: 'Noureddine Azinag',
+                '@type': 'Organization',
+                name: 'Azinag',
               },
-              areaServed: 'Worldwide',
-              priceRange: '$997 – $4,997+',
-              email: 'hello@azinag.com',
+              areaServed: [
+                { '@type': 'City', name: 'Guelmim' },
+                { '@type': 'City', name: 'Tan-Tan' },
+                { '@type': 'City', name: 'Tiznit' },
+                { '@type': 'City', name: 'Sidi Ifni' },
+              ],
+              priceRange: '1200 – 6000 MAD',
+              telephone: '+212609343953',
               sameAs: [],
               hasOfferCatalog: {
                 '@type': 'OfferCatalog',
-                name: 'Software Development Services',
+                name: 'Formules sites web restaurants',
                 itemListElement: [
                   {
                     '@type': 'Offer',
-                    itemOffered: { '@type': 'Service', name: 'Landing Page Development' },
-                    price: '997',
-                    priceCurrency: 'USD',
+                    itemOffered: { '@type': 'Service', name: 'Présence — Site une page' },
+                    price: '1200',
+                    priceCurrency: 'MAD',
                   },
                   {
                     '@type': 'Offer',
-                    itemOffered: { '@type': 'Service', name: 'Business Website' },
+                    itemOffered: { '@type': 'Service', name: 'Vitrine — Site multi-pages' },
                     price: '2500',
-                    priceCurrency: 'USD',
+                    priceCurrency: 'MAD',
                   },
                   {
                     '@type': 'Offer',
-                    itemOffered: { '@type': 'Service', name: 'Web App MVP' },
-                    price: '4997',
-                    priceCurrency: 'USD',
+                    itemOffered: { '@type': 'Service', name: 'Réservation+ — Site avec réservations' },
+                    price: '4500',
+                    priceCurrency: 'MAD',
                   },
                 ],
               },

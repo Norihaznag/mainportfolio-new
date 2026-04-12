@@ -25,6 +25,16 @@ const nextConfig = {
     optimizeCss: true,
     optimizePackageImports: ['lucide-react', 'react-icons'],
   },
+  async redirects() {
+    return [
+      {
+        source: '/lp/startup-mvp-development',
+        destination: '/pricing',
+        permanent: true,
+      },
+    ];
+  },
+
   // Comprehensive security and performance headers
   async headers() {
     return [
