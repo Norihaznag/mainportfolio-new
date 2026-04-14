@@ -26,24 +26,34 @@ const baseUrl = 'https://azinag.site';
 
 export const metadata: Metadata = {
   metadataBase: new URL(baseUrl),
-  title: 'Azinag — Sites web pour restaurants et cafés au Maroc',
+  title: 'Azinag — Custom Software House · Morocco',
   description:
-    'Sites web professionnels pour restaurants et cafés à Guelmim, Tan-Tan, Tiznit et Sidi Ifni. WhatsApp intégré, Google Maps, livré en 7 jours. Prix fixe en dirhams.',
+    'Azinag builds custom software for every business — desktop apps (Windows, macOS, Linux), mobile apps (iOS, Android), web applications, SaaS platforms, and backend systems. Based in Morocco, serving all industries.',
   openGraph: {
     type: 'website',
-    locale: 'fr_MA',
+    locale: 'en_US',
     url: baseUrl,
     siteName: 'Azinag',
-    title: 'Azinag — Sites web pour restaurants et cafés au Maroc',
+    title: 'Azinag — Custom Software Solutions for Every Business',
     description:
-      'Sites web professionnels pour restaurants et cafés. WhatsApp, Google Maps, livré en 7 jours. Prix fixe en dirhams.',
+      'Custom software house based in Morocco. Desktop, Mobile, Web, Backend. We build software for every industry at any scale.',
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Azinag — Sites web pour restaurants et cafés au Maroc',
+    title: 'Azinag — Custom Software Solutions for Every Business',
     description:
-      'Sites web professionnels pour restaurants et cafés. WhatsApp, Google Maps, livré en 7 jours. Prix fixe en dirhams.',
+      'Custom software house based in Morocco. Desktop, Mobile, Web, Backend. Every platform, every industry.',
   },
+  keywords: [
+    'custom software Morocco',
+    'software house Maroc',
+    'web application development',
+    'mobile app development Morocco',
+    'desktop application development',
+    'SaaS development',
+    'backend API Morocco',
+    'azinag',
+  ],
 };
 
 export default function RootLayout({

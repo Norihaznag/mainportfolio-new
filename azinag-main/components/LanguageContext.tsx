@@ -1,13 +1,9 @@
 'use client';
 
 import React, { createContext, useContext } from 'react';
-import { content, type Lang, type LangContent } from '@/lib/content';
-
-type Language = Lang;
+import { content, type LangContent } from '@/lib/content';
 
 interface LanguageContextType {
-  language: Language;
-  toggleLanguage: () => void;
   c: LangContent;
 }
 
@@ -16,7 +12,7 @@ const LanguageContext = createContext<LanguageContextType | undefined>(undefined
 export function LanguageProvider({ children }: { children: React.ReactNode }) {
   const c = content['en'] as LangContent;
   return (
-    <LanguageContext.Provider value={{ language: 'en', toggleLanguage: () => {}, c }}>
+    <LanguageContext.Provider value={{ c }}>
       {children}
     </LanguageContext.Provider>
   );

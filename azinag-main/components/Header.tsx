@@ -3,20 +3,19 @@
 import { useState } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { useContent } from '@/components/LanguageContext';
 import { CTAButton } from '@/components/CTAButton';
 
+const navLinks = [
+  { href: '/showcase', label: 'Showcase' },
+  { href: '/services', label: 'Services' },
+  { href: '/applications', label: 'Applications' },
+  { href: '/downloads', label: 'Downloads' },
+  { href: '/about', label: 'About' },
+];
+
 export function Header() {
-  const c = useContent();
   const pathname = usePathname();
   const [mobileOpen, setMobileOpen] = useState(false);
-
-  const navLinks = [
-    { href: '/showcase', label: c.nav.work },
-    { href: '/applications', label: 'Applications' },
-    { href: '/pricing', label: c.nav.pricing },
-    { href: '/about', label: c.nav.about },
-  ];
 
   return (
     <header className="sticky top-0 z-50 bg-canvas/90 backdrop-blur-md border-b border-border-subtle">
@@ -31,7 +30,7 @@ export function Header() {
         </Link>
 
         {/* Desktop nav */}
-        <nav className="hidden md:flex items-center gap-7" role="navigation" aria-label="Main navigation">
+        <nav className="hidden md:flex items-center gap-6" role="navigation" aria-label="Main navigation">
           {navLinks.map((link) => {
             const isActive = pathname === link.href || pathname.startsWith(link.href + '/');
             return (
@@ -44,7 +43,6 @@ export function Header() {
                 aria-current={isActive ? 'page' : undefined}
               >
                 {link.label}
-                {/* Active underline */}
                 <span
                   className={`absolute -bottom-[21px] left-0 right-0 h-[2px] bg-accent transition-opacity ${
                     isActive ? 'opacity-100' : 'opacity-0 group-hover:opacity-30'
@@ -59,19 +57,19 @@ export function Header() {
         {/* Right cluster */}
         <div className="flex items-center gap-3">
           <CTAButton
-            label={c.nav.cta}
+            label="Start Your Project"
             trackEvent="book_call"
             trackSource="header"
             variant="primary"
             size="sm"
             className="hidden md:inline-flex"
           />
-          {/* Mobile menu toggle */}
+          {/* Mobile toggle */}
           <button
             type="button"
             className="md:hidden p-2 rounded-md text-ink-muted hover:text-ink hover:bg-surface-raised transition-colors"
             onClick={() => setMobileOpen((v) => !v)}
-            aria-label={mobileOpen ? 'Fermer le menu' : 'Ouvrir le menu'}
+            aria-label={mobileOpen ? 'Close menu' : 'Open menu'}
             aria-expanded={mobileOpen}
             aria-controls="mobile-nav"
           >
@@ -93,7 +91,7 @@ export function Header() {
         id="mobile-nav"
         className={`md:hidden border-t border-border-subtle bg-canvas px-6 py-5 flex flex-col gap-5 ${mobileOpen ? '' : 'hidden'}`}
         role="navigation"
-        aria-label="Navigation mobile"
+        aria-label="Mobile navigation"
       >
         {navLinks.map((link) => {
           const isActive = pathname === link.href || pathname.startsWith(link.href + '/');
@@ -112,7 +110,7 @@ export function Header() {
           );
         })}
         <CTAButton
-          label={c.nav.cta}
+          label="Start Your Project"
           trackEvent="book_call"
           trackSource="header_mobile"
           variant="primary"

@@ -69,7 +69,7 @@ export default function Contact() {
                   value={form.name}
                   onChange={(e) => setForm((f) => ({ ...f, name: e.target.value }))}
                   className="px-4 py-2.5 text-sm border border-border-subtle rounded-lg bg-surface text-ink placeholder-ink-faint focus:outline-none focus:border-accent focus:ring-1 focus:ring-accent transition"
-                  placeholder="Ahmed Benali"
+                  placeholder="John Smith"
                 />
               </label>
               <label className="flex flex-col gap-1.5">
@@ -94,7 +94,7 @@ export default function Contact() {
                 value={form.company}
                 onChange={(e) => setForm((f) => ({ ...f, company: e.target.value }))}
                 className="px-4 py-2.5 text-sm border border-border-subtle rounded-lg bg-surface text-ink placeholder-ink-faint focus:outline-none focus:border-accent focus:ring-1 focus:ring-accent transition"
-                placeholder="Restaurant Atlas, Guelmim"
+                placeholder="Acme Corp, Casablanca"
               />
             </label>
 
@@ -106,7 +106,7 @@ export default function Contact() {
                 value={form.message}
                 onChange={(e) => setForm((f) => ({ ...f, message: e.target.value }))}
                 className="px-4 py-2.5 text-sm border border-border-subtle rounded-lg bg-surface text-ink placeholder-ink-faint focus:outline-none focus:border-accent focus:ring-1 focus:ring-accent transition resize-none"
-                placeholder="Parlez-nous de votre restaurant et ce que vous cherchez..."
+                placeholder="Tell us about your project — platform, industry, timeline..."
               />
             </label>
 

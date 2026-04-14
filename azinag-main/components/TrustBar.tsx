@@ -4,27 +4,28 @@ interface TrustBarProps {
   className?: string;
 }
 
-const trustItems = [
-  { icon: '🔒', label: 'Paiement sécurisé' },
-  { icon: '📅', label: 'Sans engagement' },
-  { icon: '🚪', label: 'Résiliable à tout moment' },
-  { icon: '🎧', label: 'Support prioritaire' },
+const TRUST_ITEMS = [
+  { icon: '🔒', label: 'Secure & Encrypted', detail: 'TLS + AES-256' },
+  { icon: '📅', label: '14-day Free Trial', detail: 'No credit card required' },
+  { icon: '🚪', label: 'Cancel Anytime', detail: 'No long-term commitment' },
+  { icon: '🎧', label: 'WhatsApp Support', detail: 'Response within 2 hours' },
 ];
 
 export function TrustBar({ className = '' }: TrustBarProps) {
   return (
     <div
-      className={`flex flex-wrap items-center justify-center gap-x-6 gap-y-2 text-sm text-ink-muted py-4 ${className}`}
-      aria-label="Garanties d'abonnement"
+      className={`flex flex-wrap items-center gap-x-6 gap-y-3 ${className}`}
+      aria-label="Trust signals"
     >
-      {trustItems.map((item, idx) => (
-        <span key={item.label} className="flex items-center gap-1.5">
-          <span aria-hidden="true">{item.icon}</span>
-          <span>{item.label}</span>
-          {idx < trustItems.length - 1 && (
-            <span className="hidden sm:inline ml-6 text-border-subtle" aria-hidden="true">·</span>
-          )}
-        </span>
+      {TRUST_ITEMS.map((item) => (
+        <div key={item.label} className="flex items-center gap-2 text-xs text-ink-muted">
+          <span aria-hidden="true" className="text-base">{item.icon}</span>
+          <span>
+            <strong className="font-semibold text-ink">{item.label}</strong>
+            {' · '}
+            {item.detail}
+          </span>
+        </div>
       ))}
     </div>
   );

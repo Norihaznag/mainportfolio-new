@@ -6,10 +6,11 @@ declare global {
   }
 }
 
+const PHONE = process.env.NEXT_PUBLIC_WHATSAPP_PHONE ?? '212609343953';
+const MESSAGE = encodeURIComponent('Hello, I would like to discuss a software project with Azinag.');
+
 export function WhatsAppButton() {
-  const phone = '212609343953';
-  const message = encodeURIComponent('Bonjour, je voudrais un site web pour mon restaurant/café.');
-  const href = `https://wa.me/${phone}?text=${message}`;
+  const href = `https://wa.me/${PHONE}?text=${MESSAGE}`;
 
   function handleClick() {
     if (typeof window !== 'undefined' && typeof window.fbq === 'function') {
@@ -22,7 +23,7 @@ export function WhatsAppButton() {
       href={href}
       target="_blank"
       rel="noopener noreferrer"
-      aria-label="Écrire sur WhatsApp"
+      aria-label="Chat on WhatsApp"
       onClick={handleClick}
       className="fixed bottom-6 right-6 z-50 flex items-center justify-center w-14 h-14 rounded-full shadow-lg bg-[#25D366] hover:bg-[#1ebe57] transition-colors"
     >
