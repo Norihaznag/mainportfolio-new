@@ -2,12 +2,21 @@
 
 import { useState } from 'react';
 import Link from 'next/link';
+import { usePathname } from 'next/navigation';
 import { useContent } from '@/components/LanguageContext';
 import { CTAButton } from '@/components/CTAButton';
 
 export function Header() {
   const c = useContent();
+  const pathname = usePathname();
   const [mobileOpen, setMobileOpen] = useState(false);
+
+  const navLinks = [
+    { href: '/showcase', label: c.nav.work },
+    { href: '/applications', label: 'Applications' },
+    { href: '/pricing', label: c.nav.pricing },
+    { href: '/about', label: c.nav.about },
+  ];
 
   return (
     <header className="sticky top-0 z-50 bg-canvas/90 backdrop-blur-md border-b border-border-subtle">
@@ -22,16 +31,29 @@ export function Header() {
         </Link>
 
         {/* Desktop nav */}
-        <nav className="hidden md:flex items-center gap-8" role="navigation" aria-label="Main navigation">
-          <Link href="/showcase" className="text-sm font-medium text-ink-muted hover:text-ink transition-colors">
-            {c.nav.work}
-          </Link>
-          <Link href="/pricing" className="text-sm font-medium text-ink-muted hover:text-ink transition-colors">
-            {c.nav.pricing}
-          </Link>
-          <Link href="/about" className="text-sm font-medium text-ink-muted hover:text-ink transition-colors">
-            {c.nav.about}
-          </Link>
+        <nav className="hidden md:flex items-center gap-7" role="navigation" aria-label="Main navigation">
+          {navLinks.map((link) => {
+            const isActive = pathname === link.href || pathname.startsWith(link.href + '/');
+            return (
+              <Link
+                key={link.href}
+                href={link.href}
+                className={`text-sm font-medium transition-colors relative group ${
+                  isActive ? 'text-accent' : 'text-ink-muted hover:text-ink'
+                }`}
+                aria-current={isActive ? 'page' : undefined}
+              >
+                {link.label}
+                {/* Active underline */}
+                <span
+                  className={`absolute -bottom-[21px] left-0 right-0 h-[2px] bg-accent transition-opacity ${
+                    isActive ? 'opacity-100' : 'opacity-0 group-hover:opacity-30'
+                  }`}
+                  aria-hidden="true"
+                />
+              </Link>
+            );
+          })}
         </nav>
 
         {/* Right cluster */}
@@ -49,7 +71,7 @@ export function Header() {
             type="button"
             className="md:hidden p-2 rounded-md text-ink-muted hover:text-ink hover:bg-surface-raised transition-colors"
             onClick={() => setMobileOpen((v) => !v)}
-            aria-label={mobileOpen ? 'Close menu' : 'Open menu'}
+            aria-label={mobileOpen ? 'Fermer le menu' : 'Ouvrir le menu'}
             aria-expanded={mobileOpen}
             aria-controls="mobile-nav"
           >
@@ -71,39 +93,33 @@ export function Header() {
         id="mobile-nav"
         className={`md:hidden border-t border-border-subtle bg-canvas px-6 py-5 flex flex-col gap-5 ${mobileOpen ? '' : 'hidden'}`}
         role="navigation"
-        aria-label="Mobile navigation"
+        aria-label="Navigation mobile"
       >
-          <Link
-            href="/showcase"
-            className="text-sm font-medium text-ink-muted hover:text-ink transition-colors"
-            onClick={() => setMobileOpen(false)}
-          >
-            {c.nav.work}
-          </Link>
-          <Link
-            href="/pricing"
-            className="text-sm font-medium text-ink-muted hover:text-ink transition-colors"
-            onClick={() => setMobileOpen(false)}
-          >
-            {c.nav.pricing}
-          </Link>
-          <Link
-            href="/about"
-            className="text-sm font-medium text-ink-muted hover:text-ink transition-colors"
-            onClick={() => setMobileOpen(false)}
-          >
-            {c.nav.about}
-          </Link>
-          <CTAButton
-            label={c.nav.cta}
-            trackEvent="book_call"
-            trackSource="header_mobile"
-            variant="primary"
-            size="sm"
-            className="self-start"
-          />
-        </div>
+        {navLinks.map((link) => {
+          const isActive = pathname === link.href || pathname.startsWith(link.href + '/');
+          return (
+            <Link
+              key={link.href}
+              href={link.href}
+              className={`text-sm font-medium transition-colors ${
+                isActive ? 'text-accent font-semibold' : 'text-ink-muted hover:text-ink'
+              }`}
+              onClick={() => setMobileOpen(false)}
+              aria-current={isActive ? 'page' : undefined}
+            >
+              {link.label}
+            </Link>
+          );
+        })}
+        <CTAButton
+          label={c.nav.cta}
+          trackEvent="book_call"
+          trackSource="header_mobile"
+          variant="primary"
+          size="sm"
+          className="self-start"
+        />
+      </div>
     </header>
   );
 }
-

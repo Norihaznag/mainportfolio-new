@@ -98,6 +98,23 @@ em {
   font-style: italic;
 }
 
+/* Scrollbar hide utility — used in horizontal scroll carousels */
+.scrollbar-hide {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
+
+/* Dot grid background — used in page heroes */
+.bg-grid {
+  background-image:
+    linear-gradient(rgba(100,116,139,0.12) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(100,116,139,0.12) 1px, transparent 1px);
+  background-size: 28px 28px;
+}
+
 @media print {
   body {
     background: white;
@@ -107,4 +124,3 @@ em {
     text-decoration: underline;
   }
 }
-

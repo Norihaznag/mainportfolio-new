@@ -23,6 +23,9 @@ export function Footer() {
               <Link href="/showcase" className="text-sm text-ink-muted hover:text-ink transition-colors">
                 {c.footer.links.work}
               </Link>
+              <Link href="/applications" className="text-sm text-ink-muted hover:text-ink transition-colors">
+                Applications
+              </Link>
               <Link href="/pricing" className="text-sm text-ink-muted hover:text-ink transition-colors">
                 {c.footer.links.pricing}
               </Link>
@@ -34,22 +37,25 @@ export function Footer() {
               </Link>
             </div>
             <div className="flex flex-col gap-3">
-              <p className="eyebrow mb-1">Legal</p>
+              <p className="eyebrow mb-1">Légal</p>
               <Link href="/privacy" className="text-sm text-ink-muted hover:text-ink transition-colors">
                 {c.footer.legal.privacy}
               </Link>
               <Link href="/terms" className="text-sm text-ink-muted hover:text-ink transition-colors">
                 {c.footer.legal.terms}
               </Link>
+              <Link href="/cgv" className="text-sm text-ink-muted hover:text-ink transition-colors">
+                CGV
+              </Link>
             </div>
           </div>
         </div>
 
         <div className="mt-10 pt-6 border-t border-border-subtle flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
-          <p className="text-xs text-ink-faint">© {year} Azinag. All rights reserved.</p>
+          <p className="text-xs text-ink-faint">© {year} Azinag. Tous droits réservés.</p>
+          <p className="text-xs text-ink-faint">Software house · Maroc</p>
         </div>
       </div>
     </footer>
   );
 }
-
