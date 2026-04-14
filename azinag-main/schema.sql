@@ -168,9 +168,17 @@ create policy "Admins can manage site settings" on public.site_settings
 create table if not exists public.projects (
   id uuid primary key default uuid_generate_v4(),
   title text not null,
+  tagline text,
   description text,
   live_url text,
+  download_url text,
+  github_repo text,
   thumbnail_url text,
+  icon text,
+  gradient text,
+  platforms text[] default '{}',
+  industry text,
+  outcome text,
   tags text[] default '{}',
   category text default 'Web',
   sort_order integer default 0,
@@ -179,6 +187,16 @@ create table if not exists public.projects (
   created_at timestamp with time zone default timezone('utc'::text, now()) not null,
   updated_at timestamp with time zone default timezone('utc'::text, now()) not null
 );
+
+-- Add new columns if upgrading existing schema
+alter table public.projects add column if not exists tagline text;
+alter table public.projects add column if not exists download_url text;
+alter table public.projects add column if not exists github_repo text;
+alter table public.projects add column if not exists icon text;
+alter table public.projects add column if not exists gradient text;
+alter table public.projects add column if not exists platforms text[] default '{}';
+alter table public.projects add column if not exists industry text;
+alter table public.projects add column if not exists outcome text;
 
 alter table public.projects enable row level security;
 
@@ -240,3 +258,52 @@ create policy "Admins can read contact submissions" on public.contact_submission
 
 create index if not exists contact_submissions_created_at_idx on public.contact_submissions(created_at desc);
 create index if not exists contact_submissions_read_idx on public.contact_submissions(read);
+
+-- Apps table (SaaS & Downloadable)
+create table if not exists public.apps (
+  id uuid primary key default uuid_generate_v4(),
+  slug text unique not null,
+  name text not null,
+  tagline text not null,
+  description text,
+  icon text,
+  category text,
+  badge text,
+  monthly_price numeric,
+  annual_price numeric,
+  platforms jsonb default '{}'::jsonb,
+  tiers jsonb default '[]'::jsonb,
+  saas_features jsonb default '[]'::jsonb,
+  screenshots jsonb default '[]'::jsonb,
+  faq jsonb default '[]'::jsonb,
+  live_demo_url text,
+  documentation_url text,
+  github_repo text,
+  release_date timestamp with time zone default timezone('utc'::text, now()),
+  latest_version text,
+  sort_order integer default 0,
+  published boolean default true,
+  created_at timestamp with time zone default timezone('utc'::text, now()) not null,
+  updated_at timestamp with time zone default timezone('utc'::text, now()) not null
+);
+
+alter table public.apps enable row level security;
+
+drop policy if exists "Anyone can read published apps" on public.apps;
+create policy "Anyone can read published apps" on public.apps
+  for select
+  using (published = true);
+
+drop policy if exists "Admins can manage apps" on public.apps;
+create policy "Admins can manage apps" on public.apps
+  for all
+  using (
+    exists (
+      select 1 from public.users
+      where users.id = auth.uid() and users.role = 'admin'
+    )
+  );
+
+create index if not exists apps_slug_idx on public.apps(slug);
+create index if not exists apps_published_idx on public.apps(published);
+create index if not exists apps_sort_order_idx on public.apps(sort_order);

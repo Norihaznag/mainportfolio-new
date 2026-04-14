@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
+import { DynamicIcon } from '@/components/DynamicIcon';
 
 export const metadata: Metadata = {
   title: 'Services & Expertise — Azinag Software House',
@@ -16,7 +17,7 @@ function makeWaUrl(context: string) {
 const SERVICES = [
   {
     id: 'desktop',
-    icon: '💻',
+    icon: 'Monitor',
     title: 'Desktop Applications',
     platforms: 'Windows · macOS · Linux',
     description:
@@ -41,7 +42,7 @@ const SERVICES = [
   },
   {
     id: 'mobile',
-    icon: '📱',
+    icon: 'Smartphone',
     title: 'Mobile Applications',
     platforms: 'iOS · Android · Cross-platform',
     description:
@@ -66,7 +67,7 @@ const SERVICES = [
   },
   {
     id: 'web',
-    icon: '🌐',
+    icon: 'Globe',
     title: 'Web Applications',
     platforms: 'SaaS · PWA · Portals · Dashboards',
     description:
@@ -91,7 +92,7 @@ const SERVICES = [
   },
   {
     id: 'backend',
-    icon: '⚙️',
+    icon: 'Database',
     title: 'Backend & APIs',
     platforms: 'REST · GraphQL · Microservices · Cloud',
     description:
@@ -116,7 +117,7 @@ const SERVICES = [
   },
   {
     id: 'integrations',
-    icon: '🔗',
+    icon: 'Link',
     title: 'Integrations & Custom Connectors',
     platforms: 'ERP · CRM · Payments · Logistics APIs',
     description:
@@ -170,9 +171,9 @@ export default function ServicesPage() {
             <a
               key={s.id}
               href={`#${s.id}`}
-              className="shrink-0 px-4 py-3.5 text-sm font-medium text-ink-muted hover:text-ink transition-colors border-b-2 border-transparent hover:border-accent/40 whitespace-nowrap"
+              className="shrink-0 px-4 py-3.5 text-sm font-medium text-ink-muted hover:text-ink transition-colors border-b-2 border-transparent hover:border-accent/40 whitespace-nowrap flex items-center gap-2"
             >
-              {s.icon} {s.title.split(' ')[0]}
+              <DynamicIcon name={s.icon} className="w-4 h-4" /> {s.title.split(' ')[0]}
             </a>
           ))}
         </div>
@@ -194,8 +195,8 @@ export default function ServicesPage() {
                 <div className="flex-1 min-w-0">
                   {/* Icon + label */}
                   <div className="flex items-center gap-3 mb-6">
-                    <div className={`w-14 h-14 rounded-2xl bg-gradient-to-br ${service.gradient} flex items-center justify-center text-3xl text-white`} aria-hidden="true">
-                      {service.icon}
+                    <div className={`w-14 h-14 rounded-2xl bg-gradient-to-br ${service.gradient} flex items-center justify-center text-white`} aria-hidden="true">
+                      <DynamicIcon name={service.icon} className="w-6 h-6" />
                     </div>
                     <div>
                       <p className="eyebrow">{service.platforms}</p>

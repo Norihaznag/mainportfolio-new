@@ -3,15 +3,16 @@
 import { useState } from 'react';
 import Link from 'next/link';
 import { portfolio, PLATFORM_LABELS, type PortfolioProject } from '@/lib/portfolio-data';
+import { DynamicIcon } from '@/components/DynamicIcon';
 
 type PlatformFilter = PortfolioProject['platforms'][number] | 'all';
 
-const PLATFORM_FILTERS: { value: PlatformFilter; label: string }[] = [
-  { value: 'all', label: 'All Projects' },
-  { value: 'desktop', label: '💻 Desktop' },
-  { value: 'mobile', label: '📱 Mobile' },
-  { value: 'web', label: '🌐 Web' },
-  { value: 'backend', label: '⚙️ Backend' },
+const PLATFORM_FILTERS: { value: PlatformFilter; label: string; icon: string }[] = [
+  { value: 'all', label: 'All Projects', icon: 'LayoutDashboard' },
+  { value: 'desktop', label: 'Desktop', icon: 'Monitor' },
+  { value: 'mobile', label: 'Mobile', icon: 'Smartphone' },
+  { value: 'web', label: 'Web', icon: 'Globe' },
+  { value: 'backend', label: 'Backend', icon: 'Database' },
 ];
 
 function ProjectCard({ project }: { project: PortfolioProject }) {
@@ -20,8 +21,8 @@ function ProjectCard({ project }: { project: PortfolioProject }) {
   return (
     <article className="border border-border-subtle rounded-2xl bg-white overflow-hidden hover:shadow-card-hover transition-all duration-300 hover:-translate-y-1 flex flex-col">
       {/* Banner */}
-      <div className={`w-full h-28 bg-gradient-to-br ${project.gradient} flex items-center justify-center`} aria-hidden="true">
-        <span className="text-6xl">{project.icon}</span>
+      <div className={`w-full h-28 bg-gradient-to-br ${project.gradient} flex items-center justify-center text-white`} aria-hidden="true">
+        <DynamicIcon name={project.icon} className="w-12 h-12 opacity-90" />
       </div>
 
       <div className="p-6 flex flex-col flex-1">
@@ -41,8 +42,9 @@ function ProjectCard({ project }: { project: PortfolioProject }) {
         {/* Platform badges */}
         <div className="flex flex-wrap gap-1.5 mb-4">
           {platforms.map((p) => (
-            <span key={p} className="text-xs font-medium px-2.5 py-1 rounded-full bg-accent-light text-accent">
-              {p}
+            <span key={p.id} className="inline-flex items-center gap-1 text-xs font-medium px-2.5 py-1 rounded-full bg-accent-light text-accent">
+              <DynamicIcon name={p.icon} className="w-3 h-3" />
+              {p.label}
             </span>
           ))}
         </div>
@@ -140,13 +142,14 @@ export default function ShowcasePage() {
                 type="button"
                 id={`filter-platform-${filter.value}`}
                 onClick={() => setActiveFilter(filter.value)}
-                className={`px-4 py-2 rounded-full text-sm font-medium transition-all duration-200 ${
+                className={`px-4 py-2 rounded-full text-sm font-medium transition-all duration-200 inline-flex items-center gap-2 ${
                   activeFilter === filter.value
                     ? 'bg-accent text-white shadow-sm'
                     : 'bg-surface text-ink-muted hover:bg-surface-raised hover:text-ink border border-border-subtle'
                 }`}
                 aria-pressed={activeFilter === filter.value}
               >
+                <DynamicIcon name={filter.icon} className="w-4 h-4" />
                 {filter.label}
               </button>
             ))}

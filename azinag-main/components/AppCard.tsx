@@ -3,6 +3,7 @@
 import Link from 'next/link';
 import type { DownloadableApp } from '@/lib/apps-data';
 import { DownloadButton } from '@/components/DownloadButton';
+import { DynamicIcon } from '@/components/DynamicIcon';
 
 interface AppCardProps {
   app: DownloadableApp;
@@ -38,10 +39,10 @@ export function AppCard({ app, variant = 'catalog', showDownload = true }: AppCa
       >
         <div className="flex items-center justify-between mb-4">
           <div
-            className="w-10 h-10 rounded-xl bg-accent-light flex items-center justify-center text-xl group-hover:scale-110 transition-transform"
+            className="w-10 h-10 rounded-xl bg-accent-light flex items-center justify-center text-accent group-hover:scale-110 transition-transform"
             aria-hidden="true"
           >
-            {app.icon}
+            <DynamicIcon name={app.icon} className="w-5 h-5" />
           </div>
           {app.badge && (
             <span
@@ -73,10 +74,10 @@ export function AppCard({ app, variant = 'catalog', showDownload = true }: AppCa
         {/* Header */}
         <div className="flex items-start gap-4 mb-4">
           <div
-            className="w-14 h-14 rounded-2xl bg-accent-light flex items-center justify-center text-3xl shrink-0"
+            className="w-14 h-14 rounded-2xl bg-accent-light flex items-center justify-center text-accent shrink-0"
             aria-hidden="true"
           >
-            {app.icon}
+            <DynamicIcon name={app.icon} className="w-7 h-7" />
           </div>
           <div className="flex-1 min-w-0">
             <div className="flex items-center gap-2 mb-0.5 flex-wrap">
@@ -148,11 +149,11 @@ export function AppCard({ app, variant = 'catalog', showDownload = true }: AppCa
     >
       <div className="flex items-start justify-between gap-3 mb-4">
         <div
-          className="w-12 h-12 rounded-xl bg-accent-light flex items-center justify-center text-2xl shrink-0
+          className="w-12 h-12 rounded-xl bg-accent-light flex items-center justify-center text-accent shrink-0
                      group-hover:scale-110 transition-transform duration-300"
           aria-hidden="true"
         >
-          {app.icon}
+          <DynamicIcon name={app.icon} className="w-6 h-6" />
         </div>
         {app.badge && (
           <span

@@ -1,6 +1,7 @@
 'use client';
 
 import type { DownloadableApp } from '@/lib/apps-data';
+import { DynamicIcon } from '@/components/DynamicIcon';
 
 interface DownloadButtonProps {
   app: DownloadableApp;
@@ -17,42 +18,48 @@ const WA_ICON = (
 const PLATFORM_BUTTONS = [
   {
     key: 'windows' as const,
-    label: '🖥️ Windows',
+    label: 'Windows',
+    icon: 'Monitor',
     getUrl: (app: DownloadableApp) => app.platforms.windows?.url,
     getVersion: (app: DownloadableApp) => app.platforms.windows?.version,
     getSize: (app: DownloadableApp) => app.platforms.windows?.size,
   },
   {
     key: 'macos' as const,
-    label: '🍎 macOS',
+    label: 'macOS',
+    icon: 'Apple',
     getUrl: (app: DownloadableApp) => app.platforms.macos?.url,
     getVersion: (app: DownloadableApp) => app.platforms.macos?.version,
     getSize: (app: DownloadableApp) => app.platforms.macos?.size,
   },
   {
     key: 'linux' as const,
-    label: '🐧 Linux',
+    label: 'Linux',
+    icon: 'HardDrive',
     getUrl: (app: DownloadableApp) => app.platforms.linux?.url,
     getVersion: (app: DownloadableApp) => app.platforms.linux?.version,
     getSize: (app: DownloadableApp) => app.platforms.linux?.size,
   },
   {
     key: 'ios' as const,
-    label: '📱 iOS',
+    label: 'iOS',
+    icon: 'Smartphone',
     getUrl: (app: DownloadableApp) => app.platforms.ios?.appStoreUrl,
     getVersion: (app: DownloadableApp) => app.platforms.ios?.version,
     getSize: () => undefined,
   },
   {
     key: 'android' as const,
-    label: '🤖 Android',
+    label: 'Android',
+    icon: 'Smartphone',
     getUrl: (app: DownloadableApp) => app.platforms.android?.playStoreUrl,
     getVersion: (app: DownloadableApp) => app.platforms.android?.version,
     getSize: () => undefined,
   },
   {
     key: 'web' as const,
-    label: '🌐 Web',
+    label: 'Web',
+    icon: 'Globe',
     getUrl: (app: DownloadableApp) => app.platforms.web?.liveUrl,
     getVersion: () => undefined,
     getSize: () => undefined,
@@ -105,13 +112,15 @@ export function DownloadButton({ app, variant = 'full', className = '' }: Downlo
           >
             {isWeb ? (
               <>
+                <DynamicIcon name={p.icon} className="w-3.5 h-3.5 mr-0.5" aria-hidden="true" />
                 {p.label}
-                <span className="text-[10px] text-ink-faint">Access</span>
+                <span className="text-[10px] text-ink-faint ml-1">Access</span>
               </>
             ) : (
               <>
+                <DynamicIcon name={p.icon} className="w-3.5 h-3.5 mr-0.5" aria-hidden="true" />
                 {p.label}
-                {version && <span className="text-[10px] text-ink-faint">v{version}</span>}
+                {version && <span className="text-[10px] text-ink-faint ml-1">v{version}</span>}
               </>
             )}
           </a>

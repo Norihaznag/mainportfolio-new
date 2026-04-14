@@ -1,14 +1,14 @@
-'use client';
+import { DynamicIcon } from './DynamicIcon';
 
 interface TrustBarProps {
   className?: string;
 }
 
 const TRUST_ITEMS = [
-  { icon: '🔒', label: 'Secure & Encrypted', detail: 'TLS + AES-256' },
-  { icon: '📅', label: '14-day Free Trial', detail: 'No credit card required' },
-  { icon: '🚪', label: 'Cancel Anytime', detail: 'No long-term commitment' },
-  { icon: '🎧', label: 'WhatsApp Support', detail: 'Response within 2 hours' },
+  { icon: 'Lock', label: 'Secure & Encrypted', detail: 'TLS + AES-256' },
+  { icon: 'Calendar', label: '14-day Free Trial', detail: 'No credit card required' },
+  { icon: 'LogOut', label: 'Cancel Anytime', detail: 'No long-term commitment' },
+  { icon: 'MessageCircle', label: 'WhatsApp Support', detail: 'Response within 2 hours' },
 ];
 
 export function TrustBar({ className = '' }: TrustBarProps) {
@@ -19,7 +19,7 @@ export function TrustBar({ className = '' }: TrustBarProps) {
     >
       {TRUST_ITEMS.map((item) => (
         <div key={item.label} className="flex items-center gap-2 text-xs text-ink-muted">
-          <span aria-hidden="true" className="text-base">{item.icon}</span>
+          <DynamicIcon name={item.icon} className="w-5 h-5 text-accent shrink-0" aria-hidden="true" />
           <span>
             <strong className="font-semibold text-ink">{item.label}</strong>
             {' · '}

@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
+import { DynamicIcon } from '@/components/DynamicIcon';
 
 export const metadata: Metadata = {
   title: 'About — Azinag Software House',
@@ -11,19 +12,19 @@ const PHONE = process.env.NEXT_PUBLIC_WHATSAPP_PHONE ?? '212609343953';
 const WA_URL = `https://wa.me/${PHONE}?text=${encodeURIComponent('Hello, I would like to discuss a project with Azinag.')}`;
 
 const WHAT_WE_BUILD = [
-  { icon: '💻', label: 'Desktop Applications', detail: 'Windows, macOS, Linux' },
-  { icon: '📱', label: 'Mobile Applications', detail: 'iOS & Android' },
-  { icon: '🌐', label: 'Web Applications', detail: 'SaaS, PWA, portals' },
-  { icon: '⚙️', label: 'Backend & APIs', detail: 'Microservices, cloud infra' },
-  { icon: '🔗', label: 'Custom Integrations', detail: 'ERP, CRM, payment gateways' },
-  { icon: '📊', label: 'Analytics Dashboards', detail: 'Real-time data visualization' },
+  { icon: 'Monitor', label: 'Desktop Applications', detail: 'Windows, macOS, Linux' },
+  { icon: 'Smartphone', label: 'Mobile Applications', detail: 'iOS & Android' },
+  { icon: 'Globe', label: 'Web Applications', detail: 'SaaS, PWA, portals' },
+  { icon: 'Database', label: 'Backend & APIs', detail: 'Microservices, cloud infra' },
+  { icon: 'Link', label: 'Custom Integrations', detail: 'ERP, CRM, payment gateways' },
+  { icon: 'BarChart', label: 'Analytics Dashboards', detail: 'Real-time data visualization' },
 ];
 
 const HOW_WE_WORK = [
-  { icon: '💬', title: 'Direct Communication', desc: 'You work with the engineers building your product. No account managers, no hand-offs to unknown subcontractors.' },
-  { icon: '📅', title: 'Agile Delivery', desc: 'Iterative milestones with visible progress. Requirements can evolve — we adapt without friction.' },
-  { icon: '🔒', title: 'Fixed-Price Contracts', desc: 'No time-and-materials surprises. Scope agreed upfront. Price agreed upfront. Delivery on schedule.' },
-  { icon: '📞', title: 'Same-Day Response', desc: 'WhatsApp-first communication. We respond within the business day, 6 days a week.' },
+  { icon: 'MessageCircle', title: 'Direct Communication', desc: 'You work with the engineers building your product. No account managers, no hand-offs to unknown subcontractors.' },
+  { icon: 'RefreshCw', title: 'Agile Delivery', desc: 'Iterative milestones with visible progress. Requirements can evolve — we adapt without friction.' },
+  { icon: 'Lock', title: 'Fixed-Price Contracts', desc: 'No time-and-materials surprises. Scope agreed upfront. Price agreed upfront. Delivery on schedule.' },
+  { icon: 'Headphones', title: 'Same-Day Response', desc: 'WhatsApp-first communication. We respond within the business day, 6 days a week.' },
 ];
 
 const STATS = [
@@ -84,7 +85,9 @@ export default function AboutPage() {
               <ul className="space-y-4" role="list">
                 {WHAT_WE_BUILD.map((item) => (
                   <li key={item.label} className="flex items-center gap-3">
-                    <span className="text-xl shrink-0" aria-hidden="true">{item.icon}</span>
+                    <div className="w-10 h-10 rounded-lg bg-accent-light flex items-center justify-center shrink-0">
+                      <DynamicIcon name={item.icon} className="w-5 h-5 text-accent" aria-hidden="true" />
+                    </div>
                     <div>
                       <p className="text-sm font-semibold text-ink">{item.label}</p>
                       <p className="text-xs text-ink-muted">{item.detail}</p>
@@ -99,8 +102,10 @@ export default function AboutPage() {
               <h2 className="text-[0.9375rem] font-semibold mb-6">How We Work</h2>
               <ul className="space-y-5" role="list">
                 {HOW_WE_WORK.map((item) => (
-                  <li key={item.title} className="flex items-start gap-3">
-                    <span className="text-xl shrink-0 mt-0.5" aria-hidden="true">{item.icon}</span>
+                  <li key={item.title} className="flex items-start gap-4">
+                    <div className="w-10 h-10 rounded-lg bg-surface flex items-center justify-center shrink-0 mt-0.5 border border-border-subtle">
+                      <DynamicIcon name={item.icon} className="w-5 h-5 text-ink" aria-hidden="true" />
+                    </div>
                     <div>
                       <p className="text-sm font-semibold text-ink mb-0.5">{item.title}</p>
                       <p className="text-xs text-ink-muted leading-relaxed">{item.desc}</p>

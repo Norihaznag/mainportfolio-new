@@ -1,6 +1,7 @@
 'use client';
 
 import Link from 'next/link';
+import { DynamicIcon } from './DynamicIcon';
 
 const PHONE = process.env.NEXT_PUBLIC_WHATSAPP_PHONE ?? '212609343953';
 const WA_URL = `https://wa.me/${PHONE}?text=${encodeURIComponent(
@@ -97,16 +98,16 @@ export function CustomSolutionsCTA({ variant = 'default' }: CustomSolutionsCTAPr
         {/* Right — platform grid */}
         <div className="shrink-0 grid grid-cols-2 gap-3 lg:w-[260px]">
           {[
-            { icon: '💻', label: 'Desktop', sub: 'Win · Mac · Linux' },
-            { icon: '📱', label: 'Mobile', sub: 'iOS · Android' },
-            { icon: '🌐', label: 'Web', sub: 'SaaS · PWA · Portal' },
-            { icon: '⚙️', label: 'Backend', sub: 'API · Cloud · DB' },
+            { icon: 'Monitor', label: 'Desktop', sub: 'Win · Mac · Linux' },
+            { icon: 'Smartphone', label: 'Mobile', sub: 'iOS · Android' },
+            { icon: 'Globe', label: 'Web', sub: 'SaaS · PWA · Portal' },
+            { icon: 'Database', label: 'Backend', sub: 'API · Cloud · DB' },
           ].map((p) => (
             <div
               key={p.label}
-              className="border border-border-subtle rounded-xl bg-surface p-3.5 text-center"
+              className="border border-border-subtle rounded-xl bg-surface p-3.5 flex flex-col items-center text-center"
             >
-              <p className="text-2xl mb-1" aria-hidden="true">{p.icon}</p>
+              <DynamicIcon name={p.icon} className="w-8 h-8 mb-2 text-accent" aria-hidden="true" />
               <p className="text-xs font-semibold text-ink">{p.label}</p>
               <p className="text-[10px] text-ink-faint">{p.sub}</p>
             </div>

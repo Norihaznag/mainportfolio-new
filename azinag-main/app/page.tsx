@@ -10,6 +10,7 @@ import { INDUSTRIES } from '@/components/SectorTag';
 import { CustomSolutionsCTA } from '@/components/CustomSolutionsCTA';
 import { apps } from '@/lib/apps-data';
 import { getFeaturedProjects, PLATFORM_LABELS, type PortfolioProject } from '@/lib/portfolio-data';
+import { DynamicIcon } from '@/components/DynamicIcon';
 import {
   FadeUp,
   AnimatedHeadline,
@@ -544,8 +545,8 @@ function ProjectCard({ project }: { project: PortfolioProject }) {
   return (
     <article className="border border-border-subtle rounded-2xl bg-white overflow-hidden hover:shadow-card-hover transition-all duration-300 hover:-translate-y-1 flex flex-col">
       {/* Gradient banner */}
-      <div className={`w-full h-24 bg-gradient-to-br ${project.gradient} flex items-center justify-center`} aria-hidden="true">
-        <span className="text-5xl">{project.icon}</span>
+      <div className={`w-full h-24 bg-gradient-to-br ${project.gradient} flex items-center justify-center text-white`} aria-hidden="true">
+        <DynamicIcon name={project.icon} className="w-10 h-10 opacity-90" />
       </div>
 
       <div className="p-6 flex flex-col flex-1">
@@ -561,7 +562,10 @@ function ProjectCard({ project }: { project: PortfolioProject }) {
         {/* Platforms */}
         <div className="flex flex-wrap gap-1.5 mb-4">
           {platforms.map((p) => (
-            <span key={p} className="text-xs font-medium px-2.5 py-1 rounded-full bg-accent-light text-accent">{p}</span>
+            <span key={p.id} className="inline-flex items-center gap-1 text-xs font-medium px-2.5 py-1 rounded-full bg-accent-light text-accent">
+              <DynamicIcon name={p.icon} className="w-3 h-3" />
+              {p.label}
+            </span>
           ))}
         </div>
 
