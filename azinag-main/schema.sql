@@ -307,3 +307,35 @@ create policy "Admins can manage apps" on public.apps
 create index if not exists apps_slug_idx on public.apps(slug);
 create index if not exists apps_published_idx on public.apps(published);
 create index if not exists apps_sort_order_idx on public.apps(sort_order);
+
+-- Mentor sessions table (AI pricing and campaign guidance history)
+create table if not exists public.mentor_sessions (
+  id uuid primary key default uuid_generate_v4(),
+  package_name text not null,
+  package_json jsonb not null,
+  analysis_result jsonb not null default '{}'::jsonb,
+  pricing_recommendations jsonb not null default '[]'::jsonb,
+  campaign_guidance jsonb not null default '{}'::jsonb,
+  markets text[] not null default '{morocco,gcc}',
+  currency text not null default 'USD',
+  model_name text,
+  used_fallback boolean not null default false,
+  created_by text not null,
+  created_at timestamp with time zone default timezone('utc'::text, now()) not null
+);
+
+alter table public.mentor_sessions enable row level security;
+
+drop policy if exists "Admins can manage mentor sessions" on public.mentor_sessions;
+create policy "Admins can manage mentor sessions" on public.mentor_sessions
+  for all
+  using (
+    exists (
+      select 1 from public.users
+      where users.id = auth.uid() and users.role = 'admin'
+    )
+  );
+
+create index if not exists mentor_sessions_created_at_idx on public.mentor_sessions(created_at desc);
+create index if not exists mentor_sessions_used_fallback_idx on public.mentor_sessions(used_fallback);
+create index if not exists mentor_sessions_markets_idx on public.mentor_sessions using gin(markets);

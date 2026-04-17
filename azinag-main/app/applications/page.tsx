@@ -1,64 +1,28 @@
 'use client';
 
-import { useState } from 'react';
-import Link from 'next/link';
-import { apps, SECTORS, type DownloadableApp } from '@/lib/apps-data';
-import { TrustBar } from '@/components/TrustBar';
+import { useEffect, useState } from 'react';
 
-function AppCard({ app }: { app: DownloadableApp }) {
-  return (
-    <Link
-      href={app.slug ? `/applications/${app.slug}` : '/downloads'}
-      className="group block border border-border-subtle rounded-2xl bg-white p-6 flex flex-col h-full
-                 transition-all duration-300 hover:-translate-y-1 hover:shadow-card-hover hover:border-accent/30
-                 focus-visible:outline-2 focus-visible:outline-accent focus-visible:outline-offset-2"
-      aria-label={`${app.name} — ${app.tagline}`}
-    >
-      <div className="flex items-start justify-between gap-3 mb-4">
-        <div
-          className="w-12 h-12 rounded-xl bg-accent-light flex items-center justify-center text-2xl shrink-0
-                     group-hover:scale-110 transition-transform duration-300"
-          aria-hidden="true"
-        >
-          {app.icon}
-        </div>
-        {app.badge && (
-          <span
-            className={`text-xs font-semibold tracking-wide uppercase rounded-full px-2.5 py-1 shrink-0 ${
-              app.badge === 'Popular' ? 'bg-accent text-white' : 'bg-emerald-100 text-emerald-700'
-            }`}
-          >
-            {app.badge}
-          </span>
-        )}
-      </div>
-      <h3 className="text-[1rem] font-bold mb-1 group-hover:text-accent transition-colors">{app.name}</h3>
-      <p className="text-sm text-ink-muted leading-relaxed flex-1 mb-5">{app.tagline}</p>
-      <div className="flex items-center justify-between">
-        {app.monthlyPrice ? (
-          <p className="text-lg font-bold text-ink">
-            {app.monthlyPrice}{' '}
-            <span className="text-sm font-normal text-ink-muted">MAD/mo</span>
-          </p>
-        ) : (
-          <p className="text-sm font-semibold text-emerald-600">Free</p>
-        )}
-        <span className="text-sm font-semibold text-accent flex items-center gap-1 group-hover:gap-2 transition-all">
-          View app
-          <svg className="w-4 h-4 group-hover:translate-x-1 transition-transform" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true">
-            <path strokeLinecap="round" strokeLinejoin="round" d="M3 8h10M9 4l4 4-4 4" />
-          </svg>
-        </span>
-      </div>
-    </Link>
-  );
-}
+import { AppCard } from '@/components/AppCard';
+import { TrustBar } from '@/components/TrustBar';
+import { SECTORS, type DownloadableApp } from '@/lib/apps-data';
 
 export default function ApplicationsPage() {
+  const [apps, setApps] = useState<DownloadableApp[]>([]);
+  const [loading, setLoading] = useState(true);
   const [activeSector, setActiveSector] = useState<string>('all');
 
+  useEffect(() => {
+    fetch(`/api/public/apps?t=${Date.now()}`, { cache: 'no-store' })
+      .then((response) => (response.ok ? response.json() : { apps: [] }))
+      .then((payload) => setApps(payload.apps || []))
+      .catch(() => setApps([]))
+      .finally(() => setLoading(false));
+  }, []);
+
   const filtered =
-    activeSector === 'all' ? apps : apps.filter((a) => a.sector === activeSector);
+    activeSector === 'all'
+      ? apps
+      : apps.filter((app) => (app.sector || app.category) === activeSector);
 
   return (
     <div className="text-ink">
@@ -109,14 +73,18 @@ export default function ApplicationsPage() {
       {/* App grid */}
       <section className="px-6 pb-20 pt-8" aria-label="Application catalog">
         <div className="max-w-5xl mx-auto">
-          {filtered.length === 0 ? (
+          {loading ? (
+            <div className="flex justify-center py-20">
+              <div className="w-5 h-5 rounded-full border-2 border-accent border-t-transparent animate-spin" />
+            </div>
+          ) : filtered.length === 0 ? (
             <div className="text-center py-20">
               <p className="text-ink-muted">No applications in this sector yet.</p>
             </div>
           ) : (
             <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
               {filtered.map((app) => (
-                <AppCard key={app.slug ?? app.id} app={app} />
+                <AppCard key={app.slug ?? app.id} app={app} variant="catalog" />
               ))}
             </div>
           )}
@@ -124,22 +92,6 @@ export default function ApplicationsPage() {
           <div className="mt-12 border-t border-border-subtle pt-8">
             <TrustBar />
           </div>
-        </div>
-      </section>
-
-      {/* Download center CTA */}
-      <section className="px-6 pb-24 border-t border-border-subtle pt-10" aria-label="Download center CTA">
-        <div className="max-w-5xl mx-auto text-center">
-          <p className="text-2xl mb-3 font-bold">Looking for downloadable apps?</p>
-          <p className="text-ink-muted mb-6">
-            All desktop, mobile, and web apps are available from our Download Center.
-          </p>
-          <Link
-            href="/downloads"
-            className="inline-flex items-center gap-2 border border-border-subtle bg-white text-ink font-semibold rounded-lg px-6 py-3 text-[0.9375rem] hover:bg-surface-raised transition-colors"
-          >
-            Go to Download Center →
-          </Link>
         </div>
       </section>
     </div>

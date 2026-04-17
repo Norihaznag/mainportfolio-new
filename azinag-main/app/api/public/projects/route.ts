@@ -3,14 +3,38 @@ import { supabaseAdmin as supabase } from '@/lib/supabase';
 
 export const dynamic = 'force-dynamic';
 
+const ALLOWED_PLATFORMS = ['desktop', 'mobile', 'web', 'backend'] as const;
+
+type ProjectPlatform = (typeof ALLOWED_PLATFORMS)[number];
+
+function normalizePlatforms(value: unknown): ProjectPlatform[] {
+  if (!Array.isArray(value)) return ['web'];
+
+  const normalized = value
+    .map((item) => (typeof item === 'string' ? item : ''))
+    .filter((item): item is ProjectPlatform =>
+      (ALLOWED_PLATFORMS as readonly string[]).includes(item)
+    );
+
+  return normalized.length > 0 ? normalized : ['web'];
+}
+
 export async function GET(request: NextRequest) {
   try {
-    const { data, error } = await supabase
+    const featuredOnly = request.nextUrl.searchParams.get('featured') === 'true';
+
+    let query = supabase
       .from('projects')
-      .select('id, title, description, live_url, thumbnail_url, tags, category, sort_order, featured')
+      .select('*')
       .eq('published', true)
       .order('sort_order', { ascending: true })
       .order('created_at', { ascending: false });
+
+    if (featuredOnly) {
+      query = query.eq('featured', true);
+    }
+
+    const { data, error } = await query;
 
     if (error) {
       console.error('Supabase error fetching projects: ', error);
@@ -20,8 +44,17 @@ export async function GET(request: NextRequest) {
     const projects = (data || []).map(item => ({
       id: item.id,
       name: item.title,
-      desc: item.description,
-      live_url: item.live_url,
+      tagline: item.tagline || item.description || '',
+      description: item.description || '',
+      liveUrl: item.live_url,
+      downloadUrl: item.download_url,
+      githubRepo: item.github_repo,
+      thumbnailUrl: item.thumbnail_url,
+      icon: item.icon || 'LayoutGrid',
+      gradient: item.gradient || 'from-slate-700 to-slate-900',
+      platforms: normalizePlatforms(item.platforms),
+      industry: item.industry || item.category || 'general',
+      outcome: item.outcome || 'Delivered successfully',
       thumbnail_url: item.thumbnail_url,
       tags: item.tags || [],
       category: item.category,

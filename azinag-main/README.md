@@ -102,6 +102,45 @@ In Supabase:
 update public.users set role = 'admin' where email = 'your-email@example.com';
 ```
 
+### Mentor Pricing Feature (Gemma + Fallback)
+
+The admin panel includes a Mentor workflow at `/adminos/mentor`.
+
+What it does:
+- Accepts uploaded `package.json` (or pasted JSON)
+- Generates pricing recommendations for Morocco and GCC in USD
+- Produces campaign guidance (30/60/90 plan, hooks, budget split, KPI targets, kill rules)
+- Lets you apply a recommended tier directly into the Pricing admin form
+
+Run locally with Ollama:
+
+```bash
+ollama pull gemma3:4b
+ollama serve
+```
+
+Set these environment variables:
+
+```env
+OLLAMA_BASE_URL=http://127.0.0.1:11434
+OLLAMA_MODEL=gemma3:4b
+OLLAMA_TIMEOUT_MS=14000
+```
+
+If Ollama is down or unreachable, Mentor still returns deterministic fallback estimates.
+
+### Binary Uploads with Supabase Storage
+
+Admin binary uploads (Windows/macOS/Linux installers) use Supabase Storage.
+
+Set this environment variable:
+
+```env
+SUPABASE_FILES_BUCKET=files
+```
+
+Use a public bucket if you want direct download links for binaries.
+
 ### 5. Run Development Server
 
 ```bash

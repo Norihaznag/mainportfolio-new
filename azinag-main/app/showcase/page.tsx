@@ -1,8 +1,8 @@
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import Link from 'next/link';
-import { portfolio, PLATFORM_LABELS, type PortfolioProject } from '@/lib/portfolio-data';
+import { PLATFORM_LABELS, type PortfolioProject } from '@/lib/portfolio-data';
 import { DynamicIcon } from '@/components/DynamicIcon';
 
 type PlatformFilter = PortfolioProject['platforms'][number] | 'all';
@@ -16,7 +16,12 @@ const PLATFORM_FILTERS: { value: PlatformFilter; label: string; icon: string }[]
 ];
 
 function ProjectCard({ project }: { project: PortfolioProject }) {
-  const platforms = project.platforms.map((p) => PLATFORM_LABELS[p]);
+  const platforms = project.platforms
+    .map((platform) => PLATFORM_LABELS[platform as keyof typeof PLATFORM_LABELS])
+    .filter(
+      (platform): platform is (typeof PLATFORM_LABELS)[keyof typeof PLATFORM_LABELS] =>
+        !!platform
+    );
 
   return (
     <article className="border border-border-subtle rounded-2xl bg-white overflow-hidden hover:shadow-card-hover transition-all duration-300 hover:-translate-y-1 flex flex-col">
@@ -111,11 +116,21 @@ function ProjectCard({ project }: { project: PortfolioProject }) {
 
 export default function ShowcasePage() {
   const [activeFilter, setActiveFilter] = useState<PlatformFilter>('all');
+  const [projects, setProjects] = useState<PortfolioProject[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    fetch(`/api/public/projects?t=${Date.now()}`)
+      .then((response) => (response.ok ? response.json() : { projects: [] }))
+      .then((payload) => setProjects(payload.projects || []))
+      .catch(() => setProjects([]))
+      .finally(() => setLoading(false));
+  }, []);
 
   const filtered =
     activeFilter === 'all'
-      ? portfolio
-      : portfolio.filter((p) => p.platforms.includes(activeFilter as PortfolioProject['platforms'][number]));
+      ? projects
+      : projects.filter((p) => p.platforms.includes(activeFilter as PortfolioProject['platforms'][number]));
 
   return (
     <div className="text-ink">
@@ -163,7 +178,11 @@ export default function ShowcasePage() {
       {/* Grid */}
       <section className="px-6 pb-20 pt-4" aria-label="Project cards">
         <div className="max-w-5xl mx-auto">
-          {filtered.length === 0 ? (
+          {loading ? (
+            <div className="flex justify-center py-20">
+              <div className="w-5 h-5 rounded-full border-2 border-accent border-t-transparent animate-spin" />
+            </div>
+          ) : filtered.length === 0 ? (
             <div className="border border-border-subtle rounded-2xl p-10 text-center bg-white">
               <p className="text-ink-muted text-sm">No projects match this filter.</p>
             </div>

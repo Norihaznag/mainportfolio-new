@@ -1,33 +1,23 @@
 import { NextRequest, NextResponse } from 'next/server';
+import { getAdminSessionFromRequest } from '@/lib/admin-auth';
 
 export const dynamic = 'force-dynamic';
 
 export async function GET(request: NextRequest) {
   try {
-    const token = request.cookies.get('adminToken')?.value;
+    const session = getAdminSessionFromRequest(request);
 
-    if (!token) {
+    if (!session) {
       return NextResponse.json(
         { message: 'Not authenticated' },
         { status: 401 }
       );
     }
 
-    // Decode token to get email
-    try {
-      const decoded = Buffer.from(token, 'base64').toString('utf-8');
-      const email = decoded.split(':')[0];
-
-      return NextResponse.json({
-        authenticated: true,
-        email,
-      });
-    } catch (error) {
-      return NextResponse.json(
-        { message: 'Invalid token' },
-        { status: 401 }
-      );
-    }
+    return NextResponse.json({
+      authenticated: true,
+      email: session.email,
+    });
   } catch (error) {
     return NextResponse.json(
       { message: 'An error occurred' },

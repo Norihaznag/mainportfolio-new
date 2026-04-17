@@ -8,8 +8,8 @@ import { CapabilitiesCard } from '@/components/CapabilitiesCard';
 import { AppCard } from '@/components/AppCard';
 import { INDUSTRIES } from '@/components/SectorTag';
 import { CustomSolutionsCTA } from '@/components/CustomSolutionsCTA';
-import { apps } from '@/lib/apps-data';
-import { getFeaturedProjects, PLATFORM_LABELS, type PortfolioProject } from '@/lib/portfolio-data';
+import type { DownloadableApp } from '@/lib/apps-data';
+import { PLATFORM_LABELS, type PortfolioProject } from '@/lib/portfolio-data';
 import { DynamicIcon } from '@/components/DynamicIcon';
 import {
   FadeUp,
@@ -99,8 +99,8 @@ const WHY_US = [
 
 export default function Home() {
   const [openFaq, setOpenFaq] = useState<number | null>(null);
-  const featuredProjects = getFeaturedProjects().slice(0, 4);
-  const saasApps = apps.filter((a) => !!a.monthlyPrice).slice(0, 4);
+  const [featuredProjects, setFeaturedProjects] = useState<PortfolioProject[]>([]);
+  const [saasApps, setSaasApps] = useState<DownloadableApp[]>([]);
 
   const PROCESS = [
     {
@@ -127,6 +127,21 @@ export default function Home() {
     { q: 'Do you provide post-launch support?', a: 'Yes. Every project includes 30 days of free post-launch support. Ongoing maintenance plans are available covering bug fixes, updates, and scaling.' },
     { q: 'How do I get started?', a: 'Message us on WhatsApp. We will schedule a free 30-minute discovery call, no obligations.' },
   ];
+
+  useEffect(() => {
+    fetch(`/api/public/apps?t=${Date.now()}`)
+      .then((response) => (response.ok ? response.json() : { apps: [] }))
+      .then((payload) => {
+        const apps = (payload.apps || []) as DownloadableApp[];
+        setSaasApps(apps.filter((app) => !!app.monthlyPrice).slice(0, 4));
+      })
+      .catch(() => setSaasApps([]));
+
+    fetch(`/api/public/projects?featured=true&t=${Date.now()}`)
+      .then((response) => (response.ok ? response.json() : { projects: [] }))
+      .then((payload) => setFeaturedProjects((payload.projects || []).slice(0, 4)))
+      .catch(() => setFeaturedProjects([]));
+  }, []);
 
   return (
     <div className="text-ink">
@@ -414,31 +429,6 @@ export default function Home() {
         </div>
       </section>
 
-      {/* ─── DOWNLOADS HIGHLIGHT ───────────────────────────────── */}
-      <section className="py-20 px-6 border-t border-border-subtle" aria-labelledby="downloads-heading">
-        <div className="max-w-5xl mx-auto">
-          <FadeUp>
-            <p className="eyebrow mb-3">Download Center</p>
-            <div className="flex items-end justify-between mb-10">
-              <h2 id="downloads-heading" className="text-3xl sm:text-4xl font-bold tracking-tight">
-                Our Applications
-              </h2>
-              <Link href="/downloads" className="text-sm font-medium text-accent hover:underline hidden sm:block">
-                All downloads →
-              </Link>
-            </div>
-          </FadeUp>
-          <div className="grid md:grid-cols-2 gap-6">
-            {apps.slice(0, 2).map((app) => (
-              <AppCard key={app.id} app={app} variant="download" />
-            ))}
-          </div>
-          <div className="mt-8 text-center sm:hidden">
-            <Link href="/downloads" className="text-sm font-medium text-accent hover:underline">All downloads →</Link>
-          </div>
-        </div>
-      </section>
-
       {/* ─── CUSTOM SOLUTIONS CTA ──────────────────────────────── */}
       <section className="px-6 pb-16 border-t border-border-subtle pt-16" aria-label="Custom solutions CTA">
         <div className="max-w-5xl mx-auto">
@@ -540,7 +530,12 @@ export default function Home() {
 
 // ─── Inline ProjectCard for featured work ──────────────────────
 function ProjectCard({ project }: { project: PortfolioProject }) {
-  const platforms = project.platforms.map((p) => PLATFORM_LABELS[p]);
+  const platforms = project.platforms
+    .map((platform) => PLATFORM_LABELS[platform as keyof typeof PLATFORM_LABELS])
+    .filter(
+      (platform): platform is (typeof PLATFORM_LABELS)[keyof typeof PLATFORM_LABELS] =>
+        !!platform
+    );
 
   return (
     <article className="border border-border-subtle rounded-2xl bg-white overflow-hidden hover:shadow-card-hover transition-all duration-300 hover:-translate-y-1 flex flex-col">
@@ -580,6 +575,10 @@ function ProjectCard({ project }: { project: PortfolioProject }) {
         {project.liveUrl ? (
           <a href={project.liveUrl} target="_blank" rel="noopener noreferrer" className="mt-auto inline-flex items-center gap-1 text-sm font-medium text-accent hover:underline">
             View project →
+          </a>
+        ) : project.downloadUrl ? (
+          <a href={project.downloadUrl} target="_blank" rel="noopener noreferrer" className="mt-auto inline-flex items-center gap-1 text-sm font-medium text-emerald-600 hover:underline">
+            Download program →
           </a>
         ) : (
           <Link href="/showcase" className="mt-auto inline-flex items-center gap-1 text-sm font-medium text-accent hover:underline">

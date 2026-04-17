@@ -1,8 +1,9 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect, useState, type ChangeEvent } from 'react';
 import Image from 'next/image';
 import { AdminShell } from '../_shell';
+import { uploadFileToCloudinary, uploadFileToSupabaseStorage } from '@/lib/upload-client';
 
 interface Project {
   id: string;
@@ -10,6 +11,7 @@ interface Project {
   description: string | null;
   live_url: string | null;
   thumbnail_url: string | null;
+  download_url: string | null;
   tags: string[];
   category: string;
   sort_order: number;
@@ -22,6 +24,7 @@ type FormState = {
   description: string;
   live_url: string;
   thumbnail_url: string;
+  download_url: string;
   tags: string;
   category: string;
   sort_order: number;
@@ -34,6 +37,7 @@ const EMPTY: FormState = {
   description: '',
   live_url: '',
   thumbnail_url: '',
+  download_url: '',
   tags: '',
   category: 'Web',
   sort_order: 0,
@@ -57,6 +61,14 @@ function getThumb(liveUrl: string | null, thumbnailUrl: string | null): string {
   return '';
 }
 
+function slugify(value: string): string {
+  return value
+    .trim()
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, '-')
+    .replace(/^-+|-+$/g, '');
+}
+
 export default function ProjectsPage() {
   const [items, setItems] = useState<Project[]>([]);
   const [loading, setLoading] = useState(true);
@@ -65,6 +77,7 @@ export default function ProjectsPage() {
   const [open, setOpen] = useState(false);
   const [saving, setSaving] = useState(false);
   const [saveError, setSaveError] = useState<string | null>(null);
+  const [uploading, setUploading] = useState<string | null>(null);
 
   // Quick-add state
   const [quickUrl, setQuickUrl] = useState('');
@@ -93,6 +106,7 @@ export default function ProjectsPage() {
       description: p.description || '',
       live_url: p.live_url || '',
       thumbnail_url: p.thumbnail_url || '',
+      download_url: p.download_url || '',
       tags: (p.tags || []).join(', '),
       category: p.category || 'Web',
       sort_order: p.sort_order ?? 0,
@@ -120,6 +134,7 @@ export default function ProjectsPage() {
         description: type,
         live_url: normalizedUrl,
         thumbnail_url: '',
+        download_url: '',
         tags: quickTags,
         category: 'Web',
         sort_order: 0,
@@ -150,6 +165,7 @@ export default function ProjectsPage() {
       description: form.description,
       live_url: form.live_url,
       thumbnail_url: form.thumbnail_url,
+      download_url: form.download_url,
       tags: form.tags,
       category: form.category,
       sort_order: form.sort_order,
@@ -177,6 +193,41 @@ export default function ProjectsPage() {
     setItems(prev => prev.filter(p => p.id !== id));
     const res = await fetch(`/api/admin/projects/${id}`, { method: 'DELETE' });
     if (!res.ok) { alert('Delete failed'); load(); return; }
+  };
+
+  const handleUpload = async (
+    event: ChangeEvent<HTMLInputElement>,
+    kind: 'thumbnail' | 'program'
+  ) => {
+    const file = event.target.files?.[0];
+    if (!file) return;
+
+    const slug = slugify(form.title || 'project');
+    setUploading(kind === 'thumbnail' ? 'Uploading thumbnail...' : 'Uploading program binary...');
+
+    try {
+      const uploaded =
+        kind === 'thumbnail'
+          ? await uploadFileToCloudinary(file, {
+              folder: `azinag/projects/${slug}/thumbnails`,
+              resourceType: 'image',
+            })
+          : await uploadFileToSupabaseStorage(file, {
+              folder: `azinag/projects/${slug}/binaries`,
+            });
+
+      if (kind === 'thumbnail') {
+        setForm((prev) => ({ ...prev, thumbnail_url: uploaded.secureUrl }));
+      } else {
+        setForm((prev) => ({ ...prev, download_url: uploaded.secureUrl }));
+      }
+    } catch (error) {
+      const message = error instanceof Error ? error.message : 'Upload failed';
+      setSaveError(message);
+    } finally {
+      setUploading(null);
+      event.target.value = '';
+    }
   };
 
   const previewThumb = getThumb(form.live_url || null, form.thumbnail_url || null);
@@ -343,6 +394,31 @@ export default function ProjectsPage() {
                   className="w-full px-3.5 py-2.5 rounded-lg border border-border-subtle text-sm text-ink bg-canvas focus:outline-none focus:ring-2 focus:ring-accent/30 focus:border-accent"
                   placeholder="https://..."
                 />
+                <div className="mt-2">
+                  <input type="file" accept="image/*" onChange={(e) => handleUpload(e, 'thumbnail')} className="text-xs" />
+                </div>
+              </div>
+              <div>
+                <label className="block text-xs font-semibold text-ink-muted uppercase tracking-wide mb-1.5">
+                  Download URL <span className="normal-case font-normal text-ink-faint">(program binary)</span>
+                </label>
+                <p className="text-xs text-ink-faint mb-1.5">
+                  Program binaries are uploaded to Supabase Storage. Executables like .exe are supported.
+                </p>
+                <input
+                  value={form.download_url}
+                  onChange={e => setForm(f => ({ ...f, download_url: e.target.value }))}
+                  className="w-full px-3.5 py-2.5 rounded-lg border border-border-subtle text-sm text-ink bg-canvas focus:outline-none focus:ring-2 focus:ring-accent/30 focus:border-accent"
+                  placeholder="https://.../program.zip"
+                />
+                <div className="mt-2">
+                  <input
+                    type="file"
+                    accept=".exe,.msi,.dmg,.pkg,.deb,.rpm,.AppImage,.zip,.7z,.rar,.tar,.gz,.xz,.bin"
+                    onChange={(e) => handleUpload(e, 'program')}
+                    className="text-xs"
+                  />
+                </div>
               </div>
               {previewThumb && (
                 <div>
@@ -420,6 +496,7 @@ export default function ProjectsPage() {
                 {saving ? 'Saving…' : editId ? 'Save changes' : 'Add project'}
               </button>
             </div>
+            {uploading && <p className="mt-3 text-xs text-accent">{uploading}</p>}
           </div>
         </div>
       )}

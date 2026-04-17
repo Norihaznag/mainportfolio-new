@@ -64,7 +64,7 @@ export default function SettingsPage() {
                 placeholder="https://cal.com/yourname/30min"
                 className="w-full px-3.5 py-2.5 rounded-lg border border-border-subtle text-sm text-ink bg-canvas focus:outline-none focus:ring-2 focus:ring-accent/30 focus:border-accent"
               />
-              <p className="text-xs text-ink-faint mt-1.5">Powers all "Book a call" buttons on the site</p>
+              <p className="text-xs text-ink-faint mt-1.5">Powers all &quot;Book a call&quot; buttons on the site</p>
             </div>
             <div>
               <label className="block text-xs font-semibold text-ink-muted uppercase tracking-wide mb-1.5">

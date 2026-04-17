@@ -9,7 +9,6 @@ const navLinks = [
   { href: '/showcase', label: 'Showcase' },
   { href: '/services', label: 'Services' },
   { href: '/applications', label: 'Applications' },
-  { href: '/downloads', label: 'Downloads' },
   { href: '/about', label: 'About' },
 ];
 

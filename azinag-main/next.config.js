@@ -28,6 +28,11 @@ const nextConfig = {
   async redirects() {
     return [
       {
+        source: '/projects',
+        destination: '/showcase',
+        permanent: true,
+      },
+      {
         source: '/lp/startup-mvp-development',
         destination: '/pricing',
         permanent: true,
@@ -68,7 +73,7 @@ const nextConfig = {
           // Content Security Policy - adjust as needed
           {
             key: 'Content-Security-Policy',
-            value: "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://cdn.jsdelivr.net; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com data:; img-src 'self' data: https:; connect-src 'self' https:;"
+            value: "default-src 'self'; base-uri 'self'; frame-ancestors 'self'; object-src 'none'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://cdn.jsdelivr.net https://www.googletagmanager.com https://connect.facebook.net; script-src-elem 'self' 'unsafe-inline' https://cdn.jsdelivr.net https://www.googletagmanager.com https://connect.facebook.net; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com data:; img-src 'self' data: https://www.google-analytics.com https://www.googletagmanager.com https://connect.facebook.net https://www.facebook.com https:; connect-src 'self' https://www.google-analytics.com https://region1.google-analytics.com https://www.googletagmanager.com https://connect.facebook.net https://www.facebook.com https:;"
           },
         ],
       },

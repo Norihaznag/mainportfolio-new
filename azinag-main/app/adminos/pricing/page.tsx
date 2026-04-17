@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import { AdminShell } from '../_shell';
+import type { PricingPrefillPayload } from '@/lib/mentor-types';
 
 interface PricingPackage {
   id: string;
@@ -28,6 +29,7 @@ export default function PricingPage() {
   const [open, setOpen] = useState(false);
   const [saving, setSaving] = useState(false);
   const [saveError, setSaveError] = useState<string | null>(null);
+  const [mentorNotice, setMentorNotice] = useState<string | null>(null);
 
   const load = async () => {
     setLoading(true);
@@ -37,6 +39,49 @@ export default function PricingPage() {
   };
 
   useEffect(() => { load(); }, []);
+
+  useEffect(() => {
+    if (typeof window === 'undefined') return;
+
+    const rawPrefill = window.localStorage.getItem('mentor_pricing_prefill');
+    if (!rawPrefill) return;
+
+    window.localStorage.removeItem('mentor_pricing_prefill');
+
+    try {
+      const parsed = JSON.parse(rawPrefill) as Partial<PricingPrefillPayload>;
+      const prefilledName = typeof parsed.name === 'string' && parsed.name.trim().length > 0
+        ? parsed.name.trim()
+        : 'Mentor Package';
+
+      setForm({
+        name: prefilledName,
+        price:
+          typeof parsed.price === 'string'
+            ? parsed.price
+            : typeof parsed.price === 'number'
+            ? String(parsed.price)
+            : '',
+        description: typeof parsed.description === 'string' ? parsed.description : '',
+        features: typeof parsed.features === 'string' ? parsed.features : '',
+        sort_order:
+          typeof parsed.sort_order === 'string'
+            ? parsed.sort_order
+            : typeof parsed.sort_order === 'number'
+            ? String(parsed.sort_order)
+            : '0',
+        active: parsed.active === false ? false : true,
+        is_featured: parsed.is_featured === true,
+      });
+
+      setEditId(null);
+      setSaveError(null);
+      setOpen(true);
+      setMentorNotice(`Mentor prefill loaded for ${prefilledName}. Review and save when ready.`);
+    } catch {
+      setMentorNotice('Mentor prefill payload was invalid.');
+    }
+  }, []);
 
   const openAdd = () => { setForm(EMPTY); setEditId(null); setSaveError(null); setOpen(true); };
   const openEdit = (p: PricingPackage) => {
@@ -102,6 +147,12 @@ export default function PricingPage() {
           Add package
         </button>
       </div>
+
+      {mentorNotice && (
+        <div className="mb-5 border border-accent/20 bg-accent-light rounded-xl px-4 py-3">
+          <p className="text-sm text-accent font-medium">{mentorNotice}</p>
+        </div>
+      )}
 
       {loading ? (
         <div className="flex justify-center py-20">

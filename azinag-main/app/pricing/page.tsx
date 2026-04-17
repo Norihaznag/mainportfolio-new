@@ -6,8 +6,8 @@ import { CTAButton } from '@/components/CTAButton';
 import { trackPricingCtaClick } from '@/lib/analytics';
 import { TrustBar } from '@/components/TrustBar';
 import { CustomSolutionsCTA } from '@/components/CustomSolutionsCTA';
-import { apps } from '@/lib/apps-data';
-import { AppCard } from '@/components/AppCard';
+import { DynamicIcon } from '@/components/DynamicIcon';
+import type { DownloadableApp } from '@/lib/apps-data';
 
 const PHONE = process.env.NEXT_PUBLIC_WHATSAPP_PHONE ?? '212609343953';
 
@@ -121,8 +121,17 @@ function SolutionsTab({ packages, loading }: { packages: PricingPackage[]; loadi
 }
 
 // ─── Tab 2: SaaS Applications ─────────────────────────────────
-function ApplicationsTab() {
+function ApplicationsTab({ appsData, loading }: { appsData: DownloadableApp[]; loading: boolean }) {
   const [annual, setAnnual] = useState(false);
+  const paidApps = appsData.filter((app) => !!app.monthlyPrice);
+
+  if (loading) {
+    return (
+      <div style={{ minHeight: 400 }} className="flex items-center justify-center">
+        <div className="w-6 h-6 rounded-full border-2 border-accent border-t-transparent animate-spin" />
+      </div>
+    );
+  }
 
   return (
     <div style={{ minHeight: 400 }}>
@@ -165,7 +174,11 @@ function ApplicationsTab() {
       </div>
 
       <div className="grid md:grid-cols-2 gap-6">
-        {apps.filter((a) => !!a.monthlyPrice).map((app) => {
+        {paidApps.length === 0 ? (
+          <div className="md:col-span-2 border border-border-subtle rounded-2xl p-8 bg-surface text-center">
+            <p className="text-sm text-ink-muted">No published SaaS applications yet.</p>
+          </div>
+        ) : paidApps.map((app) => {
           const price = annual ? (app.annualPrice ?? app.monthlyPrice!) : app.monthlyPrice!;
           const savings = annual && app.annualPrice
             ? Math.round((app.monthlyPrice! - app.annualPrice) * 12)
@@ -181,7 +194,7 @@ function ApplicationsTab() {
               <div className="flex items-start justify-between gap-3 mb-4">
                 <div className="flex items-center gap-3">
                   <div className="w-10 h-10 rounded-xl bg-accent-light flex items-center justify-center text-xl shrink-0" aria-hidden="true">
-                    {app.icon}
+                    <DynamicIcon name={app.icon} className="w-5 h-5 text-accent" />
                   </div>
                   <div>
                     <h3 className="font-bold">{app.name}</h3>
@@ -287,7 +300,7 @@ function BundlesTab() {
         </div>
 
         <div className="bg-surface border border-border-subtle rounded-2xl p-8">
-          <h3 className="text-xl font-bold mb-3">Let's talk about your project</h3>
+          <h3 className="text-xl font-bold mb-3">Let&apos;s talk about your project</h3>
           <p className="text-ink-muted mb-6 text-sm leading-relaxed">
             Contact our team for a free analysis of your needs. We will propose a combined offer
             adapted to your budget and timeline.
@@ -321,7 +334,9 @@ function BundlesTab() {
 // ─── Main Pricing Page ─────────────────────────────────────────
 export default function PricingPage() {
   const [packages, setPackages] = useState<PricingPackage[]>([]);
-  const [loading, setLoading] = useState(true);
+  const [loadingPackages, setLoadingPackages] = useState(true);
+  const [appsData, setAppsData] = useState<DownloadableApp[]>([]);
+  const [loadingApps, setLoadingApps] = useState(true);
   const [activeTab, setActiveTab] = useState<Tab>('solutions');
 
   useEffect(() => {
@@ -334,7 +349,15 @@ export default function PricingPage() {
       .then((r) => (r.ok ? r.json() : { pricing: [] }))
       .then((data) => setPackages(data.pricing || []))
       .catch(() => setPackages([]))
-      .finally(() => setLoading(false));
+      .finally(() => setLoadingPackages(false));
+  }, []);
+
+  useEffect(() => {
+    fetch(`/api/public/apps?t=${Date.now()}`)
+      .then((r) => (r.ok ? r.json() : { apps: [] }))
+      .then((data) => setAppsData(data.apps || []))
+      .catch(() => setAppsData([]))
+      .finally(() => setLoadingApps(false));
   }, []);
 
   const handleTabChange = (tab: Tab) => {
@@ -386,10 +409,10 @@ export default function PricingPage() {
       <section className="relative px-6 py-14 pb-24" aria-label="Pricing content">
         <div className="relative max-w-5xl mx-auto">
           <div id="tabpanel-solutions" role="tabpanel" aria-labelledby="pricing-tab-solutions" className={activeTab === 'solutions' ? 'block' : 'hidden'}>
-            <SolutionsTab packages={packages} loading={loading} />
+            <SolutionsTab packages={packages} loading={loadingPackages} />
           </div>
           <div id="tabpanel-applications" role="tabpanel" aria-labelledby="pricing-tab-applications" className={activeTab === 'applications' ? 'block' : 'hidden'}>
-            <ApplicationsTab />
+            <ApplicationsTab appsData={appsData} loading={loadingApps} />
           </div>
           <div id="tabpanel-bundles" role="tabpanel" aria-labelledby="pricing-tab-bundles" className={activeTab === 'bundles' ? 'block' : 'hidden'}>
             <BundlesTab />

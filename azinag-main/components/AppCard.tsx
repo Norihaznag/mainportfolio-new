@@ -32,7 +32,7 @@ export function AppCard({ app, variant = 'catalog', showDownload = true }: AppCa
   if (variant === 'mini') {
     return (
       <Link
-        href={app.slug ? `/applications/${app.slug}` : '/downloads'}
+        href={app.slug ? `/applications/${app.slug}` : '/applications'}
         className="group snap-center shrink-0 w-[240px] sm:w-[260px] border border-border-subtle rounded-2xl bg-white p-5 flex flex-col
                    transition-all duration-300 hover:-translate-y-1 hover:shadow-card-hover hover:border-accent/30
                    focus-visible:outline-2 focus-visible:outline-accent focus-visible:outline-offset-2"
@@ -141,8 +141,8 @@ export function AppCard({ app, variant = 'catalog', showDownload = true }: AppCa
   // Default: catalog variant
   return (
     <Link
-      href={app.slug ? `/applications/${app.slug}` : '/downloads'}
-      className="group block border border-border-subtle rounded-2xl bg-white p-6 flex flex-col h-full
+      href={app.slug ? `/applications/${app.slug}` : '/applications'}
+      className="group border border-border-subtle rounded-2xl bg-white p-6 flex flex-col h-full
                  transition-all duration-300 hover:-translate-y-1 hover:shadow-card-hover hover:border-accent/30
                  focus-visible:outline-2 focus-visible:outline-accent focus-visible:outline-offset-2"
       aria-label={`${app.name} — ${app.tagline}`}

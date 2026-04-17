@@ -1,10 +1,12 @@
 'use client';
 
 import { useState, useRef } from 'react';
+import Image from 'next/image';
 import Link from 'next/link';
 import type { DownloadableApp } from '@/lib/apps-data';
 import { TrustBar } from '@/components/TrustBar';
 import { DownloadButton } from '@/components/DownloadButton';
+import { DynamicIcon } from '@/components/DynamicIcon';
 
 const PHONE = process.env.NEXT_PUBLIC_WHATSAPP_PHONE ?? '212609343953';
 
@@ -55,7 +57,16 @@ function FaqItem({
   );
 }
 
-function ScreenshotPlaceholder({ alt, bg, index }: { alt: string; bg: string; index: number }) {
+function ScreenshotPlaceholder({ alt, bg, index, url }: { alt: string; bg: string; index: number; url?: string }) {
+  if (url) {
+    return (
+      <div className="relative rounded-2xl overflow-hidden aspect-[16/10] shrink-0 w-[320px] sm:w-[400px] border border-border-subtle bg-surface-raised">
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img src={url} alt={alt} className="w-full h-full object-cover" loading="lazy" />
+      </div>
+    );
+  }
+
   return (
     <div
       className={`relative rounded-2xl overflow-hidden aspect-[16/10] shrink-0 w-[320px] sm:w-[400px] bg-gradient-to-br ${bg} flex items-center justify-center`}
@@ -186,7 +197,7 @@ export default function AppDetailClient({ app }: { app: DownloadableApp }) {
             <div className="max-w-2xl">
               <div className="flex items-center gap-4 mb-6">
                 <div className="w-16 h-16 rounded-2xl bg-accent-light flex items-center justify-center text-4xl border border-border-subtle" aria-hidden="true">
-                  {app.icon}
+                  <DynamicIcon name={app.icon} className="w-8 h-8 text-accent" />
                 </div>
                 {app.badge && (
                   <span className={`text-sm font-semibold tracking-wide rounded-full px-3 py-1 ${
@@ -251,10 +262,20 @@ export default function AppDetailClient({ app }: { app: DownloadableApp }) {
             {/* Decorative preview */}
             {screenshots.length > 0 && (
               <div
-                className={`hidden lg:flex w-[320px] h-[240px] rounded-3xl bg-gradient-to-br ${screenshots[0].bg} items-center justify-center shrink-0 border border-white/20 shadow-card-hover`}
+                className={`hidden lg:flex relative overflow-hidden w-[320px] h-[240px] rounded-3xl bg-gradient-to-br ${screenshots[0].bg} items-center justify-center shrink-0 border border-white/20 shadow-card-hover`}
                 aria-hidden="true"
               >
-                <span className="text-7xl">{app.icon}</span>
+                {screenshots[0].url ? (
+                  <Image
+                    src={screenshots[0].url}
+                    alt={screenshots[0].alt || `${app.name} preview`}
+                    fill
+                    sizes="320px"
+                    className="object-cover"
+                  />
+                ) : (
+                  <DynamicIcon name={app.icon} className="w-20 h-20 text-white/90" />
+                )}
               </div>
             )}
           </div>
@@ -272,7 +293,7 @@ export default function AppDetailClient({ app }: { app: DownloadableApp }) {
             <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
               {features.map((feat) => (
                 <div key={feat.title} className="bg-white border border-border-subtle rounded-2xl p-6 hover:shadow-card hover:border-accent/30 transition-all duration-200">
-                  <span className="text-3xl mb-4 block" aria-hidden="true">{feat.icon}</span>
+                  <DynamicIcon name={feat.icon} className="w-8 h-8 mb-4 text-accent" aria-hidden="true" />
                   <h3 className="font-bold mb-2">{feat.title}</h3>
                   <p className="text-sm text-ink-muted leading-relaxed">{feat.description}</p>
                 </div>
@@ -297,7 +318,7 @@ export default function AppDetailClient({ app }: { app: DownloadableApp }) {
             <div className="flex gap-4 overflow-x-auto pb-4 -mx-6 px-6 sm:-mx-0 sm:px-0 snap-x snap-mandatory scrollbar-hide">
               {screenshots.map((shot, idx) => (
                 <div key={idx} className="snap-center shrink-0">
-                  <ScreenshotPlaceholder alt={shot.alt} bg={shot.bg} index={idx} />
+                  <ScreenshotPlaceholder alt={shot.alt} bg={shot.bg} index={idx} url={shot.url} />
                 </div>
               ))}
             </div>

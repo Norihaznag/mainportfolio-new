@@ -20,6 +20,7 @@ const newsreader = Newsreader({
   weight: ['400', '500'],
   variable: '--font-newsreader',
   display: 'swap',
+  adjustFontFallback: false,
 });
 
 const baseUrl = 'https://azinag.site';
@@ -73,6 +74,7 @@ export default function RootLayout({
         <meta name="color-scheme" content="dark" />
         <link rel="icon" href="/favicon.ico" />
         {/* Google Analytics GA4 */}
+        {/* eslint-disable-next-line @next/next/next-script-for-ga */}
         <script async src="https://www.googletagmanager.com/gtag/js?id=G-PRFYHRG5PQ" />
         <script
           dangerouslySetInnerHTML={{
@@ -88,6 +90,7 @@ export default function RootLayout({
               }}
             />
             <noscript>
+              {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
                 height="1"
                 width="1"

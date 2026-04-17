@@ -24,7 +24,7 @@ export async function GET() {
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json();
-    const { title, description, live_url, thumbnail_url, tags, category, sort_order, featured, published } = body;
+    const { title, description, live_url, thumbnail_url, download_url, tags, category, sort_order, featured, published } = body;
 
     if (!title?.trim()) {
       return NextResponse.json({ message: 'Title is required' }, { status: 400 });
@@ -37,6 +37,7 @@ export async function POST(request: NextRequest) {
         description: description?.trim() || null,
         live_url: live_url?.trim() || null,
         thumbnail_url: thumbnail_url?.trim() || null,
+        download_url: download_url?.trim() || null,
         tags: Array.isArray(tags) ? tags : (tags ? tags.split(',').map((t: string) => t.trim()).filter(Boolean) : []),
         category: category?.trim() || 'Web',
         sort_order: sort_order ?? 0,

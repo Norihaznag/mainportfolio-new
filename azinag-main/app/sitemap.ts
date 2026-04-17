@@ -1,5 +1,5 @@
 import { MetadataRoute } from 'next';
-import { apps } from '@/lib/apps-data';
+import { fetchPublishedApps } from '@/lib/apps-server';
 
 const baseUrl = 'https://azinag.site';
 
@@ -8,7 +8,6 @@ const staticRoutes: { path: string; priority: number; changeFrequency: 'daily' |
   { path: 'services',    priority: 0.95, changeFrequency: 'weekly'  },
   { path: 'pricing',     priority: 0.9,  changeFrequency: 'weekly'  },
   { path: 'applications',priority: 0.9,  changeFrequency: 'weekly'  },
-  { path: 'downloads',   priority: 0.9,  changeFrequency: 'weekly'  },
   { path: 'showcase',    priority: 0.85, changeFrequency: 'weekly'  },
   { path: 'about',       priority: 0.7,  changeFrequency: 'monthly' },
   { path: 'contact',     priority: 0.7,  changeFrequency: 'monthly' },
@@ -19,7 +18,9 @@ const staticRoutes: { path: string; priority: number; changeFrequency: 'daily' |
   { path: 'lp/landing-page-development', priority: 0.8, changeFrequency: 'weekly' },
 ];
 
-export default function sitemap(): MetadataRoute.Sitemap {
+export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
+  const apps = await fetchPublishedApps();
+
   const statics = staticRoutes.map(({ path, priority, changeFrequency }) => ({
     url: `${baseUrl}${path ? `/${path}` : ''}`,
     lastModified: new Date(),
