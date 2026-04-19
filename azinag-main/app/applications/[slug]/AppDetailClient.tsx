@@ -253,7 +253,7 @@ export default function AppDetailClient({ app }: { app: DownloadableApp }) {
               {/* Download links if available */}
               {Object.keys(app.platforms).length > 0 && (
                 <div className="mt-6">
-                  <p className="text-xs text-ink-muted mb-2 font-medium uppercase tracking-wider">Available on</p>
+                  <p className="text-xs text-ink-muted mb-2 font-medium uppercase tracking-wider">Download for your platform</p>
                   <DownloadButton app={app} variant="full" />
                 </div>
               )}

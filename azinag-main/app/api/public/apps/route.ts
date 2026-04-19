@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 
-import { mapDbAppToDownloadableApp } from '@/lib/apps-data';
+import { mapDbAppToDownloadableApp, toPublicDownloadableApp } from '@/lib/apps-data';
 import { supabaseAdmin as supabase } from '@/lib/supabase';
 
 export const dynamic = 'force-dynamic';
@@ -29,7 +29,7 @@ export async function GET(request: NextRequest) {
         return NextResponse.json({ app: null });
       }
 
-      return NextResponse.json({ app: mapDbAppToDownloadableApp(data) });
+      return NextResponse.json({ app: toPublicDownloadableApp(mapDbAppToDownloadableApp(data)) });
     }
 
     const { data, error } = await query;
@@ -39,7 +39,7 @@ export async function GET(request: NextRequest) {
       return NextResponse.json({ apps: [] }, { status: 400 });
     }
 
-    const apps = (data || []).map((item) => mapDbAppToDownloadableApp(item));
+    const apps = (data || []).map((item) => toPublicDownloadableApp(mapDbAppToDownloadableApp(item)));
     return NextResponse.json({ apps });
   } catch (error) {
     console.error('Error fetching apps: ', error);

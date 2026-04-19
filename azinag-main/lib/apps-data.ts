@@ -69,6 +69,63 @@ export interface DownloadableApp {
 
 type UnknownRecord = Record<string, unknown>;
 
+export type BinaryPlatformKey = 'windows' | 'macos' | 'linux';
+
+const BINARY_PLATFORM_KEYS: BinaryPlatformKey[] = ['windows', 'macos', 'linux'];
+
+function encodeSlugSegment(value: string): string {
+  return encodeURIComponent(value.trim());
+}
+
+export function isBinaryPlatformKey(value: string): value is BinaryPlatformKey {
+  return BINARY_PLATFORM_KEYS.includes(value as BinaryPlatformKey);
+}
+
+export function buildAppDownloadPath(slug: string, platform: BinaryPlatformKey): string {
+  return `/download/${encodeSlugSegment(slug)}/${platform}`;
+}
+
+export function toPublicDownloadableApp(app: DownloadableApp): DownloadableApp {
+  const platforms: AppPlatforms = { ...app.platforms };
+
+  // If slug is missing, hide binary entries instead of leaking raw storage URLs.
+  if (!app.slug) {
+    delete platforms.windows;
+    delete platforms.macos;
+    delete platforms.linux;
+    return {
+      ...app,
+      platforms,
+    };
+  }
+
+  if (platforms.windows?.url) {
+    platforms.windows = {
+      ...platforms.windows,
+      url: buildAppDownloadPath(app.slug, 'windows'),
+    };
+  }
+
+  if (platforms.macos?.url) {
+    platforms.macos = {
+      ...platforms.macos,
+      url: buildAppDownloadPath(app.slug, 'macos'),
+    };
+  }
+
+  if (platforms.linux?.url) {
+    platforms.linux = {
+      ...platforms.linux,
+      url: buildAppDownloadPath(app.slug, 'linux'),
+    };
+  }
+
+  return {
+    ...app,
+    platforms,
+  };
+}
+
 export const apps: DownloadableApp[] = [];
 
 export type SaasApp = DownloadableApp & Required<

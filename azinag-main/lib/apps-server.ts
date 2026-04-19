@@ -1,7 +1,7 @@
 import 'server-only';
 
 import { supabaseAdmin as supabase } from '@/lib/supabase';
-import { mapDbAppToDownloadableApp, type DownloadableApp } from '@/lib/apps-data';
+import { mapDbAppToDownloadableApp, toPublicDownloadableApp, type DownloadableApp } from '@/lib/apps-data';
 
 export async function fetchPublishedApps(): Promise<DownloadableApp[]> {
   const { data, error } = await supabase
@@ -16,7 +16,7 @@ export async function fetchPublishedApps(): Promise<DownloadableApp[]> {
     return [];
   }
 
-  return (data || []).map((row) => mapDbAppToDownloadableApp(row));
+  return (data || []).map((row) => toPublicDownloadableApp(mapDbAppToDownloadableApp(row)));
 }
 
 export async function fetchPublishedAppBySlug(slug: string): Promise<DownloadableApp | null> {
@@ -34,5 +34,5 @@ export async function fetchPublishedAppBySlug(slug: string): Promise<Downloadabl
     return null;
   }
 
-  return mapDbAppToDownloadableApp(data);
+  return toPublicDownloadableApp(mapDbAppToDownloadableApp(data));
 }
