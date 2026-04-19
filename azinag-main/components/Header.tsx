@@ -3,7 +3,6 @@
 import { useState } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { CTAButton } from '@/components/CTAButton';
 
 const navLinks = [
   { href: '/showcase', label: 'Showcase' },
@@ -17,7 +16,7 @@ export function Header() {
   const [mobileOpen, setMobileOpen] = useState(false);
 
   return (
-    <header className="sticky top-0 z-50 bg-canvas/90 backdrop-blur-md border-b border-border-subtle">
+    <header className="sticky top-0 z-50 bg-canvas border-b border-border-subtle">
       <div className="max-w-5xl mx-auto px-6 h-[60px] flex items-center justify-between">
         {/* Logo */}
         <Link
@@ -55,14 +54,6 @@ export function Header() {
 
         {/* Right cluster */}
         <div className="flex items-center gap-3">
-          <CTAButton
-            label="Start Your Project"
-            trackEvent="book_call"
-            trackSource="header"
-            variant="primary"
-            size="sm"
-            className="hidden md:inline-flex"
-          />
           {/* Mobile toggle */}
           <button
             type="button"
@@ -108,14 +99,6 @@ export function Header() {
             </Link>
           );
         })}
-        <CTAButton
-          label="Start Your Project"
-          trackEvent="book_call"
-          trackSource="header_mobile"
-          variant="primary"
-          size="sm"
-          className="self-start"
-        />
       </div>
     </header>
   );

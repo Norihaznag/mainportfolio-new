@@ -22,19 +22,16 @@
 }
 
 html {
-  scroll-behavior: smooth;
+  scroll-behavior: auto;
   font-size: 16px;
 }
 
 body {
   line-height: 1.65;
+  font-family: "Segoe UI", "Segoe UI Variable", -apple-system, BlinkMacSystemFont, "Helvetica Neue", Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  background-image:
-    linear-gradient(rgba(100,116,139,0.12) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(100,116,139,0.12) 1px, transparent 1px);
-  background-size: 28px 28px;
-  background-attachment: fixed;
+  background: var(--canvas);
 }
 
 /* Focus styles for accessibility */
@@ -82,19 +79,15 @@ a {
   background-clip: text;
 }
 
-/* Respect reduced-motion */
-@media (prefers-reduced-motion: reduce) {
-  *, *::before, *::after {
-    animation-duration: 0.01ms !important;
-    animation-iteration-count: 1 !important;
-    transition-duration: 0.01ms !important;
-  }
+/* Enforce no-motion UI for a straightforward UX */
+*, *::before, *::after {
+  animation: none !important;
+  transition: none !important;
 }
 
 
-/* Prose italics use Newsreader */
+/* Keep italics simple and native */
 em {
-  font-family: var(--font-newsreader), Georgia, serif;
   font-style: italic;
 }
 
