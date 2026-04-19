@@ -2,8 +2,9 @@
 
 import { useState } from 'react';
 import { useContent } from '@/components/LanguageContext';
+import { CTAButton } from '@/components/CTAButton';
 
-export default function ContactPage() {
+export default function Contact() {
   const c = useContent();
   const fields = c.contact.fields;
 
@@ -18,14 +19,12 @@ export default function ContactPage() {
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
     setStatus('sending');
-
     try {
       const res = await fetch('/api/contact', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(form),
       });
-
       if (res.ok) {
         setStatus('sent');
         setForm({ name: '', email: '', company: '', message: '' });
@@ -38,79 +37,97 @@ export default function ContactPage() {
   }
 
   return (
-    <div className="text-ink bg-surface min-h-screen pt-24 pb-16 px-6">
-      <section className="max-w-3xl mx-auto bg-white border border-border-subtle rounded-3xl p-8 md:p-10">
-        <p className="text-xs font-semibold tracking-wide uppercase text-ink-muted mb-3">Contact</p>
-        <h1 className="text-3xl sm:text-4xl font-bold tracking-tight mb-4">Send a message</h1>
-        <p className="text-sm text-ink-muted mb-8">Use the form below. We will reply by email.</p>
+    <div className="text-ink">
+      <section className="relative overflow-hidden pt-28 pb-28 px-6" aria-labelledby="contact-heading">
+        <div className="relative max-w-5xl mx-auto">
+        <div className="max-w-xl">
+          <p className="eyebrow mb-4">{c.contact.eyebrow}</p>
+          <h1 id="contact-heading" className="text-4xl sm:text-5xl font-bold tracking-tight mb-4">{c.contact.title}</h1>
+          <p className="text-[1.0625rem] text-ink-muted mb-10">{c.contact.subtitle}</p>
 
-        <form onSubmit={handleSubmit} className="space-y-5" noValidate>
-          <div className="grid sm:grid-cols-2 gap-5">
-            <label className="flex flex-col gap-1.5">
-              <span className="text-sm font-medium text-ink">{fields.name}</span>
-              <input
-                type="text"
-                required
-                autoComplete="name"
-                value={form.name}
-                onChange={(e) => setForm((prev) => ({ ...prev, name: e.target.value }))}
-                className="px-4 py-2.5 text-sm border border-border-subtle rounded-lg bg-surface text-ink"
-                placeholder="John Smith"
-              />
-            </label>
-
-            <label className="flex flex-col gap-1.5">
-              <span className="text-sm font-medium text-ink">{fields.email}</span>
-              <input
-                type="email"
-                required
-                autoComplete="email"
-                value={form.email}
-                onChange={(e) => setForm((prev) => ({ ...prev, email: e.target.value }))}
-                className="px-4 py-2.5 text-sm border border-border-subtle rounded-lg bg-surface text-ink"
-                placeholder="name@example.com"
-              />
-            </label>
+          {/* Book a call alt */}
+          <div className="mb-10 p-5 border border-border-subtle rounded-xl bg-white hover:shadow-card transition-all duration-300 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+            <p className="text-sm text-ink-muted">{c.contact.bookAlt}</p>
+            <CTAButton
+              label={c.contact.bookLinkLabel}
+              trackEvent="book_call"
+              trackSource="contact_page"
+              variant="ghost"
+              size="sm"
+            />
           </div>
 
-          <label className="flex flex-col gap-1.5">
-            <span className="text-sm font-medium text-ink">{fields.company}</span>
-            <input
-              type="text"
-              autoComplete="organization"
-              value={form.company}
-              onChange={(e) => setForm((prev) => ({ ...prev, company: e.target.value }))}
-              className="px-4 py-2.5 text-sm border border-border-subtle rounded-lg bg-surface text-ink"
-              placeholder="Company"
-            />
-          </label>
+          {/* Form */}
+          <form onSubmit={handleSubmit} className="space-y-5" aria-label={c.contact.title} noValidate>
+            <div className="grid sm:grid-cols-2 gap-5">
+              <label className="flex flex-col gap-1.5">
+                <span className="text-sm font-medium text-ink">{fields.name}</span>
+                <input
+                  type="text"
+                  required
+                  autoComplete="name"
+                  value={form.name}
+                  onChange={(e) => setForm((f) => ({ ...f, name: e.target.value }))}
+                  className="px-4 py-2.5 text-sm border border-border-subtle rounded-lg bg-surface text-ink placeholder-ink-faint focus:outline-none focus:border-accent focus:ring-1 focus:ring-accent transition"
+                  placeholder="John Smith"
+                />
+              </label>
+              <label className="flex flex-col gap-1.5">
+                <span className="text-sm font-medium text-ink">{fields.email}</span>
+                <input
+                  type="email"
+                  required
+                  autoComplete="email"
+                  value={form.email}
+                  onChange={(e) => setForm((f) => ({ ...f, email: e.target.value }))}
+                  className="px-4 py-2.5 text-sm border border-border-subtle rounded-lg bg-surface text-ink placeholder-ink-faint focus:outline-none focus:border-accent focus:ring-1 focus:ring-accent transition"
+                  placeholder="0612345678"
+                />
+              </label>
+            </div>
 
-          <label className="flex flex-col gap-1.5">
-            <span className="text-sm font-medium text-ink">{fields.message}</span>
-            <textarea
-              required
-              rows={5}
-              value={form.message}
-              onChange={(e) => setForm((prev) => ({ ...prev, message: e.target.value }))}
-              className="px-4 py-2.5 text-sm border border-border-subtle rounded-lg bg-surface text-ink resize-none"
-              placeholder="Project details"
-            />
-          </label>
+            <label className="flex flex-col gap-1.5">
+              <span className="text-sm font-medium text-ink">{fields.company}</span>
+              <input
+                type="text"
+                autoComplete="organization"
+                value={form.company}
+                onChange={(e) => setForm((f) => ({ ...f, company: e.target.value }))}
+                className="px-4 py-2.5 text-sm border border-border-subtle rounded-lg bg-surface text-ink placeholder-ink-faint focus:outline-none focus:border-accent focus:ring-1 focus:ring-accent transition"
+                placeholder="Acme Corp, Casablanca"
+              />
+            </label>
 
-          <button
-            type="submit"
-            disabled={status === 'sending' || status === 'sent'}
-            className="inline-flex items-center justify-center px-6 py-3 text-sm font-semibold rounded-lg bg-accent text-white disabled:opacity-60"
-          >
-            {status === 'sending'
-              ? fields.sending
-              : status === 'sent'
-              ? fields.sent
-              : fields.submit}
-          </button>
+            <label className="flex flex-col gap-1.5">
+              <span className="text-sm font-medium text-ink">{fields.message}</span>
+              <textarea
+                required
+                rows={5}
+                value={form.message}
+                onChange={(e) => setForm((f) => ({ ...f, message: e.target.value }))}
+                className="px-4 py-2.5 text-sm border border-border-subtle rounded-lg bg-surface text-ink placeholder-ink-faint focus:outline-none focus:border-accent focus:ring-1 focus:ring-accent transition resize-none"
+                placeholder="Tell us about your project — platform, industry, timeline..."
+              />
+            </label>
 
-          {status === 'error' && <p className="text-sm text-red-600">{fields.error}</p>}
-        </form>
+            <button
+              type="submit"
+              disabled={status === 'sending' || status === 'sent'}
+              className="inline-flex items-center justify-center font-semibold rounded-lg bg-accent text-white hover:bg-accent/90 disabled:opacity-60 transition-colors px-6 py-3 text-[0.9375rem] w-full sm:w-auto"
+            >
+              {status === 'sending'
+                ? fields.sending
+                : status === 'sent'
+                ? fields.sent
+                : fields.submit}
+            </button>
+
+            {status === 'error' && (
+              <p className="text-sm text-red-600">{fields.error}</p>
+            )}
+          </form>
+        </div>
+        </div>
       </section>
     </div>
   );
