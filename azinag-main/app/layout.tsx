@@ -2,8 +2,25 @@ import type { Metadata } from 'next';
 import { headers } from 'next/headers';
 import { Header } from '@/components/Header';
 import { Footer } from '@/components/Footer';
+import { Plus_Jakarta_Sans, Newsreader } from 'next/font/google';
 import { LanguageProvider } from '@/components/LanguageContext';
 import './globals.css';
+
+const jakarta = Plus_Jakarta_Sans({
+  subsets: ['latin'],
+  weight: ['400', '500', '600', '700', '800'],
+  variable: '--font-jakarta',
+  display: 'swap',
+});
+
+const newsreader = Newsreader({
+  subsets: ['latin'],
+  style: ['normal', 'italic'],
+  weight: ['400', '500'],
+  variable: '--font-newsreader',
+  display: 'swap',
+  adjustFontFallback: false,
+});
 
 const baseUrl = 'https://azinag.site';
 
@@ -48,7 +65,7 @@ export default function RootLayout({
   const isAdmin = pathname.startsWith('/adminos');
 
   return (
-    <html lang="en">
+    <html lang="en" className={`${jakarta.variable} ${newsreader.variable}`}>
       <head>
         <meta charSet="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
