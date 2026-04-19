@@ -859,7 +859,7 @@ export default function AdminApplicationsPage() {
                   <button
                     type="button"
                     onClick={handleAutofillFromPackageJson}
-                    className="px-3.5 py-2 rounded-lg bg-accent text-white text-xs font-semibold hover:bg-blue-700 transition-colors"
+                    className="px-3.5 py-2 rounded-lg bg-accent text-white text-xs font-semibold hover:bg-accent/90 transition-colors"
                   >
                     Autofill from package.json
                   </button>

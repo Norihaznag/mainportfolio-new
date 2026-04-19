@@ -22,19 +22,11 @@ export function CapabilitiesCard({
   return (
     <Link
       href={href}
-      className="group flex flex-col border border-border-subtle rounded-2xl bg-white p-7
-                 transition-all duration-300 hover:-translate-y-1 hover:shadow-card-hover hover:border-accent/30
-                 focus-visible:outline-2 focus-visible:outline-accent focus-visible:outline-offset-2"
+      className="group flex flex-col   p-7
+                 "
       aria-label={`${title} — Learn more`}
     >
-      {/* Icon */}
-      <div
-        className={`w-12 h-12 rounded-xl ${accentColor} flex items-center justify-center text-2xl mb-5
-                   group-hover:scale-110 transition-transform duration-300`}
-        aria-hidden="true"
-      >
-        {icon}
-      </div>
+     
 
       {/* Title + description */}
       <h3 className="font-bold text-[1rem] mb-2 group-hover:text-accent transition-colors">

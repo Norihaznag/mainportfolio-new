@@ -13,16 +13,16 @@ module.exports = {
         arabic: ['var(--font-cairo)', 'system-ui', 'sans-serif'],
       },
       colors: {
-        // Copybook light theme
-        canvas: '#FFFFFF',
-        ink: '#111118',
-        'ink-muted': '#52525B',
-        'ink-faint': '#A1A1AA',
-        accent: '#1D4ED8',
-        'accent-light': '#EFF6FF',
-        'surface': '#F8FAFC',
-        'surface-raised': '#F1F5F9',
-        'border-subtle': '#E2E8F0',
+        // Reference style: neutral gray + red accent
+        canvas: '#FDF4E3',
+        ink: '#0B0D10',
+        'ink-muted': '#2E3238',
+        'ink-faint': '#616873',
+        accent: '#ED3F27',
+        'accent-light': '#FAD0C9',
+        'surface': '#D5DAE0',
+        'surface-raised': '#DEE2E7',
+        'border-subtle': '#A8AFB8',
         // Keep cartoon colors for admin compatibility
         background: 'hsl(var(--background))',
         foreground: 'hsl(var(--foreground))',
@@ -67,7 +67,7 @@ module.exports = {
         'card': '0 1px 3px 0 rgba(0,0,0,0.08), 0 1px 2px -1px rgba(0,0,0,0.06)',
         'card-hover': '0 4px 16px 0 rgba(0,0,0,0.12), 0 1px 4px -1px rgba(0,0,0,0.08)',
         'subtle': '0 0 0 1px rgba(0,0,0,0.06)',
-        'glow': '0 0 32px 0 rgba(29,78,216,0.20)',
+        'glow': '0 0 32px 0 rgba(237,63,39,0.25)',
         // Keep for admin
         'neo-sm': '2px 2px 0px 0px rgba(0,0,0,1)',
         'neo': '4px 4px 0px 0px rgba(0,0,0,1)',

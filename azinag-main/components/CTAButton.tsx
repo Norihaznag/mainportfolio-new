@@ -21,7 +21,7 @@ const baseClass =
 
 const variants = {
   primary:
-    'bg-accent text-white hover:bg-blue-700 active:scale-[0.98]',
+    'bg-accent text-white hover:bg-accent/90 active:scale-[0.98]',
   secondary:
     'bg-white text-ink border border-border-subtle hover:border-accent hover:text-accent active:scale-[0.98]',
   ghost:

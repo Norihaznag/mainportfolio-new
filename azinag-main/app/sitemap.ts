@@ -5,7 +5,6 @@ const baseUrl = 'https://azinag.site';
 
 const staticRoutes: { path: string; priority: number; changeFrequency: 'daily' | 'weekly' | 'monthly' }[] = [
   { path: '',             priority: 1.0, changeFrequency: 'daily'   },
-  { path: 'services',    priority: 0.95, changeFrequency: 'weekly'  },
   { path: 'pricing',     priority: 0.9,  changeFrequency: 'weekly'  },
   { path: 'applications',priority: 0.9,  changeFrequency: 'weekly'  },
   { path: 'showcase',    priority: 0.85, changeFrequency: 'weekly'  },

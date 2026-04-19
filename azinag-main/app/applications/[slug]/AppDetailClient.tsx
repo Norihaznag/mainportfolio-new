@@ -1,140 +1,211 @@
 'use client';
 
-import Image from 'next/image';
-import Link from 'next/link';
 import type { DownloadableApp } from '@/lib/apps-data';
-import { DownloadButton } from '@/components/DownloadButton';
+import { buildAppDownloadPath, isBinaryPlatformKey } from '@/lib/apps-data';
 import { DynamicIcon } from '@/components/DynamicIcon';
 
-function formatReleaseDate(value: string): string | null {
-  const date = new Date(value);
-  if (Number.isNaN(date.getTime())) return null;
-  return new Intl.DateTimeFormat('en-US', {
-    day: '2-digit',
-    month: 'short',
-    year: 'numeric',
-  }).format(date);
+interface PlatformEntry {
+  key: string;
+  label: string;
+  href: string;
+  icon: string;
+  version?: string;
+  size?: string;
+  external: boolean;
+  binary: boolean;
 }
 
-function formatCategory(value?: string): string | null {
-  if (!value) return null;
-  return value
-    .split(/[_-]+/)
-    .map((chunk) => (chunk.length > 0 ? chunk[0].toUpperCase() + chunk.slice(1) : chunk))
-    .join(' ');
+function isExternalLink(url: string): boolean {
+  return /^https?:\/\//i.test(url);
+}
+
+function resolvePlatforms(app: DownloadableApp): PlatformEntry[] {
+  const entries: PlatformEntry[] = [];
+
+  const add = (
+    key: string,
+    label: string,
+    icon: string,
+    rawUrl: string | undefined,
+    version?: string,
+    size?: string
+  ) => {
+    if (!rawUrl) return;
+
+    const binary = isBinaryPlatformKey(key);
+    const href = app.slug && binary ? buildAppDownloadPath(app.slug, key) : rawUrl;
+
+    entries.push({
+      key,
+      label,
+      href,
+      icon,
+      version,
+      size,
+      external: isExternalLink(href),
+      binary,
+    });
+  };
+
+  add(
+    'windows',
+    'Windows',
+    'Monitor',
+    app.platforms.windows?.url,
+    app.platforms.windows?.version,
+    app.platforms.windows?.size
+  );
+  add(
+    'macos',
+    'macOS',
+    'Monitor',
+    app.platforms.macos?.url,
+    app.platforms.macos?.version,
+    app.platforms.macos?.size
+  );
+  add(
+    'linux',
+    'Linux',
+    'Monitor',
+    app.platforms.linux?.url,
+    app.platforms.linux?.version,
+    app.platforms.linux?.size
+  );
+  add('web', 'Web App', 'Globe', app.platforms.web?.liveUrl);
+  add(
+    'ios',
+    'iOS',
+    'Smartphone',
+    app.platforms.ios?.appStoreUrl,
+    app.platforms.ios?.version
+  );
+  add(
+    'android',
+    'Android',
+    'Smartphone',
+    app.platforms.android?.playStoreUrl,
+    app.platforms.android?.version
+  );
+
+  return entries;
+}
+
+function WindowsGlyph() {
+  return (
+    <svg viewBox="0 0 24 24" fill="currentColor" className="w-4 h-4" aria-hidden="true">
+      <path d="M2 4.5L11 3v8H2V4.5zm10 6.5V2.9L22 1v10h-10zM2 12h9v8.1L2 18.6V12zm10 0h10v10l-10-1.9V12z" />
+    </svg>
+  );
+}
+
+function PlatformGlyph({ item }: { item: PlatformEntry }) {
+  if (item.label === 'Windows') {
+    return <WindowsGlyph />;
+  }
+  return <DynamicIcon name={item.icon} className="w-4 h-4" aria-hidden="true" />;
+}
+
+function DownloadActionButton({ item, appId }: { item: PlatformEntry; appId: string }) {
+  const actionLabel = item.binary ? 'Download' : item.label === 'Web App' ? 'Open' : 'Get';
+
+  return (
+    <a
+      href={item.href}
+      id={`download-${appId}-primary`}
+      download={item.binary ? '' : undefined}
+      target={item.external ? '_blank' : undefined}
+      rel={item.external ? 'noopener noreferrer' : undefined}
+      className="inline-flex items-stretch border border-[#DF3D20] bg-[#F24822] text-white hover:bg-[#DD431E] transition-colors"
+      title={item.label}
+    >
+      <span className="inline-flex items-center px-4 text-[11px] font-semibold uppercase tracking-[0.03em]">
+        {actionLabel}
+      </span>
+      <span className="inline-flex items-center justify-center px-3 border-l border-white/35">
+        <PlatformGlyph item={item} />
+      </span>
+      <span className="inline-flex items-center justify-center px-3 border-l border-white/35">
+        <DynamicIcon name="Download" className="w-4 h-4" aria-hidden="true" />
+      </span>
+    </a>
+  );
 }
 
 export default function AppDetailClient({ app }: { app: DownloadableApp }) {
-  const releaseDate = formatReleaseDate(app.releaseDate);
-  const category = formatCategory(app.category);
-  const screenshot = (app.screenshots ?? []).find((item) => typeof item.url === 'string' && item.url.trim().length > 0);
-  const highlights = app.saasFeatures?.map((item) => item.title).filter((item) => item.trim().length > 0) ?? [];
-  const fallbackHighlights = app.features.filter((item) => item.trim().length > 0);
-  const visibleHighlights = (highlights.length > 0 ? highlights : fallbackHighlights).slice(0, 6);
+  const platforms = resolvePlatforms(app);
+  const [primaryPlatform, ...otherPlatforms] = platforms;
+
+  const description = (app.description || app.tagline || 'Lorem ipsum is simply dummy text of the printing and typesetting industry.').trim();
+  const systemLabel = primaryPlatform ? primaryPlatform.label.toLowerCase() : 'n/a';
+  const sizeLabel = primaryPlatform?.size ? primaryPlatform.size.toLowerCase() : 'n/a';
+  const downloadsLabel = app.downloads != null ? String(app.downloads) : 'n/a';
+
+  const screenshot = (app.screenshots ?? []).find((item) => item.url?.trim());
 
   return (
-    <div className="text-ink bg-surface min-h-screen pt-24 pb-16 px-6">
-      <div className="max-w-5xl mx-auto">
-        <Link
-          href="/applications"
-          className="inline-flex items-center gap-1.5 text-sm text-ink-muted hover:text-ink transition-colors mb-6 group"
-        >
-          <svg
-            className="w-4 h-4 group-hover:-translate-x-1 transition-transform"
-            viewBox="0 0 16 16"
-            fill="none"
-            stroke="currentColor"
-            strokeWidth="2"
-            aria-hidden="true"
-          >
-            <path strokeLinecap="round" strokeLinejoin="round" d="M13 8H3M7 12l-4-4 4-4" />
-          </svg>
-          All Applications
-        </Link>
+    <main className="text-ink">
+      <section className="px-6 py-16 sm:py-20">
+        <div className="max-w-[920px] mx-auto grid lg:grid-cols-[280px_1fr] gap-10 lg:gap-12 items-start">
+          <div className="pt-1">
+            <h1 className="text-[2.1rem] leading-[1.02] font-bold mb-3">{app.name}</h1>
 
-        <section
-          className="bg-white border border-border-subtle rounded-3xl p-6 sm:p-8 md:p-10 shadow-card"
-          aria-label={`${app.name} details`}
-        >
-          <div className="grid lg:grid-cols-[1.2fr_0.8fr] gap-8 lg:gap-10 items-start">
-            <div>
-              <div className="flex items-center gap-4 mb-5">
-                <div
-                  className="w-16 h-16 rounded-2xl bg-accent-light border border-border-subtle flex items-center justify-center"
-                  aria-hidden="true"
-                >
-                  <DynamicIcon name={app.icon} className="w-8 h-8 text-accent" />
-                </div>
-                <div>
-                  <h1 className="text-3xl sm:text-4xl font-bold tracking-tight">{app.name}</h1>
-                  <p className="text-ink-muted mt-1">{app.tagline}</p>
-                </div>
+            <p className="text-[10px] leading-[1.45] text-ink-muted max-w-[245px] mb-4">
+              {description}
+            </p>
+
+            <ul className="text-[11px] text-ink-muted leading-[1.5] mb-5">
+              <li>
+                <span className="font-semibold text-ink">System :</span> {systemLabel}
+              </li>
+              <li>
+                <span className="font-semibold text-ink">Size :</span> {sizeLabel}
+              </li>
+              <li>
+                <span className="font-semibold text-ink">Downloads :</span> {downloadsLabel}
+              </li>
+            </ul>
+
+            {primaryPlatform ? (
+              <DownloadActionButton item={primaryPlatform} appId={app.id} />
+            ) : (
+              <p className="text-xs text-ink-muted">No download available</p>
+            )}
+
+            {otherPlatforms.length > 0 && (
+              <div className="mt-4 flex flex-wrap gap-2">
+                {otherPlatforms.map((item) => (
+                  <a
+                    key={item.key}
+                    href={item.href}
+                    target={item.external ? '_blank' : undefined}
+                    rel={item.external ? 'noopener noreferrer' : undefined}
+                    className="text-[10px] px-2 py-1 border border-border-subtle bg-white text-ink-muted hover:text-ink"
+                  >
+                    {item.label}
+                  </a>
+                ))}
               </div>
+            )}
+          </div>
 
-              <p className="text-[1.05rem] text-ink-muted leading-relaxed mb-6">{app.description}</p>
-
-              <div className="flex flex-wrap gap-2 mb-7">
-                {app.latestVersion && (
-                  <span className="text-xs font-medium px-3 py-1.5 rounded-full bg-surface border border-border-subtle">
-                    Version {app.latestVersion}
-                  </span>
-                )}
-                {releaseDate && (
-                  <span className="text-xs font-medium px-3 py-1.5 rounded-full bg-surface border border-border-subtle">
-                    Updated {releaseDate}
-                  </span>
-                )}
-                {category && (
-                  <span className="text-xs font-medium px-3 py-1.5 rounded-full bg-surface border border-border-subtle">
-                    {category}
-                  </span>
-                )}
-              </div>
-
-              <div className="border border-border-subtle rounded-2xl p-4 bg-surface-raised">
-                <p className="text-xs font-semibold tracking-wide text-ink-muted uppercase mb-3">Download</p>
-                {Object.keys(app.platforms).length > 0 ? (
-                  <DownloadButton app={app} variant="full" />
-                ) : (
-                  <p className="text-sm text-ink-muted">No download available yet for this app.</p>
-                )}
-              </div>
-            </div>
-
-            <div className="space-y-4">
-              <div className="relative rounded-2xl overflow-hidden border border-border-subtle bg-surface-raised aspect-[16/10]">
-                {screenshot?.url ? (
-                  <Image
-                    src={screenshot.url}
-                    alt={screenshot.alt || `${app.name} preview`}
-                    fill
-                    sizes="(max-width: 1024px) 100vw, 360px"
-                    className="object-cover"
-                  />
-                ) : (
-                  <div className="w-full h-full flex items-center justify-center text-ink-faint">
-                    <DynamicIcon name={app.icon} className="w-16 h-16" />
-                  </div>
-                )}
-              </div>
-
-              {visibleHighlights.length > 0 && (
-                <div className="border border-border-subtle rounded-2xl p-4">
-                  <h2 className="text-sm font-semibold tracking-wide uppercase text-ink-muted mb-3">Highlights</h2>
-                  <ul className="space-y-2">
-                    {visibleHighlights.map((item) => (
-                      <li key={item} className="flex items-start gap-2 text-sm text-ink-muted">
-                        <span className="mt-1.5 w-1.5 h-1.5 rounded-full bg-accent shrink-0" aria-hidden="true" />
-                        <span>{item}</span>
-                      </li>
-                    ))}
-                  </ul>
+          <div className="w-full">
+            <div className="relative w-full overflow-hidden rounded-2xl bg-[#D8D9DE]" style={{ aspectRatio: '1.35 / 1' }}>
+              {screenshot?.url ? (
+                // eslint-disable-next-line @next/next/no-img-element
+                <img
+                  src={screenshot.url}
+                  alt={screenshot.alt || `${app.name} image`}
+                  className="absolute inset-0 w-full h-full object-contain p-4"
+                />
+              ) : (
+                <div className="absolute inset-0 flex items-center justify-center text-sm font-medium text-ink/70">
+                  image
                 </div>
               )}
             </div>
           </div>
-        </section>
-      </div>
-    </div>
+        </div>
+      </section>
+    </main>
   );
 }

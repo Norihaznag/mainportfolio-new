@@ -250,7 +250,7 @@ export default function CGVPage() {
                 href={`https://wa.me/212609343953?text=${encodeURIComponent('Bonjour, j\'ai une question concernant vos CGV.')}`}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 bg-accent text-white font-semibold rounded-lg px-5 py-2.5 text-sm hover:bg-blue-700 transition-colors"
+                className="inline-flex items-center gap-2 bg-accent text-white font-semibold rounded-lg px-5 py-2.5 text-sm hover:bg-accent/90 transition-colors"
               >
                 WhatsApp
               </a>

@@ -9,7 +9,6 @@ export const content = {
       work: 'Showcase',
       pricing: 'Pricing',
       about: 'About',
-      services: 'Services',
       downloads: 'Downloads',
       applications: 'Applications',
       cta: 'Start Your Project',
@@ -45,7 +44,6 @@ export const content = {
           'SEO-optimized public sites',
         ],
         cta: 'Discuss Your Project',
-        link: '/services',
       },
       desktopApp: {
         name: 'Desktop Applications',
@@ -60,7 +58,6 @@ export const content = {
           'Auto-update & deployment pipeline',
         ],
         cta: 'Discuss Your Project',
-        link: '/services',
       },
       androidApp: {
         name: 'Mobile Applications',
@@ -75,7 +72,6 @@ export const content = {
           'App Store submission guidance',
         ],
         cta: 'Discuss Your Project',
-        link: '/services',
       },
     },
     selectedWork: {

@@ -34,7 +34,6 @@ export function Footer() {
             <div className="flex flex-col gap-3">
               <p className="eyebrow mb-1">Company</p>
               <Link href="/showcase" className="text-sm text-ink-muted hover:text-ink transition-colors">Showcase</Link>
-              <Link href="/services" className="text-sm text-ink-muted hover:text-ink transition-colors">Services</Link>
               <Link href="/applications" className="text-sm text-ink-muted hover:text-ink transition-colors">Applications</Link>
               <Link href="/about" className="text-sm text-ink-muted hover:text-ink transition-colors">About</Link>
               <Link href="/contact" className="text-sm text-ink-muted hover:text-ink transition-colors">Contact</Link>

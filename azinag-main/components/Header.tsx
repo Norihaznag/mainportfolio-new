@@ -3,11 +3,8 @@
 import { useState } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { CTAButton } from '@/components/CTAButton';
 
 const navLinks = [
-  { href: '/showcase', label: 'Showcase' },
-  { href: '/services', label: 'Services' },
   { href: '/applications', label: 'Applications' },
   { href: '/about', label: 'About' },
 ];
@@ -17,37 +14,31 @@ export function Header() {
   const [mobileOpen, setMobileOpen] = useState(false);
 
   return (
-    <header className="sticky top-0 z-50 bg-canvas/90 backdrop-blur-md border-b border-border-subtle">
-      <div className="max-w-5xl mx-auto px-6 h-[60px] flex items-center justify-between">
+    <header className="sticky top-0 z-50 bg-[#FDF4E3] border-b border-black/10">
+      <div className="max-w-[1100px] mx-auto px-6 h-[78px] flex items-center justify-between">
         {/* Logo */}
         <Link
           href="/"
-          className="text-[1.05rem] font-bold tracking-tight text-ink hover:opacity-70 transition-opacity"
+          className="text-[1.6rem] sm:text-[1.75rem] font-black leading-none text-[#0B0D10] hover:opacity-80 transition-opacity"
           aria-label="Azinag — Home"
         >
           Azinag
         </Link>
 
         {/* Desktop nav */}
-        <nav className="hidden md:flex items-center gap-6" role="navigation" aria-label="Main navigation">
+        <nav className="hidden md:flex items-center gap-12" role="navigation" aria-label="Main navigation">
           {navLinks.map((link) => {
             const isActive = pathname === link.href || pathname.startsWith(link.href + '/');
             return (
               <Link
                 key={link.href}
                 href={link.href}
-                className={`text-sm font-medium transition-colors relative group ${
-                  isActive ? 'text-accent' : 'text-ink-muted hover:text-ink'
+                className={`text-[1.05rem] font-medium leading-none tracking-tight transition-colors ${
+                  isActive ? 'text-[#0B0D10]' : 'text-black/85 hover:text-[#0B0D10]'
                 }`}
                 aria-current={isActive ? 'page' : undefined}
               >
                 {link.label}
-                <span
-                  className={`absolute -bottom-[21px] left-0 right-0 h-[2px] bg-accent transition-opacity ${
-                    isActive ? 'opacity-100' : 'opacity-0 group-hover:opacity-30'
-                  }`}
-                  aria-hidden="true"
-                />
               </Link>
             );
           })}
@@ -55,18 +46,16 @@ export function Header() {
 
         {/* Right cluster */}
         <div className="flex items-center gap-3">
-          <CTAButton
-            label="Start Your Project"
-            trackEvent="book_call"
-            trackSource="header"
-            variant="primary"
-            size="sm"
-            className="hidden md:inline-flex"
-          />
+          <Link
+            href="/contact"
+            className="hidden md:inline-flex items-center justify-center h-[50px] px-9 bg-[#ED3F27] border border-black/40 text-white text-[1.05rem] font-semibold leading-none tracking-tight hover:bg-[#D93621] transition-colors"
+          >
+            Contact
+          </Link>
           {/* Mobile toggle */}
           <button
             type="button"
-            className="md:hidden p-2 rounded-md text-ink-muted hover:text-ink hover:bg-surface-raised transition-colors"
+            className="md:hidden p-2 rounded-md text-black/70 hover:text-black hover:bg-black/5 transition-colors"
             onClick={() => setMobileOpen((v) => !v)}
             aria-label={mobileOpen ? 'Close menu' : 'Open menu'}
             aria-expanded={mobileOpen}
@@ -88,7 +77,7 @@ export function Header() {
       {/* Mobile drawer */}
       <div
         id="mobile-nav"
-        className={`md:hidden border-t border-border-subtle bg-canvas px-6 py-5 flex flex-col gap-5 ${mobileOpen ? '' : 'hidden'}`}
+        className={`md:hidden border-t border-black/10 bg-[#FDF4E3] px-6 py-5 flex flex-col gap-5 ${mobileOpen ? '' : 'hidden'}`}
         role="navigation"
         aria-label="Mobile navigation"
       >
@@ -98,8 +87,8 @@ export function Header() {
             <Link
               key={link.href}
               href={link.href}
-              className={`text-sm font-medium transition-colors ${
-                isActive ? 'text-accent font-semibold' : 'text-ink-muted hover:text-ink'
+              className={`text-[1.05rem] font-medium transition-colors ${
+                isActive ? 'text-[#0B0D10]' : 'text-black/80 hover:text-black'
               }`}
               onClick={() => setMobileOpen(false)}
               aria-current={isActive ? 'page' : undefined}
@@ -108,14 +97,13 @@ export function Header() {
             </Link>
           );
         })}
-        <CTAButton
-          label="Start Your Project"
-          trackEvent="book_call"
-          trackSource="header_mobile"
-          variant="primary"
-          size="sm"
-          className="self-start"
-        />
+        <Link
+          href="/contact"
+          onClick={() => setMobileOpen(false)}
+          className="self-start inline-flex items-center justify-center h-[46px] px-8 bg-[#ED3F27] border border-black/40 text-white text-[1rem] font-semibold leading-none tracking-tight hover:bg-[#D93621] transition-colors"
+        >
+          Contact
+        </Link>
       </div>
     </header>
   );

@@ -102,7 +102,7 @@ export function DownloadButton({ app, variant = 'full', className = '' }: Downlo
         target={external ? '_blank' : undefined}
         rel={external ? 'noopener noreferrer' : undefined}
         download={binaryDownload ? '' : undefined}
-        className={`inline-flex items-center gap-2 bg-accent text-white font-semibold rounded-lg px-5 py-2.5 text-sm hover:bg-blue-700 transition-colors ${className}`}
+        className={`inline-flex items-center gap-2 bg-accent text-white font-semibold rounded-lg px-5 py-2.5 text-sm hover:bg-accent/90 transition-colors ${className}`}
         id={`download-${app.id}-primary`}
       >
         <DynamicIcon name={binaryDownload ? 'Download' : primary.icon} className="w-4 h-4" aria-hidden="true" />
@@ -136,7 +136,7 @@ export function DownloadButton({ app, variant = 'full', className = '' }: Downlo
             title={meta || toActionLabel(p.key, p.label)}
             className={`inline-flex items-center gap-2 rounded-lg px-4 py-2.5 text-sm font-semibold transition-colors ${
               isBinary
-                ? 'bg-accent text-white hover:bg-blue-700'
+                ? 'bg-accent text-white hover:bg-accent/90'
                 : 'bg-white border border-border-subtle text-ink hover:border-accent hover:text-accent'
             }`}
           >

@@ -70,9 +70,9 @@ export default function RootLayout({
       <head>
         <meta charSet="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <meta name="theme-color" content="#C2410C" />
-        <meta name="color-scheme" content="dark" />
-        <link rel="icon" href="/favicon.ico" />
+        <meta name="theme-color" content="#FDF4E3" />
+        <meta name="color-scheme" content="light" />
+        <link rel="icon" href="/icon.svg" />
         {/* Google Analytics GA4 */}
         {/* eslint-disable-next-line @next/next/next-script-for-ga */}
         <script async src="https://www.googletagmanager.com/gtag/js?id=G-PRFYHRG5PQ" />
