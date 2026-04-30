@@ -3,7 +3,7 @@
 import { useEffect, useState, useCallback } from 'react';
 import Link from 'next/link';
 import type { DownloadableApp } from '@/lib/apps-data';
-import { buildAppDownloadPath, isBinaryPlatformKey } from '@/lib/apps-data';
+import { isBinaryPlatformKey } from '@/lib/apps-data';
 import { DynamicIcon } from '@/components/DynamicIcon';
 
 // ── Lightbox ──────────────────────────────────────────────────────
@@ -140,8 +140,7 @@ function resolvePlatforms(app: DownloadableApp): PlatformEntry[] {
   ) => {
     if (!rawUrl) return;
     const binary = isBinaryPlatformKey(key);
-    const href = app.slug && binary ? buildAppDownloadPath(app.slug, key) : rawUrl;
-    entries.push({ key, label, href, icon, version, size, external: isExternalLink(href), binary });
+    entries.push({ key, label, href: rawUrl, icon, version, size, external: isExternalLink(rawUrl), binary });
   };
 
   add('windows', 'Windows', 'Monitor', app.platforms.windows?.url, app.platforms.windows?.version, app.platforms.windows?.size);
@@ -185,6 +184,7 @@ export default function AppDetailClient({ app }: { app: DownloadableApp }) {
     : primaryPlatform?.label === 'Web App'
     ? 'Open App'
     : 'Get';
+  const primaryOpensNewTab = !!primaryPlatform?.external && !primaryPlatform.binary;
 
   return (
     <>
@@ -249,9 +249,8 @@ export default function AppDetailClient({ app }: { app: DownloadableApp }) {
             {primaryPlatform ? (
               <a
                 href={primaryPlatform.href}
-                download={primaryPlatform.binary ? '' : undefined}
-                target={primaryPlatform.external ? '_blank' : undefined}
-                rel={primaryPlatform.external ? 'noopener noreferrer' : undefined}
+                target={primaryOpensNewTab ? '_blank' : undefined}
+                rel={primaryOpensNewTab ? 'noopener noreferrer' : undefined}
                 className="inline-flex items-center gap-2 h-11 px-8 bg-accent text-white text-sm font-semibold hover:bg-[#D93621] transition-colors rounded-lg"
               >
                 {actionLabel}
@@ -268,8 +267,8 @@ export default function AppDetailClient({ app }: { app: DownloadableApp }) {
                   <a
                     key={item.key}
                     href={item.href}
-                    target={item.external ? '_blank' : undefined}
-                    rel={item.external ? 'noopener noreferrer' : undefined}
+                    target={item.external && !item.binary ? '_blank' : undefined}
+                    rel={item.external && !item.binary ? 'noopener noreferrer' : undefined}
                     className="inline-flex items-center gap-1.5 text-xs px-3 py-1.5 border border-border-subtle text-ink-muted hover:text-ink hover:border-ink/20 transition-colors rounded-full"
                   >
                     <PlatformGlyph item={item} />

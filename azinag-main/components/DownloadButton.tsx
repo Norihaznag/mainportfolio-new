@@ -1,6 +1,6 @@
 'use client';
 
-import { buildAppDownloadPath, isBinaryPlatformKey, type DownloadableApp } from '@/lib/apps-data';
+import { isBinaryPlatformKey, type DownloadableApp } from '@/lib/apps-data';
 import { DynamicIcon } from '@/components/DynamicIcon';
 
 interface DownloadButtonProps {
@@ -70,13 +70,6 @@ function toActionLabel(platformKey: string, platformLabel: string): string {
   return `Get on ${platformLabel}`;
 }
 
-function toHref(app: DownloadableApp, platformKey: string, fallbackUrl: string): string {
-  if (isBinaryPlatformKey(platformKey) && app.slug) {
-    return buildAppDownloadPath(app.slug, platformKey);
-  }
-  return fallbackUrl;
-}
-
 function isExternalHref(href: string): boolean {
   return /^https?:\/\//i.test(href);
 }
@@ -92,16 +85,14 @@ export function DownloadButton({ app, variant = 'full', className = '' }: Downlo
     const url = primary.getUrl(app);
     if (!url) return null;
 
-    const href = toHref(app, primary.key, url);
     const binaryDownload = isBinaryPlatformKey(primary.key);
-    const external = isExternalHref(href);
+    const openNewTab = isExternalHref(url) && !binaryDownload;
 
     return (
       <a
-        href={href}
-        target={external ? '_blank' : undefined}
-        rel={external ? 'noopener noreferrer' : undefined}
-        download={binaryDownload ? '' : undefined}
+        href={url}
+        target={openNewTab ? '_blank' : undefined}
+        rel={openNewTab ? 'noopener noreferrer' : undefined}
         className={`inline-flex items-center gap-2 bg-accent text-white font-semibold rounded-lg px-5 py-2.5 text-sm hover:bg-accent/90 transition-colors ${className}`}
         id={`download-${app.id}-primary`}
       >
@@ -119,19 +110,17 @@ export function DownloadButton({ app, variant = 'full', className = '' }: Downlo
         const size = p.getSize(app);
         if (!url) return null;
 
-        const href = toHref(app, p.key, url);
         const isBinary = isBinaryPlatformKey(p.key);
         const isWeb = p.key === 'web';
-        const external = isExternalHref(href);
+        const openNewTab = isExternalHref(url) && !isBinary;
         const meta = [version && `v${version}`, size].filter(Boolean).join(' · ');
 
         return (
           <a
             key={p.key}
-            href={href}
-            target={external ? '_blank' : undefined}
-            rel={external ? 'noopener noreferrer' : undefined}
-            download={isBinary ? '' : undefined}
+            href={url}
+            target={openNewTab ? '_blank' : undefined}
+            rel={openNewTab ? 'noopener noreferrer' : undefined}
             id={`download-${app.id}-${p.key}`}
             title={meta || toActionLabel(p.key, p.label)}
             className={`inline-flex items-center gap-2 rounded-lg px-4 py-2.5 text-sm font-semibold transition-colors ${

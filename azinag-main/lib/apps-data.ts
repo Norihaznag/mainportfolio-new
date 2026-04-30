@@ -86,44 +86,7 @@ export function buildAppDownloadPath(slug: string, platform: BinaryPlatformKey):
 }
 
 export function toPublicDownloadableApp(app: DownloadableApp): DownloadableApp {
-  const platforms: AppPlatforms = { ...app.platforms };
-
-  // If slug is missing, hide binary entries instead of leaking raw storage URLs.
-  if (!app.slug) {
-    delete platforms.windows;
-    delete platforms.macos;
-    delete platforms.linux;
-    return {
-      ...app,
-      platforms,
-    };
-  }
-
-  if (platforms.windows?.url) {
-    platforms.windows = {
-      ...platforms.windows,
-      url: buildAppDownloadPath(app.slug, 'windows'),
-    };
-  }
-
-  if (platforms.macos?.url) {
-    platforms.macos = {
-      ...platforms.macos,
-      url: buildAppDownloadPath(app.slug, 'macos'),
-    };
-  }
-
-  if (platforms.linux?.url) {
-    platforms.linux = {
-      ...platforms.linux,
-      url: buildAppDownloadPath(app.slug, 'linux'),
-    };
-  }
-
-  return {
-    ...app,
-    platforms,
-  };
+  return app;
 }
 
 export const apps: DownloadableApp[] = [];
