@@ -3,14 +3,17 @@
 import { useEffect, useState } from 'react';
 import { useRouter, usePathname } from 'next/navigation';
 import Link from 'next/link';
+import {
+  FolderKanban, AppWindow, Sparkles, Tag, Mail, Settings, LogOut, Menu, X,
+} from 'lucide-react';
 
 const NAV = [
-  { href: '/adminos/projects', label: 'Projects' },
-  { href: '/adminos/applications', label: 'Applications' },
-  { href: '/adminos/mentor', label: 'Mentor' },
-  { href: '/adminos/pricing', label: 'Pricing' },
-  { href: '/adminos/contacts', label: 'Contacts' },
-  { href: '/adminos/settings', label: 'Settings' },
+  { href: '/adminos/projects',     label: 'Projects',      Icon: FolderKanban },
+  { href: '/adminos/applications', label: 'Apps',          Icon: AppWindow    },
+  { href: '/adminos/mentor',       label: 'Mentor',        Icon: Sparkles     },
+  { href: '/adminos/pricing',      label: 'Pricing',       Icon: Tag          },
+  { href: '/adminos/contacts',     label: 'Contacts',      Icon: Mail         },
+  { href: '/adminos/settings',     label: 'Settings',      Icon: Settings     },
 ];
 
 export function AdminShell({ children }: { children: React.ReactNode }) {
@@ -21,11 +24,10 @@ export function AdminShell({ children }: { children: React.ReactNode }) {
 
   useEffect(() => {
     fetch('/api/admin/auth/check')
-      .then(r => r.ok ? setReady(true) : router.replace('/adminos/login'))
+      .then(r => (r.ok ? setReady(true) : router.replace('/adminos/login')))
       .catch(() => router.replace('/adminos/login'));
   }, [router]);
 
-  // Close mobile menu on route change
   useEffect(() => { setMenuOpen(false); }, [pathname]);
 
   if (!ready) return (
@@ -42,41 +44,26 @@ export function AdminShell({ children }: { children: React.ReactNode }) {
   return (
     <div className="min-h-screen bg-canvas text-ink">
       {/* Mobile top bar */}
-      <header className="md:hidden sticky top-0 z-40 bg-surface border-b border-border-subtle flex items-center justify-between px-4 h-14">
-        <p className="text-[0.65rem] font-bold tracking-widest uppercase text-ink-faint">Azinag</p>
-        <button
-          onClick={() => setMenuOpen(v => !v)}
-          aria-label="Toggle menu"
-          className="p-2 rounded-lg hover:bg-surface-raised transition-colors"
-        >
-          {menuOpen ? (
-            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
-          ) : (
-            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
-          )}
+      <header className="md:hidden sticky top-0 z-40 bg-surface border-b border-border-subtle flex items-center justify-between px-4 h-12">
+        <span className="text-[0.6rem] font-bold tracking-widest uppercase text-ink-faint">Azinag</span>
+        <button onClick={() => setMenuOpen(v => !v)} aria-label="Toggle menu" className="p-1.5 rounded-lg hover:bg-surface-raised transition-colors">
+          {menuOpen ? <X size={18} /> : <Menu size={18} />}
         </button>
       </header>
 
-      {/* Mobile dropdown menu */}
+      {/* Mobile overlay */}
       {menuOpen && (
-        <div className="md:hidden fixed inset-0 top-14 z-30 bg-canvas border-t border-border-subtle p-4 flex flex-col gap-1">
-          {NAV.map(n => (
-            <Link
-              key={n.href}
-              href={n.href}
-              className={`px-4 py-3 rounded-xl text-sm font-medium transition-colors ${
-                pathname.startsWith(n.href)
-                  ? 'bg-accent-light text-accent'
-                  : 'text-ink-muted hover:text-ink hover:bg-surface-raised'
-              }`}
-            >
-              {n.label}
+        <div className="md:hidden fixed inset-0 top-12 z-30 bg-canvas border-t border-border-subtle p-3 flex flex-col gap-0.5">
+          {NAV.map(({ href, label, Icon }) => (
+            <Link key={href} href={href} className={`flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-colors ${
+              pathname.startsWith(href) ? 'bg-accent-light text-accent' : 'text-ink-muted hover:text-ink hover:bg-surface-raised'
+            }`}>
+              <Icon size={15} />
+              {label}
             </Link>
           ))}
-          <button
-            onClick={handleLogout}
-            className="mt-auto px-4 py-3 text-left text-sm text-ink-faint hover:text-ink-muted rounded-xl hover:bg-surface-raised transition-colors"
-          >
+          <button onClick={handleLogout} className="mt-auto flex items-center gap-3 px-3 py-2.5 text-sm text-ink-faint hover:text-ink-muted rounded-lg hover:bg-surface-raised transition-colors">
+            <LogOut size={15} />
             Log out
           </button>
         </div>
@@ -84,35 +71,26 @@ export function AdminShell({ children }: { children: React.ReactNode }) {
 
       <div className="flex">
         {/* Desktop sidebar */}
-        <aside className="hidden md:flex w-48 shrink-0 border-r border-border-subtle bg-surface flex-col py-8 px-4 fixed top-0 left-0 h-screen">
-          <p className="text-[0.65rem] font-bold tracking-widest uppercase text-ink-faint mb-8 px-2">
-            Azinag
-          </p>
+        <aside className="hidden md:flex w-40 shrink-0 border-r border-border-subtle bg-surface flex-col py-6 px-3 fixed top-0 left-0 h-screen">
+          <p className="text-[0.6rem] font-bold tracking-widest uppercase text-ink-faint mb-5 px-2">Azinag</p>
           <nav className="flex flex-col gap-0.5 flex-1">
-            {NAV.map(n => (
-              <Link
-                key={n.href}
-                href={n.href}
-                className={`px-3 py-2 rounded-lg text-sm font-medium transition-colors ${
-                  pathname.startsWith(n.href)
-                    ? 'bg-accent-light text-accent'
-                    : 'text-ink-muted hover:text-ink hover:bg-surface-raised'
-                }`}
-              >
-                {n.label}
+            {NAV.map(({ href, label, Icon }) => (
+              <Link key={href} href={href} className={`flex items-center gap-2.5 px-2.5 py-2 rounded-lg text-sm font-medium transition-colors ${
+                pathname.startsWith(href) ? 'bg-accent-light text-accent' : 'text-ink-muted hover:text-ink hover:bg-surface-raised'
+              }`}>
+                <Icon size={14} />
+                {label}
               </Link>
             ))}
           </nav>
-          <button
-            onClick={handleLogout}
-            className="text-xs text-ink-faint hover:text-ink-muted transition-colors px-3 py-2 text-left rounded-lg hover:bg-surface-raised"
-          >
+          <button onClick={handleLogout} className="flex items-center gap-2.5 px-2.5 py-2 text-xs text-ink-faint hover:text-ink-muted rounded-lg hover:bg-surface-raised transition-colors">
+            <LogOut size={13} />
             Log out
           </button>
         </aside>
 
         {/* Main content */}
-        <main className="flex-1 md:ml-48 p-4 sm:p-6 lg:p-12 min-h-screen">
+        <main className="flex-1 md:ml-40 p-4 sm:p-6 lg:p-10 min-h-screen">
           {children}
         </main>
       </div>
