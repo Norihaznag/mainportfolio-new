@@ -57,44 +57,6 @@ function resolveBinaryUrl(app: DownloadableApp, platform: BinaryPlatformKey): st
   return sourceUrl && sourceUrl.length > 0 ? sourceUrl : null;
 }
 
-function toSafeFilename(sourceUrl: string, fallback: string): string {
-  try {
-    const parsed = new URL(sourceUrl);
-    const lastSegment = parsed.pathname.split('/').filter(Boolean).pop() || '';
-    const decoded = decodeURIComponent(lastSegment);
-    const sanitized = decoded
-      .replace(/[^a-zA-Z0-9._-]+/g, '-')
-      .replace(/-+/g, '-')
-      .replace(/^-+|-+$/g, '');
-    return sanitized || fallback;
-  } catch {
-    return fallback;
-  }
-}
-
-function toUpstreamHeaders(upstream: Response, fileName: string): Headers {
-  const headers = new Headers();
-
-  headers.set('Cache-Control', 'no-store');
-  headers.set('Content-Type', upstream.headers.get('content-type') || 'application/octet-stream');
-
-  const upstreamDisposition = upstream.headers.get('content-disposition');
-  if (upstreamDisposition && /attachment/i.test(upstreamDisposition)) {
-    headers.set('Content-Disposition', upstreamDisposition);
-  } else {
-    headers.set('Content-Disposition', `attachment; filename="${fileName}"`);
-  }
-
-  ['content-length', 'etag', 'last-modified'].forEach((headerName) => {
-    const value = upstream.headers.get(headerName);
-    if (value) {
-      headers.set(headerName, value);
-    }
-  });
-
-  return headers;
-}
-
 export async function GET(
   _request: NextRequest,
   { params }: { params: { slug: string; platform: string } }
@@ -128,26 +90,7 @@ export async function GET(
     return NextResponse.json({ message: 'Download source is not allowed.' }, { status: 400 });
   }
 
-  let upstreamResponse: Response;
-  try {
-    upstreamResponse = await fetch(sourceUrl, {
-      method: 'GET',
-      cache: 'no-store',
-      redirect: 'follow',
-    });
-  } catch {
-    return NextResponse.json({ message: 'Unable to reach download source.' }, { status: 502 });
-  }
-
-  if (!upstreamResponse.ok || !upstreamResponse.body) {
-    return NextResponse.json({ message: 'Download source returned an error.' }, { status: 502 });
-  }
-
-  const fallbackName = `${app.slug || app.name || 'app'}-${platformParam}.bin`;
-  const fileName = toSafeFilename(sourceUrl, fallbackName);
-
-  return new NextResponse(upstreamResponse.body, {
-    status: 200,
-    headers: toUpstreamHeaders(upstreamResponse, fileName),
-  });
+  const response = NextResponse.redirect(sourceUrl, { status: 302 });
+  response.headers.set('Cache-Control', 'no-store');
+  return response;
 }

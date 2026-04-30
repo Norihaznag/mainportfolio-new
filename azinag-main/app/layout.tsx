@@ -64,6 +64,7 @@ export default function RootLayout({
 }) {
   const pathname = headers().get('x-pathname') ?? '';
   const isAdmin = pathname.startsWith('/adminos');
+  const loadMarketingScripts = !isAdmin;
 
   return (
     <html lang="en" className={`${jakarta.variable} ${newsreader.variable}`}>
@@ -74,15 +75,19 @@ export default function RootLayout({
         <meta name="color-scheme" content="light" />
         <link rel="icon" href="/icon.svg" />
         {/* Google Analytics GA4 */}
-        {/* eslint-disable-next-line @next/next/next-script-for-ga */}
-        <script async src="https://www.googletagmanager.com/gtag/js?id=G-PRFYHRG5PQ" />
-        <script
-          dangerouslySetInnerHTML={{
-            __html: `window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-PRFYHRG5PQ');`,
-          }}
-        />
+        {loadMarketingScripts && (
+          <>
+            {/* eslint-disable-next-line @next/next/next-script-for-ga */}
+            <script async src="https://www.googletagmanager.com/gtag/js?id=G-PRFYHRG5PQ" />
+            <script
+              dangerouslySetInnerHTML={{
+                __html: `window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-PRFYHRG5PQ');`,
+              }}
+            />
+          </>
+        )}
         {/* Meta Pixel */}
-        {process.env.NEXT_PUBLIC_META_PIXEL_ID && (
+        {loadMarketingScripts && process.env.NEXT_PUBLIC_META_PIXEL_ID && (
           <>
             <script
               dangerouslySetInnerHTML={{

@@ -129,17 +129,65 @@ OLLAMA_TIMEOUT_MS=14000
 
 If Ollama is down or unreachable, Mentor still returns deterministic fallback estimates.
 
-### Binary Uploads with Supabase Storage
+### Application Manifest Imports
 
-Admin binary uploads (Windows/macOS/Linux installers) use Supabase Storage.
+Admin application records are created from one JSON manifest per app. Large binaries are not uploaded through the Next.js admin API because production serverless payloads are too small for installers. Upload Windows/macOS/Linux binaries, app images, and screenshots to Supabase Storage or another trusted host first, then paste their HTTPS URLs into the manifest.
 
-Set this environment variable:
+If binary files are hosted outside your Supabase project, allow their hostnames for download redirects:
 
 ```env
-SUPABASE_FILES_BUCKET=files
+DOWNLOAD_PROXY_ALLOWED_HOSTS=downloads.example.com,cdn.example.com
 ```
 
-Use a public bucket if you want direct download links for binaries.
+Supabase Storage URLs are allowed automatically from `NEXT_PUBLIC_SUPABASE_URL`.
+
+Manifest template:
+
+```json
+{
+  "schemaVersion": "azinag-app-manifest/v1",
+  "slug": "my-app",
+  "name": "My App",
+  "tagline": "Short public tagline",
+  "description": "Longer app description",
+  "icon": "LayoutGrid",
+  "category": "pme",
+  "badge": "New",
+  "pricing": { "monthlyPrice": 490, "annualPrice": 390 },
+  "release": { "latestVersion": "1.0.0", "releaseDate": "2026-04-30" },
+  "links": { "liveDemoUrl": "", "documentation": "", "githubRepo": "" },
+  "platforms": {
+    "windows": { "url": "https://example.com/app.exe", "version": "1.0.0", "size": "120 MB" },
+    "macos": { "url": "", "version": "1.0.0", "size": "" },
+    "linux": { "url": "", "version": "1.0.0", "size": "" },
+    "ios": { "appStoreUrl": "", "version": "1.0.0" },
+    "android": { "playStoreUrl": "", "version": "1.0.0" },
+    "web": { "liveUrl": "" }
+  },
+  "screenshots": [{ "url": "https://example.com/screen.png", "alt": "Dashboard", "bg": "from-slate-700 to-slate-900" }],
+  "tiers": [{ "name": "Starter", "monthlyPrice": 490, "annualPrice": 390, "features": ["Feature one"] }],
+  "saasFeatures": [{ "icon": "Sparkles", "title": "Automation", "description": "Automates repetitive work." }],
+  "faq": [{ "question": "Do you provide onboarding?", "answer": "Yes." }],
+  "sortOrder": 0,
+  "published": true
+}
+```
+
+Prompt for generating a manifest in another project:
+
+```text
+Create an Azinag app manifest JSON for this project. Return only valid JSON, no Markdown.
+
+Use schemaVersion "azinag-app-manifest/v1". Describe one app only. Do not embed files, base64, or binary content. Any Windows/macOS/Linux installers, images, and screenshots must be HTTPS URLs that are already hosted.
+
+category must be one of: pme, logistique, gestion, services.
+badge must be "New", "Popular", or null.
+Use empty strings for unavailable optional URLs.
+Use version from the project if available, otherwise "1.0.0".
+Estimate display file sizes only if known.
+
+Follow the Azinag app manifest template from this README.
+```
 
 ### 5. Run Development Server
 

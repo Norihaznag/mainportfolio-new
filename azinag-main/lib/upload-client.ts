@@ -18,18 +18,6 @@ type CloudinarySignResponse = {
   resourceType: CloudinaryUploadResourceType;
 };
 
-type SupabaseFileUploadResponse = {
-  fileUrl: string;
-  objectPath: string;
-  bytes: number;
-  contentType: string;
-  bucket: string;
-};
-
-export type SupabaseFileUploadOptions = {
-  folder: string;
-};
-
 export type CloudinaryUploadResult = {
   secureUrl: string;
   bytes?: number;
@@ -125,39 +113,5 @@ export async function uploadFileToCloudinary(
     format: payload.format,
     resourceType: payload.resource_type,
     originalFilename: payload.original_filename,
-  };
-}
-
-export async function uploadFileToSupabaseStorage(
-  file: File,
-  options: SupabaseFileUploadOptions
-): Promise<CloudinaryUploadResult> {
-  const formData = new FormData();
-  formData.append('file', file);
-  formData.append('folder', options.folder);
-
-  const uploadResponse = await fetch('/api/admin/upload/supabase-file', {
-    method: 'POST',
-    body: formData,
-  });
-
-  const payload = (await uploadResponse.json().catch(() => ({}))) as Partial<SupabaseFileUploadResponse> & {
-    message?: string;
-  };
-
-  if (!uploadResponse.ok) {
-    throw new Error(payload.message || `Supabase upload failed (${uploadResponse.status})`);
-  }
-
-  if (!payload.fileUrl) {
-    throw new Error('Supabase upload succeeded but no public URL was returned.');
-  }
-
-  return {
-    secureUrl: payload.fileUrl,
-    bytes: file.size,
-    format: getFileExtension(file.name),
-    resourceType: 'raw',
-    originalFilename: file.name,
   };
 }

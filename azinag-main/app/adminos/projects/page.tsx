@@ -3,7 +3,7 @@
 import { useEffect, useState, type ChangeEvent } from 'react';
 import Image from 'next/image';
 import { AdminShell } from '../_shell';
-import { uploadFileToCloudinary, uploadFileToSupabaseStorage } from '@/lib/upload-client';
+import { uploadFileToCloudinary } from '@/lib/upload-client';
 
 interface Project {
   id: string;
@@ -195,32 +195,20 @@ export default function ProjectsPage() {
     if (!res.ok) { alert('Delete failed'); load(); return; }
   };
 
-  const handleUpload = async (
-    event: ChangeEvent<HTMLInputElement>,
-    kind: 'thumbnail' | 'program'
-  ) => {
+  const handleThumbnailUpload = async (event: ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
     if (!file) return;
 
     const slug = slugify(form.title || 'project');
-    setUploading(kind === 'thumbnail' ? 'Uploading thumbnail...' : 'Uploading program binary...');
+    setUploading('Uploading thumbnail...');
 
     try {
-      const uploaded =
-        kind === 'thumbnail'
-          ? await uploadFileToCloudinary(file, {
-              folder: `azinag/projects/${slug}/thumbnails`,
-              resourceType: 'image',
-            })
-          : await uploadFileToSupabaseStorage(file, {
-              folder: `azinag/projects/${slug}/binaries`,
-            });
+      const uploaded = await uploadFileToCloudinary(file, {
+        folder: `azinag/projects/${slug}/thumbnails`,
+        resourceType: 'image',
+      });
 
-      if (kind === 'thumbnail') {
-        setForm((prev) => ({ ...prev, thumbnail_url: uploaded.secureUrl }));
-      } else {
-        setForm((prev) => ({ ...prev, download_url: uploaded.secureUrl }));
-      }
+      setForm((prev) => ({ ...prev, thumbnail_url: uploaded.secureUrl }));
     } catch (error) {
       const message = error instanceof Error ? error.message : 'Upload failed';
       setSaveError(message);
@@ -395,7 +383,7 @@ export default function ProjectsPage() {
                   placeholder="https://..."
                 />
                 <div className="mt-2">
-                  <input type="file" accept="image/*" onChange={(e) => handleUpload(e, 'thumbnail')} className="text-xs" />
+                  <input type="file" accept="image/*" onChange={handleThumbnailUpload} className="text-xs" />
                 </div>
               </div>
               <div>
@@ -403,7 +391,7 @@ export default function ProjectsPage() {
                   Download URL <span className="normal-case font-normal text-ink-faint">(program binary)</span>
                 </label>
                 <p className="text-xs text-ink-faint mb-1.5">
-                  Program binaries are uploaded to Supabase Storage. Executables like .exe are supported.
+                  Paste a hosted HTTPS URL. Large program binaries are not uploaded through admin.
                 </p>
                 <input
                   value={form.download_url}
@@ -411,14 +399,6 @@ export default function ProjectsPage() {
                   className="w-full px-3.5 py-2.5 rounded-lg border border-border-subtle text-sm text-ink bg-canvas focus:outline-none focus:ring-2 focus:ring-accent/30 focus:border-accent"
                   placeholder="https://.../program.zip"
                 />
-                <div className="mt-2">
-                  <input
-                    type="file"
-                    accept=".exe,.msi,.dmg,.pkg,.deb,.rpm,.AppImage,.zip,.7z,.rar,.tar,.gz,.xz,.bin"
-                    onChange={(e) => handleUpload(e, 'program')}
-                    className="text-xs"
-                  />
-                </div>
               </div>
               {previewThumb && (
                 <div>

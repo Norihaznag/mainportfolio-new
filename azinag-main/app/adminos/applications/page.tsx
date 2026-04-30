@@ -10,9 +10,12 @@ import type {
   AppTier,
   DownloadableApp,
 } from '@/lib/apps-data';
-import { uploadFileToCloudinary, uploadFileToSupabaseStorage } from '@/lib/upload-client';
-
-type UnknownRecord = Record<string, unknown>;
+import {
+  AppManifestValidationError,
+  manifestToAppPayload,
+  parseAppManifest,
+} from '@/lib/app-manifest';
+import { uploadFileToCloudinary } from '@/lib/upload-client';
 
 type FormState = {
   slug: string;
@@ -120,221 +123,67 @@ function safeParseArray<T>(json: string, label: string): T[] {
   }
 }
 
-function isRecord(value: unknown): value is UnknownRecord {
-  return typeof value === 'object' && value !== null && !Array.isArray(value);
+function toFormStateFromAppPayload(payload: Partial<DownloadableApp>): FormState {
+  const platforms = payload.platforms || {};
+  const screenshots = payload.screenshots || [];
+
+  return {
+    ...EMPTY,
+    slug: payload.slug || '',
+    name: payload.name || '',
+    tagline: payload.tagline || '',
+    description: payload.description || '',
+    appImageUrl: screenshots.find((shot) => !!shot.url)?.url || '',
+    icon: payload.icon || 'LayoutGrid',
+    category: payload.sector || payload.category || 'pme',
+    badge: payload.badge || '',
+    monthlyPrice: payload.monthlyPrice !== undefined ? String(payload.monthlyPrice) : '',
+    annualPrice: payload.annualPrice !== undefined ? String(payload.annualPrice) : '',
+    latestVersion: payload.latestVersion || '1.0.0',
+    releaseDate: payload.releaseDate ? payload.releaseDate.slice(0, 10) : EMPTY.releaseDate,
+    liveDemoUrl: payload.liveDemoUrl || '',
+    documentation: payload.documentation || '',
+    githubRepo: payload.githubRepo || '',
+    sortOrder: payload.sortOrder ?? 0,
+    published: payload.published ?? true,
+
+    windowsUrl: platforms.windows?.url || '',
+    windowsVersion: platforms.windows?.version || payload.latestVersion || '1.0.0',
+    windowsSize: platforms.windows?.size || '',
+    macosUrl: platforms.macos?.url || '',
+    macosVersion: platforms.macos?.version || payload.latestVersion || '1.0.0',
+    macosSize: platforms.macos?.size || '',
+    linuxUrl: platforms.linux?.url || '',
+    linuxVersion: platforms.linux?.version || payload.latestVersion || '1.0.0',
+    linuxSize: platforms.linux?.size || '',
+    iosUrl: platforms.ios?.appStoreUrl || '',
+    iosVersion: platforms.ios?.version || payload.latestVersion || '1.0.0',
+    androidUrl: platforms.android?.playStoreUrl || '',
+    androidVersion: platforms.android?.version || payload.latestVersion || '1.0.0',
+    webUrl: platforms.web?.liveUrl || '',
+
+    tiersJson: toPrettyJson(payload.tiers || []),
+    saasFeaturesJson: toPrettyJson(payload.saasFeatures || []),
+    faqJson: toPrettyJson(payload.faq || []),
+    screenshots,
+  };
 }
 
-function asOptionalString(value: unknown): string | undefined {
-  if (typeof value !== 'string') return undefined;
-  const trimmed = value.trim();
-  return trimmed.length > 0 ? trimmed : undefined;
-}
+function buildManifestImportSummary(payload: Partial<DownloadableApp>): string {
+  const platforms = payload.platforms || {};
+  const platformCount = [
+    platforms.windows?.url,
+    platforms.macos?.url,
+    platforms.linux?.url,
+    platforms.ios?.appStoreUrl,
+    platforms.android?.playStoreUrl,
+    platforms.web?.liveUrl,
+  ].filter(Boolean).length;
 
-function toDisplayAppName(packageName: string): string {
-  const withoutScope = packageName.replace(/^@[^/]+\//, '');
-  return withoutScope
-    .split(/[-_\s]+/g)
-    .filter(Boolean)
-    .map((part) => part.charAt(0).toUpperCase() + part.slice(1))
-    .join(' ')
-    .trim();
-}
+  const screenshotCount = payload.screenshots?.length || 0;
+  const tierCount = payload.tiers?.length || 0;
 
-function truncateText(value: string, maxLength: number): string {
-  if (value.length <= maxLength) return value;
-  return `${value.slice(0, Math.max(0, maxLength - 3)).trimEnd()}...`;
-}
-
-function inferCategoryFromPackageJson(pkg: UnknownRecord): FormState['category'] {
-  const dependencies = isRecord(pkg.dependencies) ? Object.keys(pkg.dependencies) : [];
-  const devDependencies = isRecord(pkg.devDependencies) ? Object.keys(pkg.devDependencies) : [];
-  const keywords = Array.isArray(pkg.keywords)
-    ? pkg.keywords.filter((item): item is string => typeof item === 'string')
-    : [];
-
-  const corpus = [
-    ...dependencies,
-    ...devDependencies,
-    ...keywords,
-    typeof pkg.name === 'string' ? pkg.name : '',
-    typeof pkg.description === 'string' ? pkg.description : '',
-  ]
-    .join(' ')
-    .toLowerCase();
-
-  if (/logistic|delivery|shipment|fleet|transport/.test(corpus)) return 'logistique';
-  if (/crm|erp|invoice|account|analytics|dashboard|admin|inventory/.test(corpus)) return 'gestion';
-  if (/booking|service|support|client|customer|agency/.test(corpus)) return 'services';
-  return 'pme';
-}
-
-function normalizeRepositoryUrl(repository: unknown): string | undefined {
-  if (typeof repository === 'string') {
-    const trimmed = repository.trim();
-    if (!trimmed) return undefined;
-    if (trimmed.startsWith('http://') || trimmed.startsWith('https://')) return trimmed;
-    if (trimmed.startsWith('github.com/')) return `https://${trimmed}`;
-    return undefined;
-  }
-
-  if (isRecord(repository) && typeof repository.url === 'string') {
-    const normalized = repository.url
-      .replace(/^git\+/, '')
-      .replace(/^git:/, 'https:')
-      .replace(/\.git$/, '')
-      .trim();
-    return normalized || undefined;
-  }
-
-  return undefined;
-}
-
-function parsePackageJson(raw: string): UnknownRecord {
-  const parsed = JSON.parse(raw);
-  if (!isRecord(parsed)) {
-    throw new Error('package.json must be a JSON object.');
-  }
-  return parsed;
-}
-
-function asFiniteNumber(value: unknown): number | undefined {
-  if (typeof value === 'number' && Number.isFinite(value)) return value;
-  if (typeof value === 'string' && value.trim().length > 0) {
-    const parsed = Number(value);
-    if (Number.isFinite(parsed)) return parsed;
-  }
-  return undefined;
-}
-
-function normalizeCustomCategory(value: unknown): FormState['category'] | undefined {
-  if (typeof value !== 'string') return undefined;
-  const normalized = value.trim().toLowerCase();
-  if (!normalized) return undefined;
-
-  if (/^(logistique|logistics|logistic|transport|fleet|shipping|delivery)$/.test(normalized)) {
-    return 'logistique';
-  }
-  if (/^(gestion|management|admin|crm|erp|finance|accounting|analytics)$/.test(normalized)) {
-    return 'gestion';
-  }
-  if (/^(services|service|agency|consulting|support)$/.test(normalized)) {
-    return 'services';
-  }
-  if (/^(pme|sme|business|commerce|retail)$/.test(normalized)) {
-    return 'pme';
-  }
-
-  return undefined;
-}
-
-function getPackageCandidateRecords(pkg: UnknownRecord): UnknownRecord[] {
-  const candidates: UnknownRecord[] = [pkg];
-  const rootKeys = ['azinag', 'app', 'application', 'meta', 'metadata', 'config', 'custom', 'x-azinag', 'x-app'];
-
-  for (const key of rootKeys) {
-    const value = pkg[key];
-    if (isRecord(value)) {
-      candidates.push(value);
-    }
-  }
-
-  const nestedParents = ['config', 'metadata'];
-  const nestedChildren = ['app', 'application', 'pricing', 'billing', 'custom', 'azinag'];
-
-  for (const parent of nestedParents) {
-    const parentValue = pkg[parent];
-    if (!isRecord(parentValue)) continue;
-
-    for (const child of nestedChildren) {
-      const childValue = parentValue[child];
-      if (isRecord(childValue)) {
-        candidates.push(childValue);
-      }
-    }
-  }
-
-  return candidates;
-}
-
-function findNumberInRecords(records: UnknownRecord[], keys: string[]): number | undefined {
-  const nestedContainers = ['pricing', 'billing', 'subscription', 'subscriptions', 'plan', 'plans', 'cost', 'costs'];
-
-  for (const record of records) {
-    for (const key of keys) {
-      const numeric = asFiniteNumber(record[key]);
-      if (numeric !== undefined) return numeric;
-    }
-
-    for (const container of nestedContainers) {
-      const nested = record[container];
-      if (!isRecord(nested)) continue;
-
-      for (const key of keys) {
-        const numeric = asFiniteNumber(nested[key]);
-        if (numeric !== undefined) return numeric;
-      }
-    }
-  }
-
-  return undefined;
-}
-
-function findCategoryInRecords(records: UnknownRecord[]): FormState['category'] | undefined {
-  const categoryKeys = ['category', 'sector', 'industry', 'domain'];
-  const nestedContainers = ['app', 'application', 'meta', 'metadata', 'custom'];
-
-  for (const record of records) {
-    for (const key of categoryKeys) {
-      const category = normalizeCustomCategory(record[key]);
-      if (category) return category;
-    }
-
-    for (const container of nestedContainers) {
-      const nested = record[container];
-      if (!isRecord(nested)) continue;
-
-      for (const key of categoryKeys) {
-        const category = normalizeCustomCategory(nested[key]);
-        if (category) return category;
-      }
-    }
-  }
-
-  return undefined;
-}
-
-function extractPricingAndCategoryFromPackageJson(pkg: UnknownRecord): {
-  monthlyPrice?: number;
-  annualPrice?: number;
-  category?: FormState['category'];
-} {
-  const records = getPackageCandidateRecords(pkg);
-
-  const monthlyPrice = findNumberInRecords(records, [
-    'monthlyPrice',
-    'monthly_price',
-    'monthly',
-    'priceMonthly',
-    'price_monthly',
-    'subscriptionMonthly',
-    'subscription_monthly',
-  ]);
-
-  const annualPrice = findNumberInRecords(records, [
-    'annualPrice',
-    'annual_price',
-    'annual',
-    'priceAnnual',
-    'price_annual',
-    'yearlyPrice',
-    'yearly_price',
-    'subscriptionAnnual',
-    'subscription_annual',
-  ]);
-
-  const category = findCategoryInRecords(records);
-
-  return { monthlyPrice, annualPrice, category };
+  return `Imported ${payload.name || 'manifest'} with ${platformCount} platform URL${platformCount === 1 ? '' : 's'}, ${screenshotCount} screenshot${screenshotCount === 1 ? '' : 's'}, and ${tierCount} tier${tierCount === 1 ? '' : 's'}. Review the form, then save.`;
 }
 
 export default function AdminApplicationsPage() {
@@ -346,9 +195,9 @@ export default function AdminApplicationsPage() {
   const [saving, setSaving] = useState(false);
   const [saveError, setSaveError] = useState<string | null>(null);
   const [uploading, setUploading] = useState<string | null>(null);
-  const [packageJsonFile, setPackageJsonFile] = useState<File | null>(null);
-  const [packageJsonText, setPackageJsonText] = useState('');
-  const [autofillNotice, setAutofillNotice] = useState<string | null>(null);
+  const [manifestFile, setManifestFile] = useState<File | null>(null);
+  const [manifestText, setManifestText] = useState('');
+  const [manifestNotice, setManifestNotice] = useState<string | null>(null);
 
   const load = async () => {
     setLoading(true);
@@ -368,9 +217,9 @@ export default function AdminApplicationsPage() {
     setForm(EMPTY);
     setEditId(null);
     setSaveError(null);
-    setPackageJsonFile(null);
-    setPackageJsonText('');
-    setAutofillNotice(null);
+    setManifestFile(null);
+    setManifestText('');
+    setManifestNotice(null);
     setOpen(true);
   };
 
@@ -416,91 +265,47 @@ export default function AdminApplicationsPage() {
       screenshots: app.screenshots || [],
     });
     setEditId(app.id);
-    setPackageJsonFile(null);
-    setPackageJsonText('');
-    setAutofillNotice(null);
+    setManifestFile(null);
+    setManifestText('');
+    setManifestNotice(null);
     setOpen(true);
   };
 
   const closeModal = () => {
     setOpen(false);
     setEditId(null);
-    setPackageJsonFile(null);
-    setPackageJsonText('');
-    setAutofillNotice(null);
+    setManifestFile(null);
+    setManifestText('');
+    setManifestNotice(null);
   };
 
-  const handleAutofillFromPackageJson = async () => {
+  const handleImportAppManifest = async () => {
     setSaveError(null);
-    setAutofillNotice(null);
+    setManifestNotice(null);
 
     try {
-      let raw = packageJsonText.trim();
-      if (!raw && packageJsonFile) {
-        raw = (await packageJsonFile.text()).trim();
+      let raw = manifestText.trim();
+      if (!raw && manifestFile) {
+        raw = (await manifestFile.text()).trim();
       }
 
       if (!raw) {
-        setSaveError('Provide a package.json file or paste JSON text to autofill.');
+        setSaveError('Provide an app manifest JSON file or paste manifest JSON.');
         return;
       }
 
-      const pkg = parsePackageJson(raw);
-      const packageName = asOptionalString(pkg.name);
-      const packageVersion = asOptionalString(pkg.version);
-      const packageDescription = asOptionalString(pkg.description);
-      const packageHomepage = asOptionalString(pkg.homepage);
-      const packageRepo = normalizeRepositoryUrl(pkg.repository);
-      const inferredName = packageName ? toDisplayAppName(packageName) : '';
-      const customAutofill = extractPricingAndCategoryFromPackageJson(pkg);
+      const manifest = parseAppManifest(raw);
+      const payload = manifestToAppPayload(manifest);
 
-      setForm((prev) => ({
-        ...prev,
-        name: prev.name.trim() || inferredName || prev.name,
-        slug: prev.slug.trim() || slugify(packageName || inferredName || prev.name || 'app'),
-        tagline:
-          prev.tagline.trim() ||
-          (packageDescription
-            ? truncateText(packageDescription, 90)
-            : inferredName
-            ? `${inferredName} for modern teams`
-            : prev.tagline),
-        description: prev.description.trim() || packageDescription || prev.description,
-        latestVersion:
-          prev.latestVersion.trim() && prev.latestVersion.trim() !== '1.0.0'
-            ? prev.latestVersion
-            : packageVersion || prev.latestVersion,
-        githubRepo: prev.githubRepo.trim() || packageRepo || prev.githubRepo,
-        liveDemoUrl: prev.liveDemoUrl.trim() || packageHomepage || prev.liveDemoUrl,
-        documentation: prev.documentation.trim() || packageHomepage || prev.documentation,
-        webUrl: prev.webUrl.trim() || packageHomepage || prev.webUrl,
-        monthlyPrice:
-          prev.monthlyPrice.trim() ||
-          (customAutofill.monthlyPrice !== undefined ? String(customAutofill.monthlyPrice) : prev.monthlyPrice),
-        annualPrice:
-          prev.annualPrice.trim() ||
-          (customAutofill.annualPrice !== undefined ? String(customAutofill.annualPrice) : prev.annualPrice),
-        category:
-          prev.category !== 'pme'
-            ? prev.category
-            : customAutofill.category || inferCategoryFromPackageJson(pkg),
-        windowsVersion:
-          prev.windowsVersion.trim() && prev.windowsVersion.trim() !== '1.0.0'
-            ? prev.windowsVersion
-            : packageVersion || prev.windowsVersion,
-        macosVersion:
-          prev.macosVersion.trim() && prev.macosVersion.trim() !== '1.0.0'
-            ? prev.macosVersion
-            : packageVersion || prev.macosVersion,
-        linuxVersion:
-          prev.linuxVersion.trim() && prev.linuxVersion.trim() !== '1.0.0'
-            ? prev.linuxVersion
-            : packageVersion || prev.linuxVersion,
-      }));
-
-      setAutofillNotice('Autofill complete. Empty fields were populated from package.json.');
+      setForm(toFormStateFromAppPayload(payload));
+      setManifestNotice(buildManifestImportSummary(payload));
     } catch (error) {
-      const message = error instanceof Error ? error.message : 'Invalid package.json payload.';
+      const message =
+        error instanceof AppManifestValidationError
+          ? error.issues.join('\n')
+          : error instanceof Error
+          ? error.message
+          : 'Invalid app manifest payload.';
       setSaveError(message);
     }
   };
@@ -519,57 +324,6 @@ export default function AdminApplicationsPage() {
       });
 
       setForm((prev) => ({ ...prev, appImageUrl: uploaded.secureUrl }));
-    } catch (error) {
-      const message = error instanceof Error ? error.message : 'Upload failed.';
-      setSaveError(message);
-    } finally {
-      setUploading(null);
-      event.target.value = '';
-    }
-  };
-
-  const handlePlatformUpload = async (
-    event: ChangeEvent<HTMLInputElement>,
-    platform: 'windows' | 'macos' | 'linux'
-  ) => {
-    const file = event.target.files?.[0];
-    if (!file) return;
-
-    const slug = slugify(form.slug || form.name || 'app');
-
-    setUploading(`Uploading ${platform} binary...`);
-    try {
-      const uploaded = await uploadFileToSupabaseStorage(file, {
-        folder: `azinag/apps/${slug}/binaries/${platform}`,
-      });
-
-      const versionValue = form.latestVersion || '1.0.0';
-      const sizeMb = uploaded.bytes ? `${(uploaded.bytes / 1024 / 1024).toFixed(1)} MB` : '';
-
-      if (platform === 'windows') {
-        setForm((prev) => ({
-          ...prev,
-          windowsUrl: uploaded.secureUrl,
-          windowsVersion: versionValue,
-          windowsSize: sizeMb || prev.windowsSize,
-        }));
-      }
-      if (platform === 'macos') {
-        setForm((prev) => ({
-          ...prev,
-          macosUrl: uploaded.secureUrl,
-          macosVersion: versionValue,
-          macosSize: sizeMb || prev.macosSize,
-        }));
-      }
-      if (platform === 'linux') {
-        setForm((prev) => ({
-          ...prev,
-          linuxUrl: uploaded.secureUrl,
-          linuxVersion: versionValue,
-          linuxSize: sizeMb || prev.linuxSize,
-        }));
-      }
     } catch (error) {
       const message = error instanceof Error ? error.message : 'Upload failed.';
       setSaveError(message);
@@ -825,45 +579,44 @@ export default function AdminApplicationsPage() {
 
             <div className="space-y-6">
               <div className="border border-border-subtle rounded-xl p-4 bg-canvas space-y-3">
-                <p className="text-xs font-semibold text-ink-muted uppercase tracking-wide">Optional package.json autofill</p>
+                <p className="text-xs font-semibold text-ink-muted uppercase tracking-wide">Import app manifest</p>
                 <p className="text-xs text-ink-faint">
-                  Upload or paste a package.json to auto-populate empty fields like name, slug, version, links, and description.
+                  Upload or paste one Azinag app manifest JSON. For manifest imports, binaries, images, and screenshots must already be hosted as HTTPS URLs.
                 </p>
                 <p className="text-[11px] text-ink-faint">
-                  Custom keys supported for pricing/category: monthlyPrice, annualPrice, category (also nested under azinag, app,
-                  pricing, billing, or config.app).
+                  Importing fills this form only. Review the mapped fields, then click save to publish or update the app.
                 </p>
                 <div className="grid sm:grid-cols-2 gap-3">
                   <div>
-                    <label className="block text-xs font-medium text-ink-muted mb-1.5">package.json file</label>
+                    <label className="block text-xs font-medium text-ink-muted mb-1.5">Manifest JSON file</label>
                     <input
                       type="file"
                       accept="application/json,.json"
-                      onChange={(event) => setPackageJsonFile(event.target.files?.[0] || null)}
+                      onChange={(event) => setManifestFile(event.target.files?.[0] || null)}
                       className="text-xs"
                     />
-                    {packageJsonFile && <p className="mt-1 text-xs text-ink-faint">Selected {packageJsonFile.name}</p>}
+                    {manifestFile && <p className="mt-1 text-xs text-ink-faint">Selected {manifestFile.name}</p>}
                   </div>
                   <div>
-                    <label className="block text-xs font-medium text-ink-muted mb-1.5">Or paste package.json</label>
+                    <label className="block text-xs font-medium text-ink-muted mb-1.5">Or paste manifest JSON</label>
                     <textarea
                       rows={4}
-                      value={packageJsonText}
-                      onChange={(event) => setPackageJsonText(event.target.value)}
+                      value={manifestText}
+                      onChange={(event) => setManifestText(event.target.value)}
                       className="w-full px-3 py-2 rounded-lg border border-border-subtle text-xs text-ink bg-white font-mono resize-none"
-                      placeholder='{"name":"my-app","version":"1.0.0"}'
+                      placeholder='{"schemaVersion":"azinag-app-manifest/v1","slug":"my-app","name":"My App","tagline":"Short tagline","category":"pme"}'
                     />
                   </div>
                 </div>
                 <div className="flex items-center gap-3">
                   <button
                     type="button"
-                    onClick={handleAutofillFromPackageJson}
+                    onClick={handleImportAppManifest}
                     className="px-3.5 py-2 rounded-lg bg-accent text-white text-xs font-semibold hover:bg-accent/90 transition-colors"
                   >
-                    Autofill from package.json
+                    Import manifest
                   </button>
-                  {autofillNotice && <p className="text-xs text-emerald-700">{autofillNotice}</p>}
+                  {manifestNotice && <p className="text-xs text-emerald-700">{manifestNotice}</p>}
                 </div>
               </div>
 
@@ -1056,9 +809,9 @@ export default function AdminApplicationsPage() {
               </div>
 
               <div className="border border-border-subtle rounded-xl p-4 bg-canvas space-y-4">
-                <p className="text-xs font-semibold text-ink-muted uppercase tracking-wide">Binary Uploads</p>
+                <p className="text-xs font-semibold text-ink-muted uppercase tracking-wide">Download URLs</p>
                 <p className="text-xs text-ink-faint">
-                  Binary files are uploaded to Supabase Storage. Executables like .exe are supported.
+                  Paste hosted HTTPS URLs for binaries. Large installers are not uploaded through admin.
                 </p>
                 <div className="grid sm:grid-cols-2 gap-3">
                   <div className="space-y-2">
@@ -1083,12 +836,6 @@ export default function AdminApplicationsPage() {
                         placeholder="size"
                       />
                     </div>
-                    <input
-                      type="file"
-                      accept=".exe,.msi,.zip,.7z,.rar,.tar,.gz,.xz,.bin"
-                      onChange={(event) => handlePlatformUpload(event, 'windows')}
-                      className="text-xs"
-                    />
                   </div>
 
                   <div className="space-y-2">
@@ -1113,12 +860,6 @@ export default function AdminApplicationsPage() {
                         placeholder="size"
                       />
                     </div>
-                    <input
-                      type="file"
-                      accept=".dmg,.pkg,.zip,.7z,.tar,.gz,.xz,.bin"
-                      onChange={(event) => handlePlatformUpload(event, 'macos')}
-                      className="text-xs"
-                    />
                   </div>
 
                   <div className="space-y-2">
@@ -1143,12 +884,6 @@ export default function AdminApplicationsPage() {
                         placeholder="size"
                       />
                     </div>
-                    <input
-                      type="file"
-                      accept=".AppImage,.deb,.rpm,.zip,.7z,.tar,.gz,.xz,.bin"
-                      onChange={(event) => handlePlatformUpload(event, 'linux')}
-                      className="text-xs"
-                    />
                   </div>
 
                   <div className="space-y-2">
@@ -1248,7 +983,7 @@ export default function AdminApplicationsPage() {
             </div>
 
             <div className="flex gap-3 mt-6 justify-end">
-              {saveError && <p className="flex-1 text-xs text-red-600 self-center">{saveError}</p>}
+              {saveError && <p className="flex-1 text-xs text-red-600 self-center whitespace-pre-line">{saveError}</p>}
               <button onClick={closeModal} className="px-4 py-2 text-sm font-medium text-ink-muted hover:text-ink transition-colors">
                 Cancel
               </button>
