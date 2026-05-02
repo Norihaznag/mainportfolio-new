@@ -14,7 +14,7 @@ export function Footer() {
           <div>
             <p className="text-[0.9375rem] font-semibold text-ink mb-2">Azinag</p>
             <p className="text-sm text-ink-muted max-w-[260px] leading-relaxed">
-              Custom software for every business. Desktop · Mobile · Web · Backend.
+              Custom software for every business. Desktop, Mobile, Web, Backend.
             </p>
             <a
               href={`https://wa.me/${PHONE}?text=${encodeURIComponent('Hello, I would like to discuss a project.')}`}
@@ -34,6 +34,7 @@ export function Footer() {
             <div className="flex flex-col gap-3">
               <p className="eyebrow mb-1">Company</p>
               <Link href="/showcase" className="text-sm text-ink-muted hover:text-ink transition-colors">Showcase</Link>
+              <Link href="/pricing" className="text-sm text-ink-muted hover:text-ink transition-colors">Pricing</Link>
               <Link href="/applications" className="text-sm text-ink-muted hover:text-ink transition-colors">Applications</Link>
               <Link href="/about" className="text-sm text-ink-muted hover:text-ink transition-colors">About</Link>
               <Link href="/contact" className="text-sm text-ink-muted hover:text-ink transition-colors">Contact</Link>
@@ -42,14 +43,15 @@ export function Footer() {
               <p className="eyebrow mb-1">Legal</p>
               <Link href="/privacy" className="text-sm text-ink-muted hover:text-ink transition-colors">Privacy Policy</Link>
               <Link href="/terms" className="text-sm text-ink-muted hover:text-ink transition-colors">Terms of Service</Link>
+              <Link href="/refund" className="text-sm text-ink-muted hover:text-ink transition-colors">Refund Policy</Link>
               <Link href="/cgv" className="text-sm text-ink-muted hover:text-ink transition-colors">CGV</Link>
             </div>
           </div>
         </div>
 
         <div className="mt-10 pt-6 border-t border-border-subtle flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
-          <p className="text-xs text-ink-faint">© {year} Azinag. All rights reserved.</p>
-          <p className="text-xs text-ink-faint">Software House · Morocco</p>
+          <p className="text-xs text-ink-faint">(c) {year} Azinag. All rights reserved.</p>
+          <p className="text-xs text-ink-faint">Software House - Morocco</p>
         </div>
       </div>
     </footer>

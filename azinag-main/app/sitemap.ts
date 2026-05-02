@@ -12,6 +12,7 @@ const staticRoutes: { path: string; priority: number; changeFrequency: 'daily' |
   { path: 'contact',     priority: 0.7,  changeFrequency: 'monthly' },
   { path: 'privacy',     priority: 0.3,  changeFrequency: 'monthly' },
   { path: 'terms',       priority: 0.3,  changeFrequency: 'monthly' },
+  { path: 'refund',      priority: 0.3,  changeFrequency: 'monthly' },
   { path: 'cgv',         priority: 0.3,  changeFrequency: 'monthly' },
   { path: 'lp/startup-mvp-development',  priority: 0.8, changeFrequency: 'weekly' },
   { path: 'lp/landing-page-development', priority: 0.8, changeFrequency: 'weekly' },

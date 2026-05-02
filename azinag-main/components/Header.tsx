@@ -5,6 +5,7 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 
 const navLinks = [
+  { href: '/pricing', label: 'Pricing' },
   { href: '/applications', label: 'Applications' },
   { href: '/about', label: 'About' },
 ];
@@ -20,7 +21,7 @@ export function Header() {
         <Link
           href="/"
           className="text-[1.6rem] sm:text-[1.75rem] font-black leading-none text-[#0B0D10] hover:opacity-80 transition-opacity"
-          aria-label="Azinag — Home"
+          aria-label="Azinag - Home"
         >
           Azinag
         </Link>
