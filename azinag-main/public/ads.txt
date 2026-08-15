@@ -1,2 +1,1 @@
-# Replace with the exact record supplied by Google AdSense after approval.
-# google.com, pub-XXXXXXXXXXXXXXXX, DIRECT, f08c47fec0942fa0
+google.com, pub-2134625850039327, DIRECT, f08c47fec0942fa0
