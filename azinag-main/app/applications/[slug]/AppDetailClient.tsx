@@ -1,6 +1,6 @@
-import AdSenseAd from '@/components/AdSenseAd';
 'use client';
 
+import AdSenseAd from '@/components/AdSenseAd';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import Link from 'next/link';
 import type { DownloadableApp } from '@/lib/apps-data';

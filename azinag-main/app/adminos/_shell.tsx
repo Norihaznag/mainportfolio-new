@@ -1,6 +1,6 @@
-import AdSenseAd from '@/components/AdSenseAd';
 'use client';
 
+import AdSenseAd from '@/components/AdSenseAd';
 import { useEffect, useState } from 'react';
 import { useRouter, usePathname } from 'next/navigation';
 import Link from 'next/link';
