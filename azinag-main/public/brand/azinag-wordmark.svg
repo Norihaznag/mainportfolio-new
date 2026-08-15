@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="640" height="140" viewBox="0 0 640 140" fill="none">
+  <rect width="640" height="140" fill="#FFFFFF"/>
+  <style>
+    text {
+      fill: #1D4ED8;
+      font-family: "Plus Jakarta Sans", "General Sans", "Satoshi", "Inter", "Segoe UI", Arial, sans-serif;
+      font-size: 68px;
+      font-weight: 600;
+      letter-spacing: 0.14em;
+    }
+  </style>
+  <text x="320" y="84" text-anchor="middle">Azinag</text>
+</svg>

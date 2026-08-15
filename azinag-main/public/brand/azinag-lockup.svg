@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="720" height="180" viewBox="0 0 720 180" fill="none">
+  <rect width="720" height="180" fill="#FFFFFF"/>
+  <g fill="#1D4ED8" transform="translate(36 44)">
+    <rect x="15" y="10" width="11.5" height="44" rx="3.25" transform="rotate(14 20.75 32)"/>
+    <rect x="37.5" y="10" width="11.5" height="44" rx="3.25" transform="rotate(-14 43.25 32)"/>
+    <rect x="19" y="34" width="25" height="10.5" rx="3" transform="rotate(-14 31.5 39.25)"/>
+  </g>
+  <style>
+    text {
+      fill: #1D4ED8;
+      font-family: "Plus Jakarta Sans", "General Sans", "Satoshi", "Inter", "Segoe UI", Arial, sans-serif;
+      font-size: 64px;
+      font-weight: 600;
+      letter-spacing: 0.14em;
+    }
+  </style>
+  <text x="146" y="103">Azinag</text>
+</svg>
