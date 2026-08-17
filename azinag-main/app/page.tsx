@@ -1,4 +1,5 @@
 import AdSenseAd from '@/components/AdSenseAd';
+import Script from 'next/script';
 import type { Metadata } from 'next';
 import Link from 'next/link';
 
@@ -82,7 +83,38 @@ const faq = [
 export default function Home() {
   return (
     <main className="text-ink">
-      <div aria-label="Advertisement" className="my-8"><AdSenseAd /></div>
+      <div aria-label="Advertisement" className="my-8">
+        <AdSenseAd />
+      </div>
+
+      <section
+        aria-label="Sponsored advertisement"
+        className="px-6 pb-8"
+      >
+        <div className="max-w-5xl mx-auto">
+          <div className="rounded-xl border border-border-subtle bg-white p-4">
+            <p className="mb-3 text-xs font-semibold uppercase tracking-wider text-ink-faint">
+              Sponsored
+            </p>
+            <Script
+              async
+              strategy="afterInteractive"
+              data-cfasync="false"
+              src="https://pl30894330.effectivecpmnetwork.com/8737b674aeea3a529372ad4f7645471a/invoke.js"
+            />
+            <div id="container-8737b674aeea3a529372ad4f7645471a" />
+            <a
+              href="https://www.effectivecpmnetwork.com/bxtpyr1y?key=7d793a27b03422769a74a962a6d2fa3c"
+              target="_blank"
+              rel="nofollow sponsored noopener noreferrer"
+              className="mt-3 inline-block text-xs text-ink-faint hover:text-accent hover:underline"
+            >
+              Sponsored link
+            </a>
+          </div>
+        </div>
+      </section>
+
       <section className="flex flex-col items-center justify-center text-center min-h-[calc(100vh-78px)] px-6">
         <p className="eyebrow mb-4">Azinag Software Products</p>
         <h1 className="font-black tracking-tight leading-[1.05] text-[2.6rem] sm:text-[3.8rem] md:text-[5rem] max-w-[900px] mb-6">

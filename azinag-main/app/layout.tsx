@@ -130,6 +130,12 @@ export default function RootLayout({
           src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2134625850039327"
           crossOrigin="anonymous"
         />
+        {!isAdmin && (
+          <Script
+            strategy="beforeInteractive"
+            src="https://pl30894328.effectivecpmnetwork.com/fa/90/e5/fa90e586b202463cd912efe34a62a5da.js"
+          />
+        )}
         <meta charSet="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <meta name="theme-color" content="#FDF4E3" />
@@ -162,6 +168,12 @@ export default function RootLayout({
             <WhatsAppButton />
             <MarketingConsent />
           </LanguageProvider>
+        )}
+        {!isAdmin && (
+          <Script
+            strategy="afterInteractive"
+            src="https://pl30894329.effectivecpmnetwork.com/ff/02/3d/ff023da77b2ef6405e884728f477fd38.js"
+          />
         )}
       </body>
     </html>
