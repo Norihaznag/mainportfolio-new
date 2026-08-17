@@ -102,7 +102,10 @@ export default function Home() {
               data-cfasync="false"
               src="https://pl30894330.effectivecpmnetwork.com/8737b674aeea3a529372ad4f7645471a/invoke.js"
             />
-            <div id="container-8737b674aeea3a529372ad4f7645471a" />
+            <div
+              id="container-8737b674aeea3a529372ad4f7645471a"
+              className="min-h-[120px] w-full"
+            />
             <a
               href="https://www.effectivecpmnetwork.com/bxtpyr1y?key=7d793a27b03422769a74a962a6d2fa3c"
               target="_blank"
